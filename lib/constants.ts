@@ -133,7 +133,7 @@ export const COMO_FUNCIONA = {
       number: "01",
       title: "Suscríbete",
       description:
-        "$19.990/mes. Sin contratos, sin permanencia. Cancelas cuando quieras.",
+        "$19.990/mes. Sin contratos, sin permanencia. Reembolsable por tu isapre.",
     },
     {
       number: "02",
@@ -193,8 +193,8 @@ export const PRECIO = {
   benefits: [
     {
       icon: "shield-check",
-      title: "Reembolso por isapre",
-      description: "Descarga el gasto en tu seguro de salud",
+      title: "Reembolsable por tu isapre",
+      description: "Emitimos boleta exenta de IVA. Muchas isapres cubren planes nutricionales — el gasto puede volverte.",
     },
     {
       icon: "receipt",
@@ -224,7 +224,7 @@ export const FAQ_ITEMS = [
   },
   {
     q: "¿Cómo funciona el reembolso por isapre?",
-    a: "Muchas isapres cubren consultas y planes nutricionales. Nutrisco emite boleta exenta de IVA que puedes presentar a tu isapre para reembolso. Te recomendamos consultar con tu isapre los detalles de cobertura.",
+    a: "Nutrisco emite boleta exenta de IVA en cada cobro mensual. Muchas isapres cubren servicios nutricionales bajo su beneficio de salud: preséntala directamente y recupera parte o el total del costo. Consulta con tu isapre qué código de prestación aplica.",
   },
   {
     q: "¿La boleta exenta de IVA es automática?",
@@ -257,7 +257,7 @@ export const CTA_FINAL = {
   priceLabel: "Precio fundador · Bloqueado de por vida",
   urgency: "Disponible mientras dure la etapa de lanzamiento",
   cta: "Quiero mi plan personalizado →",
-  microcopy: "Sin permanencia. Cancelas cuando quieras.",
+  microcopy: "Reembolsable por tu isapre · Sin permanencia · Cancelas cuando quieras.",
 }
 
 export const FOOTER = {

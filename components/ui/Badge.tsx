@@ -43,7 +43,7 @@ type BadgeProps = {
 
 const variantClasses: Record<BadgeVariant, string> = {
   founder:
-    "bg-celeste/15 text-celeste text-xs font-semibold rounded-full px-3 py-1 inline-flex items-center gap-1.5",
+    "bg-sandia/10 text-sandia text-xs font-semibold rounded-full px-3 py-1 inline-flex items-center gap-1.5",
   trust:
     "bg-surface-lowest text-text-muted shadow-card text-xs font-medium rounded-full px-3 py-1 inline-flex items-center gap-1.5",
   symptom:
@@ -61,7 +61,7 @@ export function Badge({ variant, children, icon, pulse = false, className = "" }
       {variant === "founder" && (
         <span
           className={[
-            "inline-block w-1.5 h-1.5 rounded-full bg-celeste flex-shrink-0",
+            "inline-block w-1.5 h-1.5 rounded-full bg-sandia flex-shrink-0",
             pulse ? "animate-breathe" : "",
           ]
             .filter(Boolean)
