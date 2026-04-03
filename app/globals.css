@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Google Fonts ─────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ─── Variables ─────────────────────────────────────────── */
+:root {
+  --font-playfair: 'Playfair Display', serif;
+  --font-inter: 'Inter', sans-serif;
+}
+
+/* ─── Base ───────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-inter);
+  background-color: #FAFAF8;
+  color: #1A1A1A;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Warm Mesh Background ───────────────────────────────── */
+/* Use as className="warm-mesh" on section backgrounds */
+.warm-mesh {
+  background-image:
+    radial-gradient(ellipse 80% 60% at 60% -10%, rgba(233, 69, 85, 0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 10% 80%, rgba(115, 195, 228, 0.05) 0%, transparent 60%);
+}
+
+/* ─── Grain Texture ──────────────────────────────────────── */
+/* Use as a sibling <div aria-hidden="true" className="grain" /> */
+.grain {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  opacity: 0.035;
+  pointer-events: none;
+  z-index: 0;
+  animation: grain-drift 8s linear infinite;
+}
+
+/* ─── Glassmorphism ──────────────────────────────────────── */
+.glassmorphism {
+  background: rgba(255, 255, 255, 0.80);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* ─── Ghost Border (ONLY for inputs) ───────────────────────── */
+.ghost-border-input {
+  outline: 1px solid rgba(0, 0, 0, 0.10);
+  outline-offset: 0;
+}
+
+.ghost-border-input:focus {
+  outline: 1px solid rgba(0, 0, 0, 0.30);
+  background-color: #ffffff;
+}
+
+/* ─── Breathe Shadow (CTA button pulse) ─────────────────── */
+/* Applied via Tailwind animation class: animate-breathe */
+/* Defined in tailwind.config.ts keyframes */
+
+/* ─── Tonal separator (replaces <hr>) ───────────────────── */
+.tonal-divider {
+  width: 3rem;
+  height: 2px;
+  background-color: #e8e8e6;
+  border: none;
+  margin: 0 auto;
+}
+
+/* ─── Section spacing ────────────────────────────────────── */
+.section-padding {
+  @apply py-16 px-5 md:py-24 md:px-8;
+}
+
+/* ─── Typography helpers ─────────────────────────────────── */
+.font-serif {
+  font-family: var(--font-playfair);
+}
+
+.font-sans {
+  font-family: var(--font-inter);
+}
