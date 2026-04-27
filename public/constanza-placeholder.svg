@@ -1,0 +1,7 @@
+<svg width="400" height="500" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="500" fill="#262626"/>
+  <circle cx="200" cy="180" r="80" fill="#3a3a3a"/>
+  <rect x="80" y="290" width="240" height="160" rx="40" fill="#3a3a3a"/>
+  <text x="200" y="480" font-family="Georgia,serif" font-size="13" fill="#6B7280" text-anchor="middle">Foto de Constanza — pendiente</text>
+  <image href="/watermelon.png" x="170" y="150" width="60" height="60" opacity="0.3"/>
+</svg>

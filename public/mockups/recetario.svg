@@ -1,0 +1,11 @@
+<svg width="390" height="844" xmlns="http://www.w3.org/2000/svg">
+  <rect width="390" height="844" fill="#1A1A1A"/>
+  <rect x="20" y="60" width="350" height="50" rx="8" fill="#262626"/>
+  <text x="195" y="92" font-family="Georgia,serif" font-size="16" fill="#FAFAF8" text-anchor="middle">🍳 Recetario</text>
+  <rect x="20" y="130" width="350" height="160" rx="8" fill="#E94555" opacity="0.15"/>
+  <text x="195" y="200" font-family="Georgia,serif" font-size="18" fill="#FAFAF8" text-anchor="middle">Bowl Antiinflamatorio</text>
+  <text x="195" y="225" font-family="Georgia,serif" font-size="13" fill="#9CA3AF" text-anchor="middle">⏱ 20 min · 🧑‍🍳 Fácil</text>
+  <rect x="20" y="310" width="350" height="80" rx="8" fill="#262626"/>
+  <rect x="20" y="400" width="350" height="80" rx="8" fill="#262626"/>
+  <text x="195" y="750" font-family="Georgia,serif" font-size="13" fill="#6B7280" text-anchor="middle">placeholder — reemplazar con screenshot real</text>
+</svg>
