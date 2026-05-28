@@ -1,9 +1,10 @@
 "use client"
 
+import Image from "next/image"
 import { motion } from "framer-motion"
 import { Activity, Zap, Shirt, Smile, User, ShieldCheck } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
-import { BENTO_BENEFICIOS } from "@/lib/constants"
+import { BENTO_BENEFICIOS, SITE_CONFIG } from "@/lib/constants"
 import { Eyebrow } from "@/components/ui/Eyebrow"
 
 const iconMap: Record<string, LucideIcon> = {
@@ -15,14 +16,14 @@ const iconMap: Record<string, LucideIcon> = {
   "shield-check": ShieldCheck,
 }
 
-// Bento spans desktop — card de Constanza ocupa 2x1
+// Bento spans desktop — card de Constanza ocupa 2 col
 const cellSpan: Record<number, string> = {
-  0: "md:col-span-1 md:row-span-1",
-  1: "md:col-span-1 md:row-span-1",
-  2: "md:col-span-1 md:row-span-1",
-  3: "md:col-span-1 md:row-span-1",
-  4: "md:col-span-1 md:row-span-1",
-  5: "md:col-span-2 md:row-span-1",
+  0: "md:col-span-1",
+  1: "md:col-span-1",
+  2: "md:col-span-1",
+  3: "md:col-span-1",
+  4: "md:col-span-1",
+  5: "md:col-span-2",
 }
 
 const container = {
@@ -45,10 +46,9 @@ export function BentoBeneficios() {
       aria-label="Beneficios"
       className="relative overflow-hidden bg-crema py-20 px-5 md:py-28 md:px-8"
     >
-      {/* Aurora soft */}
       <div aria-hidden="true" className="absolute inset-0 aurora-mesh-soft opacity-50" />
 
-      <div className="relative z-10 max-w-5xl mx-auto">
+      <div className="relative z-10 max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-14 md:mb-16">
           <div className="inline-flex mb-5">
@@ -72,12 +72,13 @@ export function BentoBeneficios() {
           {BENTO_BENEFICIOS.cards.map((card, index) => {
             const Icon = iconMap[card.icon] ?? Activity
             const isConstanza = card.icon === "shield-check"
+            const accentColor = index % 2 === 0 ? "sandia" : "celeste"
             return (
-              <motion.div
+              <motion.article
                 key={index}
                 variants={item}
                 className={[
-                  "group relative glass rounded-3xl p-6 md:p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-glass-hover",
+                  "group relative glass rounded-3xl p-6 md:p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-glass-hover overflow-hidden",
                   cellSpan[index] ?? "",
                 ].join(" ")}
               >
@@ -87,7 +88,7 @@ export function BentoBeneficios() {
                   className={`absolute -inset-px rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none ${
                     isConstanza
                       ? "bg-gradient-warm-cool"
-                      : index % 2 === 0
+                      : accentColor === "sandia"
                       ? "bg-gradient-warm"
                       : "bg-gradient-cool"
                   }`}
@@ -100,49 +101,113 @@ export function BentoBeneficios() {
                   }}
                 />
 
-                <div className="relative z-10 flex flex-col gap-4 h-full">
-                  {isConstanza ? (
-                    <div className="flex items-start gap-4">
-                      {/* Foto Constanza glass circular */}
-                      <div
-                        data-placeholder="true"
-                        className="w-14 h-14 rounded-2xl glass-strong flex items-center justify-center flex-shrink-0 ring-1 ring-sandia/20"
-                        aria-label="Foto Constanza pendiente"
-                      >
-                        <span className="text-text-muted text-[10px] text-center leading-tight px-1">
-                          [Foto]
-                        </span>
-                      </div>
-                      <div>
-                        <p className="text-[11px] font-medium text-celeste-600 uppercase tracking-wider mb-1">
+                {isConstanza ? (
+                  // Card de Constanza expandida — col-span-2
+                  <div className="relative z-10 grid grid-cols-[auto_1fr] gap-5 items-start h-full">
+                    {/* Foto real Constanza */}
+                    <div className="relative w-24 h-24 md:w-28 md:h-28 rounded-2xl overflow-hidden ring-2 ring-white/60 shadow-card flex-shrink-0">
+                      <Image
+                        src={SITE_CONFIG.brand.constanzaThumb}
+                        alt="Constanza Jiménez — nutricionista"
+                        fill
+                        sizes="112px"
+                        className="object-cover object-center"
+                      />
+                    </div>
+
+                    <div className="flex flex-col gap-2 h-full">
+                      <div className="flex items-center gap-2">
+                        <ShieldCheck
+                          size={14}
+                          className="text-celeste-600"
+                          aria-hidden="true"
+                        />
+                        <p className="text-[11px] font-semibold text-celeste-600 uppercase tracking-wider">
                           Supervisión clínica
                         </p>
-                        <h3 className="font-serif font-semibold text-[1.25rem] md:text-[1.375rem] text-text-dark leading-snug">
-                          {card.title}
-                        </h3>
                       </div>
-                    </div>
-                  ) : (
-                    <>
-                      {/* Icon en glass squircle */}
-                      <div
-                        className={[
-                          "w-12 h-12 rounded-2xl flex items-center justify-center ring-1",
-                          index % 2 === 0
-                            ? "bg-sandia/10 ring-sandia/20 text-sandia-600"
-                            : "bg-celeste/10 ring-celeste/20 text-celeste-600",
-                        ].join(" ")}
-                      >
-                        <Icon size={22} aria-hidden="true" />
-                      </div>
-
-                      <h3 className="font-serif font-semibold text-[1.125rem] md:text-[1.25rem] text-text-dark leading-snug">
+                      <h3 className="font-serif font-semibold text-[1.25rem] md:text-[1.5rem] text-text-dark leading-snug">
                         {card.title}
                       </h3>
-                    </>
-                  )}
-                </div>
-              </motion.div>
+                      <p className="text-[14px] text-text-muted leading-relaxed">
+                        {card.description}
+                      </p>
+
+                      {/* Stats inline */}
+                      <div className="flex flex-wrap items-center gap-4 mt-3 pt-3 border-t border-text-dark/8">
+                        <div>
+                          <p className="text-[20px] font-serif font-bold text-gradient-warm leading-none tabular-nums">
+                            +2.500
+                          </p>
+                          <p className="text-[10px] text-text-muted mt-1 uppercase tracking-wider">
+                            pacientes
+                          </p>
+                        </div>
+                        <div className="h-8 w-px bg-text-dark/10" aria-hidden="true" />
+                        <div>
+                          <p className="text-[20px] font-serif font-bold text-gradient-warm leading-none tabular-nums">
+                            10
+                          </p>
+                          <p className="text-[10px] text-text-muted mt-1 uppercase tracking-wider">
+                            años
+                          </p>
+                        </div>
+                        <div className="h-8 w-px bg-text-dark/10" aria-hidden="true" />
+                        <div>
+                          <p className="text-[20px] font-serif font-bold text-gradient-warm leading-none tabular-nums">
+                            5.0
+                          </p>
+                          <p className="text-[10px] text-text-muted mt-1 uppercase tracking-wider">
+                            Google
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  // Cards normales con descripción + metric
+                  <div className="relative z-10 flex flex-col gap-4 h-full">
+                    {/* Icon glass squircle */}
+                    <div
+                      className={[
+                        "w-12 h-12 rounded-2xl flex items-center justify-center ring-1 flex-shrink-0",
+                        accentColor === "sandia"
+                          ? "bg-sandia/10 ring-sandia/20 text-sandia-600"
+                          : "bg-celeste/10 ring-celeste/20 text-celeste-600",
+                      ].join(" ")}
+                    >
+                      <Icon size={22} aria-hidden="true" />
+                    </div>
+
+                    <h3 className="font-serif font-semibold text-[1.125rem] md:text-[1.25rem] text-text-dark leading-snug">
+                      {card.title}
+                    </h3>
+
+                    <p className="text-[14px] text-text-muted leading-relaxed flex-1">
+                      {card.description}
+                    </p>
+
+                    {/* Metric chip al fondo */}
+                    <div className="flex items-center gap-2 mt-1 pt-3 border-t border-text-dark/8">
+                      <span
+                        aria-hidden="true"
+                        className={[
+                          "w-1.5 h-1.5 rounded-full",
+                          accentColor === "sandia"
+                            ? "bg-sandia"
+                            : "bg-celeste",
+                        ].join(" ")}
+                      />
+                      <span className="text-[12px] font-semibold text-text-dark">
+                        {card.metric}
+                      </span>
+                      <span className="text-[11px] text-text-muted">
+                        · {card.metricLabel}
+                      </span>
+                    </div>
+                  </div>
+                )}
+              </motion.article>
             )
           })}
         </motion.div>

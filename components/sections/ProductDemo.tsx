@@ -1,28 +1,25 @@
 "use client"
 
+import Image from "next/image"
 import { motion } from "framer-motion"
-import { useRef, useState } from "react"
-import { Volume2, VolumeX, Play } from "lucide-react"
+import { useState } from "react"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 import { PRODUCT_DEMO } from "@/lib/constants"
 import { Eyebrow } from "@/components/ui/Eyebrow"
 
 export function ProductDemo() {
-  const videoRef = useRef<HTMLVideoElement>(null)
-  const [muted, setMuted] = useState(true)
+  const [activeIdx, setActiveIdx] = useState(0)
+  const screens = PRODUCT_DEMO.staticScreens
+  const active = screens[activeIdx]
 
-  const toggleAudio = () => {
-    if (!videoRef.current) return
-    const next = !muted
-    videoRef.current.muted = next
-    setMuted(next)
-  }
+  const prev = () => setActiveIdx((i) => (i - 1 + screens.length) % screens.length)
+  const next = () => setActiveIdx((i) => (i + 1) % screens.length)
 
   return (
     <section
       aria-label="Demo del producto"
       className="relative overflow-hidden py-20 px-5 md:py-28 md:px-8 bg-surface-low"
     >
-      {/* Soft backdrop */}
       <div aria-hidden="true" className="absolute inset-0 aurora-mesh-soft opacity-50" />
 
       <motion.div
@@ -39,8 +36,13 @@ export function ProductDemo() {
           Tu plan, listo en{" "}
           <span className="text-gradient-warm">24 horas</span>.
         </h2>
+        <p className="text-[1rem] md:text-[1.0625rem] text-text-muted mt-5 max-w-xl mx-auto leading-relaxed">
+          Estas son las pantallas reales que vas a ver. Sin filtros, sin
+          renders — la app que estamos lanzando el 5 de junio.
+        </p>
       </motion.div>
 
+      {/* Carrusel de screens reales */}
       <motion.div
         className="relative z-10 max-w-md mx-auto"
         initial={{ opacity: 0, scale: 0.96 }}
@@ -48,70 +50,97 @@ export function ProductDemo() {
         viewport={{ once: true, margin: "-60px" }}
         transition={{ duration: 0.55, ease: [0.25, 0.1, 0.25, 1] }}
       >
-        {/* Halo glow detrás del video */}
+        {/* Halo glow detrás */}
         <div
           aria-hidden="true"
           className="absolute inset-0 bg-gradient-warm-cool opacity-30 blur-[80px] pointer-events-none"
         />
 
-        <div className="relative bg-text-dark rounded-[2rem] overflow-hidden shadow-glass ring-1 ring-white/5">
-          {/* TODO: replace with /mockups/mock-flow-completo.mp4 */}
+        {/* iPhone frame con screen real */}
+        <div className="relative bg-text-dark rounded-[2.5rem] p-3 shadow-glass ring-1 ring-white/10">
+          {/* Notch */}
           <div
-            data-placeholder="true"
-            className="aspect-[9/19] w-full bg-gradient-to-br from-text-dark via-text-dark to-celeste/20 flex items-center justify-center relative"
-          >
-            <video
-              ref={videoRef}
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="absolute inset-0 w-full h-full object-cover opacity-0"
-              aria-label="Demo del flujo de la app Nutrico"
-            >
-              {/* <source src={PRODUCT_DEMO.videoSrc} type="video/mp4" /> */}
-            </video>
-
-            <div className="relative z-10 flex flex-col items-center gap-3 text-center px-6">
-              <button
-                type="button"
-                aria-label="Reproducir demo"
-                className="group w-20 h-20 rounded-full glass-strong flex items-center justify-center hover:scale-105 transition-transform duration-300"
+            aria-hidden="true"
+            className="absolute top-3 left-1/2 -translate-x-1/2 w-28 h-7 bg-text-dark rounded-b-2xl z-30"
+          />
+          <div className="relative aspect-[9/19] w-full bg-surface-low rounded-[2rem] overflow-hidden">
+            {screens.map((screen, idx) => (
+              <div
+                key={screen.src}
+                className={[
+                  "absolute inset-0 transition-opacity duration-500 ease-out",
+                  idx === activeIdx ? "opacity-100" : "opacity-0",
+                ].join(" ")}
+                aria-hidden={idx !== activeIdx}
               >
-                <Play
-                  size={28}
-                  className="text-sandia ml-1 transition-transform duration-300 group-hover:scale-110"
-                  fill="currentColor"
-                  aria-hidden="true"
+                <Image
+                  src={screen.src}
+                  alt={`App Nutrico — ${screen.label}`}
+                  fill
+                  sizes="(min-width: 768px) 400px, 90vw"
+                  className="object-cover object-top"
                 />
-              </button>
-              <span className="text-white/80 text-sm mt-2">
-                [Video demo pendiente]
-              </span>
-              <span className="text-white/40 text-xs">
-                {PRODUCT_DEMO.videoSrc}
-              </span>
-            </div>
+              </div>
+            ))}
           </div>
-
-          <button
-            type="button"
-            onClick={toggleAudio}
-            aria-label={muted ? "Activar audio" : "Silenciar audio"}
-            className="absolute bottom-4 right-4 z-20 glass-strong text-text-dark rounded-full p-2.5 hover:scale-105 transition-all duration-200"
-          >
-            {muted ? (
-              <VolumeX size={18} aria-hidden="true" />
-            ) : (
-              <Volume2 size={18} aria-hidden="true" />
-            )}
-          </button>
         </div>
 
-        <p className="text-[13px] text-text-muted text-center mt-5">
-          {PRODUCT_DEMO.microcopy}
-        </p>
+        {/* Label flotante step */}
+        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 glass-strong rounded-full px-4 py-2 flex items-center gap-2">
+          <span
+            aria-hidden="true"
+            className="w-1.5 h-1.5 rounded-full bg-sandia animate-pulse-soft"
+          />
+          <span className="text-[12px] font-semibold text-text-dark">
+            {active.label}
+          </span>
+          <span className="text-[10px] text-text-muted">· {active.step}</span>
+        </div>
       </motion.div>
+
+      {/* Controles + indicadores */}
+      <div className="relative z-10 mt-14 flex items-center justify-center gap-4">
+        <button
+          type="button"
+          onClick={prev}
+          aria-label="Pantalla anterior"
+          className="glass-pill rounded-full p-2.5 hover:-translate-y-0.5 transition-transform"
+        >
+          <ChevronLeft size={18} className="text-text-dark" aria-hidden="true" />
+        </button>
+
+        <div className="flex items-center gap-2" role="tablist" aria-label="Pantallas">
+          {screens.map((s, idx) => (
+            <button
+              key={s.src}
+              type="button"
+              role="tab"
+              aria-selected={idx === activeIdx}
+              aria-label={`Ir a ${s.label}`}
+              onClick={() => setActiveIdx(idx)}
+              className={[
+                "h-2 rounded-full transition-all duration-300",
+                idx === activeIdx
+                  ? "w-8 bg-gradient-warm"
+                  : "w-2 bg-text-dark/15 hover:bg-text-dark/30",
+              ].join(" ")}
+            />
+          ))}
+        </div>
+
+        <button
+          type="button"
+          onClick={next}
+          aria-label="Pantalla siguiente"
+          className="glass-pill rounded-full p-2.5 hover:-translate-y-0.5 transition-transform"
+        >
+          <ChevronRight size={18} className="text-text-dark" aria-hidden="true" />
+        </button>
+      </div>
+
+      <p className="text-[12px] text-text-muted text-center mt-6">
+        Pantallas reales de la app · capturas de QA · 28 de mayo 2026
+      </p>
     </section>
   )
 }

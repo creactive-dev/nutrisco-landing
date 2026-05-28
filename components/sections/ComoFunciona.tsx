@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { motion } from "framer-motion"
 import { COMO_FUNCIONA } from "@/lib/constants"
 import { Eyebrow } from "@/components/ui/Eyebrow"
@@ -75,7 +76,7 @@ export function ComoFunciona() {
               variants={stepItem}
               className="relative flex flex-col items-center text-center"
             >
-              {/* Mockup iPhone con halo glow */}
+              {/* Mockup iPhone REAL con halo glow */}
               <div className="relative mb-6">
                 <div
                   aria-hidden="true"
@@ -83,25 +84,31 @@ export function ComoFunciona() {
                     idx === 1 ? "bg-celeste/40" : "bg-sandia/30"
                   }`}
                 />
-                <div
-                  data-placeholder="true"
-                  className="relative w-full max-w-[220px] aspect-[9/19] bg-gradient-to-br from-text-dark to-[#0a0a0a] rounded-[2rem] p-2.5 shadow-glass"
-                  aria-label={`Mockup ${step.mockupLabel} pendiente`}
-                >
-                  <div className="w-full h-full bg-surface-low rounded-[1.5rem] flex items-center justify-center overflow-hidden p-4">
-                    <span className="text-text-muted text-xs text-center leading-snug">
-                      [Mockup pendiente]
-                      <br />
-                      <span className="text-[10px] text-text-muted/70 mt-1 block">
-                        {step.mockup}
-                      </span>
-                    </span>
+                <div className="relative w-full max-w-[220px] aspect-[9/19] bg-text-dark rounded-[2rem] p-2.5 shadow-glass ring-1 ring-white/10">
+                  {/* Notch decorativo */}
+                  <div
+                    aria-hidden="true"
+                    className="absolute top-2.5 left-1/2 -translate-x-1/2 w-16 h-4 bg-text-dark rounded-b-xl z-20"
+                  />
+                  <div className="w-full h-full bg-surface-low rounded-[1.5rem] overflow-hidden relative">
+                    <Image
+                      src={step.mockup}
+                      alt={`App Nutrico — ${step.mockupLabel}`}
+                      fill
+                      sizes="(min-width: 768px) 220px, 200px"
+                      className="object-cover object-top"
+                    />
                   </div>
                 </div>
+
+                {/* Caption del screen */}
+                <p className="absolute -bottom-3 left-1/2 -translate-x-1/2 glass-strong rounded-full px-3 py-1 text-[10px] font-medium text-text-dark whitespace-nowrap">
+                  {step.mockupLabel}
+                </p>
               </div>
 
               {/* Número en glass pill circular */}
-              <div className="relative glass rounded-full w-14 h-14 flex items-center justify-center mb-4 z-10">
+              <div className="relative glass rounded-full w-14 h-14 flex items-center justify-center mb-4 mt-3 z-10">
                 <span
                   aria-hidden="true"
                   className="font-serif font-bold text-[1.5rem] text-gradient-warm leading-none"

@@ -1,7 +1,8 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { TRUST_BAR } from "@/lib/constants"
+import { Star } from "lucide-react"
+import { TRUST_BAR, SITE_CONFIG } from "@/lib/constants"
 
 const container = {
   hidden: {},
@@ -42,26 +43,53 @@ export function TrustBar() {
         viewport={{ once: true, margin: "-80px" }}
       >
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
-          {TRUST_BAR.stats.map((stat, i) => (
-            <motion.div
-              key={i}
-              variants={item}
-              className="text-center md:text-left relative"
-            >
-              {i > 0 && (
-                <div
-                  aria-hidden="true"
-                  className="hidden md:block absolute -left-6 top-1/2 -translate-y-1/2 h-12 w-px bg-gradient-to-b from-transparent via-white/15 to-transparent"
-                />
-              )}
-              <p className="font-serif font-bold text-gradient-warm text-[2.75rem] md:text-[3.5rem] leading-none tracking-tight">
-                {stat.number}
-              </p>
-              <p className="text-white/70 text-[14px] md:text-[15px] mt-3 leading-snug">
-                {stat.label}
-              </p>
-            </motion.div>
-          ))}
+          {TRUST_BAR.stats.map((stat, i) => {
+            const isGoogle = stat.number === "5.0"
+            return (
+              <motion.div
+                key={i}
+                variants={item}
+                className="text-center md:text-left relative"
+              >
+                {i > 0 && (
+                  <div
+                    aria-hidden="true"
+                    className="hidden md:block absolute -left-6 top-1/2 -translate-y-1/2 h-12 w-px bg-gradient-to-b from-transparent via-white/15 to-transparent"
+                  />
+                )}
+                <div className="flex items-baseline gap-3 justify-center md:justify-start">
+                  <p className="font-serif font-bold text-gradient-warm text-[2.75rem] md:text-[3.5rem] leading-none tracking-tight tabular-nums">
+                    {stat.number}
+                  </p>
+                  {isGoogle && (
+                    <span className="flex items-center gap-0.5" aria-hidden="true">
+                      {[1, 2, 3, 4, 5].map((s) => (
+                        <Star
+                          key={s}
+                          size={14}
+                          className="text-[#fbbf24]"
+                          fill="currentColor"
+                        />
+                      ))}
+                    </span>
+                  )}
+                </div>
+                <p className="text-white/70 text-[14px] md:text-[15px] mt-3 leading-snug max-w-xs mx-auto md:mx-0">
+                  {stat.label}
+                </p>
+                {isGoogle && (
+                  <a
+                    href={SITE_CONFIG.googleBusinessUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[11px] text-celeste-400 hover:text-celeste-300 underline underline-offset-2 inline-block mt-2"
+                  >
+                    Ver reseñas en Google →
+                  </a>
+                )}
+              </motion.div>
+            )
+          })}
         </div>
       </motion.div>
     </section>

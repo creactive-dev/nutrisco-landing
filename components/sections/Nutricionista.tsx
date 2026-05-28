@@ -1,8 +1,9 @@
 "use client"
 
+import Image from "next/image"
 import { motion } from "framer-motion"
-import { CheckCircle2 } from "lucide-react"
-import { FOUNDER_STORY } from "@/lib/constants"
+import { CheckCircle2, Star, ExternalLink } from "lucide-react"
+import { FOUNDER_STORY, SITE_CONFIG } from "@/lib/constants"
 import { Eyebrow } from "@/components/ui/Eyebrow"
 
 const container = {
@@ -29,7 +30,7 @@ export function Nutricionista() {
 
       <div className="relative z-10 max-w-5xl mx-auto">
         <div className="md:grid md:grid-cols-[1fr_1.4fr] md:gap-14 md:items-center">
-          {/* Columna izquierda — foto con frame glass + halo */}
+          {/* Columna izquierda — foto REAL con frame glass + halo */}
           <motion.div
             initial={{ opacity: 0, scale: 0.97 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -44,27 +45,70 @@ export function Nutricionista() {
                 className="absolute -inset-6 bg-gradient-warm-cool opacity-30 rounded-[2.5rem] blur-3xl"
               />
 
-              {/* Glass frame */}
+              {/* Glass frame con foto real */}
               <div className="relative glass rounded-[2.25rem] p-3">
-                <div
-                  data-placeholder="true"
-                  className="w-56 h-56 md:w-full md:max-w-[360px] md:aspect-square rounded-3xl bg-gradient-to-br from-sandia/25 to-celeste/25 flex items-center justify-center overflow-hidden"
-                  aria-label="Foto Constanza pendiente"
-                >
-                  <span className="text-text-muted text-sm text-center px-4">
-                    [Foto Constanza pendiente]
-                  </span>
+                <div className="relative w-56 h-72 md:w-[320px] md:h-[420px] rounded-3xl overflow-hidden ring-1 ring-white/40">
+                  <Image
+                    src={SITE_CONFIG.brand.constanzaPhoto}
+                    alt="Constanza Jiménez Paschold — Nutricionista clínica · La Serena, Chile"
+                    fill
+                    sizes="(min-width: 768px) 320px, 224px"
+                    className="object-cover object-center"
+                  />
+
+                  {/* Gradient overlay sutil bottom para legibilidad del badge */}
+                  <div
+                    aria-hidden="true"
+                    className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-text-dark/40 via-text-dark/0 to-transparent"
+                  />
                 </div>
 
-                {/* Badge credencial flotante */}
-                <div className="absolute -bottom-3 -right-3 glass-strong rounded-full px-4 py-2 flex items-center gap-2">
+                {/* Badge credencial flotante — Google rating */}
+                <a
+                  href={SITE_CONFIG.googleBusinessUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="absolute -bottom-3 -right-3 glass-strong rounded-2xl px-4 py-3 flex items-center gap-2.5 hover:-translate-y-0.5 transition-transform"
+                >
+                  <div className="flex items-center gap-0.5" aria-hidden="true">
+                    {[1, 2, 3, 4, 5].map((s) => (
+                      <Star
+                        key={s}
+                        size={12}
+                        className="text-[#fbbf24]"
+                        fill="currentColor"
+                      />
+                    ))}
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-[12px] font-bold text-text-dark leading-none">
+                      5.0 en Google
+                    </span>
+                    <span className="text-[10px] text-text-muted leading-none mt-0.5">
+                      ver reseñas
+                    </span>
+                  </div>
+                  <ExternalLink
+                    size={12}
+                    className="text-text-muted flex-shrink-0"
+                    aria-hidden="true"
+                  />
+                </a>
+
+                {/* Badge pacientes flotante top-left */}
+                <div className="absolute -top-3 -left-3 glass-strong rounded-2xl px-3.5 py-2 flex items-center gap-2">
                   <span
                     aria-hidden="true"
                     className="w-2 h-2 rounded-full bg-celeste animate-pulse-soft"
                   />
-                  <span className="text-[11px] font-semibold text-text-dark">
-                    +1.200 pacientes
-                  </span>
+                  <div>
+                    <p className="text-[11px] font-bold text-text-dark leading-none">
+                      +2.500 pacientes
+                    </p>
+                    <p className="text-[9px] text-text-muted leading-none mt-0.5">
+                      en 10 años de consulta
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -95,7 +139,7 @@ export function Nutricionista() {
               {FOUNDER_STORY.body}
             </motion.p>
 
-            {/* Credentials — glass mini cards */}
+            {/* Credentials — glass mini cards en grid 2 cols */}
             <motion.ul
               variants={item}
               className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-3"
@@ -118,7 +162,7 @@ export function Nutricionista() {
               ))}
             </motion.ul>
 
-            {/* Quote signature */}
+            {/* Quote signature en glass card */}
             <motion.blockquote
               variants={item}
               className="relative mt-10 glass rounded-3xl px-7 py-6 overflow-hidden"
@@ -133,7 +177,7 @@ export function Nutricionista() {
                 {FOUNDER_STORY.quote}
               </p>
               <p className="relative text-[12px] text-text-muted mt-2 tracking-wide">
-                — Constanza Jiménez Paschold
+                — Constanza Jiménez Paschold · Nutricionista clínica certificada
               </p>
             </motion.blockquote>
           </motion.div>

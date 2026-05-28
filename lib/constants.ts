@@ -12,6 +12,12 @@ export const SITE_CONFIG = {
   whatsappMessage: "Hola Constanza, tengo una pregunta sobre Nutrico",
   instagram: "@constanza.nutricion",
   email: "hola@constanzanutricion.cl",
+  googleBusinessUrl: "https://share.google/fju7lUoVFux9PmfCA",
+  consultaWeb: "https://www.constanzanutricion.cl",
+  brand: {
+    constanzaPhoto: "/brand/constanza.jpg",
+    constanzaThumb: "/brand/constanza-thumb.jpg",
+  },
   legal: {
     razonSocial: "Constanza Jiménez Paschold",
     rut: "78.120.238-K",
@@ -142,7 +148,7 @@ export const COMO_FUNCIONA = {
       title: "Cuestionario de 10 min",
       description:
         "Cuéntanos tus síntomas, objetivos, restricciones y hábitos. Cada respuesta entra al motor que asigna tu pauta.",
-      mockup: "mock-screening-paso5.png",
+      mockup: "/mockups/screening-step5.png",
       mockupLabel: "Screening · paso 5/11",
     },
     {
@@ -150,16 +156,16 @@ export const COMO_FUNCIONA = {
       title: "Tu plan en 24 horas",
       description:
         "Constanza revisa tu screening y aprueba tu plan personalizado. Lo recibes con recetas, lista de compras y agenda semanal.",
-      mockup: "mock-dashboard-home.png",
-      mockupLabel: "Tu plan del día",
+      mockup: "/mockups/plan-current.png",
+      mockupLabel: "Tu plan de la semana",
     },
     {
       number: "03",
       title: "Tu plan evoluciona contigo cada 15 días",
       description:
         "Cada quincena haces un check-in y tu plan se ajusta. Sin estancarte. Sin volver a empezar.",
-      mockup: "mock-checkin-quincenal.png",
-      mockupLabel: "Check-in quincenal",
+      mockup: "/mockups/dashboard-detail.png",
+      mockupLabel: "Check-in + tu progreso",
     },
   ],
 }
@@ -293,9 +299,9 @@ export const TOP_BAR_SCARCITY = {
 export const TRUST_BAR = {
   headline: "Las primeras 290 mujeres del Reto ya están adentro.",
   stats: [
-    { number: "290", label: "mujeres del Reto ya están adentro" },
-    { number: "+1.200", label: "pacientes acompañadas por Constanza históricas" },
-    { number: "26", label: "pautas antiinflamatorias diseñadas por ella" },
+    { number: "+2.500", label: "pacientes acompañadas por Constanza en 10 años" },
+    { number: "5.0", label: "promedio en Google · cero reseñas bajo 5 estrellas" },
+    { number: "290", label: "mujeres del Reto graduadas ya están adentro" },
   ],
 }
 
@@ -309,19 +315,84 @@ export const PRODUCT_DEMO = {
   h2: "Tu plan, listo en 24 horas.",
   microcopy: "Tap para activar audio · Constanza te lo cuenta",
   videoSrc: "/mockups/mock-flow-completo.mp4",
-  posterSrc: "/mockups/mock-flow-poster.jpg",
+  posterSrc: "/mockups/dashboard-home.png",
+  /** Screens estáticos para fallback visual mientras se produce el video */
+  staticScreens: [
+    {
+      src: "/mockups/screening-step1.png",
+      label: "Cuéntanos sobre ti",
+      step: "Screening · paso 1",
+    },
+    {
+      src: "/mockups/post-screening.png",
+      label: "Esto es lo que entendimos",
+      step: "Confirmación",
+    },
+    {
+      src: "/mockups/plan-current.png",
+      label: "Tu primer plan está listo",
+      step: "Plan semanal",
+    },
+    {
+      src: "/mockups/dashboard-detail.png",
+      label: "Tu progreso del día",
+      step: "Dashboard diario",
+    },
+  ],
 }
 
 export const BENTO_BENEFICIOS = {
-  eyebrow: "Lo que vas a sentir",
+  eyebrow: "Lo que vas a sentir en 60 días",
   h2: ["Todo lo que necesitas.", "Nada que no necesitas."],
   cards: [
-    { icon: "activity", title: "Despertarás sin hinchazón" },
-    { icon: "zap", title: "Energía que dura todo el día" },
-    { icon: "shirt", title: "Ropa que dejaste de usar" },
-    { icon: "smile", title: "Comer sin culpa" },
-    { icon: "user", title: "Tu plan sabe quién eres" },
-    { icon: "shield-check", title: "Constanza supervisa todo" },
+    {
+      icon: "activity",
+      title: "Despertarás sin hinchazón",
+      description:
+        "El protocolo antiinflamatorio reduce la respuesta inmune en el intestino. La mayoría reporta diferencia visible en la primera quincena.",
+      metric: "Quincena 1-2",
+      metricLabel: "primer cambio reportado",
+    },
+    {
+      icon: "zap",
+      title: "Energía sostenida sin café",
+      description:
+        "Sin picos de glicemia ni caídas de mediodía. Tu plan distribuye proteína y fibra para que el cuerpo no entre en modo crash a las 4 PM.",
+      metric: "Sin altibajos",
+      metricLabel: "glicemia estable",
+    },
+    {
+      icon: "shirt",
+      title: "Ropa que dejaste de usar",
+      description:
+        "No es una dieta de hambre. Es composición corporal: menos retención, menos grasa visceral, sin perder músculo.",
+      metric: "Sin pasar hambre",
+      metricLabel: "porciones reales",
+    },
+    {
+      icon: "smile",
+      title: "Comer sin culpa ni reglas raras",
+      description:
+        "Cocina chilena de verdad: porotos granados, charquicán, cazuela, salmón al horno. Adaptada al protocolo, no inventada.",
+      metric: "84 recetas",
+      metricLabel: "cocina chilena real",
+    },
+    {
+      icon: "user",
+      title: "Tu plan sabe quién eres",
+      description:
+        "Síntomas, restricciones, hormonas, actividad, presupuesto. 11 variables de screening alimentan tu pauta específica. No es un PDF para todas.",
+      metric: "11 variables",
+      metricLabel: "screening personal",
+    },
+    {
+      icon: "shield-check",
+      title: "Constanza supervisa cada ajuste",
+      description:
+        "La IA propone, ella decide. Cada cambio de plan pasa por su revisión clínica antes de llegar a ti. 10 años de práctica respaldan cada decisión.",
+      metric: "Revisión clínica",
+      metricLabel: "100% supervisado por Constanza",
+    },
   ],
 }
 
@@ -341,12 +412,14 @@ export const FOUNDER_STORY = {
   name: "Constanza Jiménez Paschold",
   title: "Nutricionista clínica · Especialista en nutrición antiinflamatoria",
   h3: "Yo soy Constanza Jiménez Paschold, Nutricionista clínica.",
-  body: "Llevo años escuchando lo mismo en consulta: \"no sé qué comer, lo intenté pero volví a lo mismo\". A principios de año hice el Reto Antiinflamatorio 21 días — y casi 300 mujeres me escribieron preguntando qué seguía. Estos meses los pasé construyendo eso. Nutrico no es un ebook nuevo · es la plataforma que pensé para que después del Reto el cuerpo no se devuelva.",
+  body: "Llevo 10 años escuchando lo mismo en consulta: \"no sé qué comer, lo intenté pero volví a lo mismo\". A principios de año hice el Reto Antiinflamatorio 21 días — y casi 300 mujeres me escribieron preguntando qué seguía. Estos meses los pasé construyendo eso. Nutrico no es un ebook nuevo · es la plataforma que pensé para que después del Reto el cuerpo no se devuelva.",
   credentials: [
-    "Nutricionista titulada",
-    "Especialización en nutrición antiinflamatoria",
-    "+1.200 pacientes acompañadas históricas",
+    "Nutricionista titulada · certificada por la Superintendencia de Salud",
+    "Especialización en nutrición antiinflamatoria y metabólica",
+    "+2.500 pacientes acompañadas en 10 años de consulta",
+    "5.0 promedio en Google · La Serena y online",
     "Cada pauta y cada ajuste pasan por mi revisión clínica",
+    "Áreas: salud hormonal, gestación, lipedema, inflamación crónica",
   ],
   quote: "La IA asiste, yo decido.",
 }

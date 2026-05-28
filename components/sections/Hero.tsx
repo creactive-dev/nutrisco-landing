@@ -1,7 +1,8 @@
 "use client"
 
+import Image from "next/image"
 import { motion } from "framer-motion"
-import { ShieldCheck, Receipt, Lock, XCircle, ArrowRight } from "lucide-react"
+import { ShieldCheck, Receipt, Lock, XCircle, ArrowRight, Star } from "lucide-react"
 import { HERO, SITE_CONFIG } from "@/lib/constants"
 import { MeshAurora } from "@/components/ui/MeshAurora"
 import { Eyebrow } from "@/components/ui/Eyebrow"
@@ -46,6 +47,36 @@ export default function Hero() {
             initial="hidden"
             animate="visible"
           >
+            {/* Social proof rating pill encima del eyebrow */}
+            <motion.div
+              variants={item}
+              className="inline-flex mb-4 justify-center md:justify-start w-full md:w-auto"
+            >
+              <a
+                href={SITE_CONFIG.googleBusinessUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="glass-pill rounded-full px-3 py-1.5 inline-flex items-center gap-2 hover:-translate-y-0.5 transition-transform"
+              >
+                <span className="flex items-center gap-0.5" aria-hidden="true">
+                  {[1, 2, 3, 4, 5].map((s) => (
+                    <Star
+                      key={s}
+                      size={11}
+                      className="text-[#fbbf24]"
+                      fill="currentColor"
+                    />
+                  ))}
+                </span>
+                <span className="text-[11px] font-semibold text-text-dark">
+                  5.0
+                </span>
+                <span className="text-[11px] text-text-muted">
+                  · +2.500 pacientes · 10 años
+                </span>
+              </a>
+            </motion.div>
+
             {/* Eyebrow glass pill */}
             <motion.div
               variants={item}
@@ -127,7 +158,7 @@ export default function Hero() {
             </motion.div>
           </motion.div>
 
-          {/* Columna derecha — mockup iPhone con glow halo */}
+          {/* Columna derecha — mockup iPhone REAL con foto Constanza floating */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -145,35 +176,39 @@ export default function Hero() {
             />
 
             <div className="relative">
-              {/* Tarjeta glass float decorativa */}
+              {/* Floating card — Constanza dice */}
               <motion.div
-                aria-hidden="true"
                 initial={{ opacity: 0, x: -20, rotate: -8 }}
-                animate={{ opacity: 1, x: 0, rotate: -6 }}
+                animate={{ opacity: 1, x: 0, rotate: -5 }}
                 transition={{ delay: 0.5, duration: 0.6 }}
-                className="absolute -left-12 top-12 z-20 glass rounded-2xl px-4 py-3 w-[150px]"
+                className="absolute -left-16 top-8 z-20 glass rounded-2xl px-3 py-2.5 w-[180px] flex items-start gap-2.5"
               >
-                <p className="text-[10px] font-medium text-celeste-600 uppercase tracking-wider">
-                  Esta semana
-                </p>
-                <p className="text-[14px] font-semibold text-text-dark mt-0.5 leading-tight">
-                  Pauta antiinflamatoria · Fase 1
-                </p>
-                <div className="mt-2 h-1 rounded-full bg-surface-high overflow-hidden">
-                  <div
-                    className="h-full bg-gradient-warm rounded-full"
-                    style={{ width: "62%" }}
+                <div className="relative w-9 h-9 rounded-full overflow-hidden flex-shrink-0 ring-2 ring-white">
+                  <Image
+                    src={SITE_CONFIG.brand.constanzaThumb}
+                    alt="Constanza Jiménez"
+                    fill
+                    sizes="36px"
+                    className="object-cover"
                   />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-[10px] font-semibold text-celeste-600 uppercase tracking-wider">
+                    Constanza dice
+                  </p>
+                  <p className="text-[11px] text-text-dark mt-0.5 leading-snug">
+                    Llevas 4 días en fase 1. Vamos bien.
+                  </p>
                 </div>
               </motion.div>
 
-              {/* Tarjeta glass float check-in */}
+              {/* Floating card — Check-in */}
               <motion.div
                 aria-hidden="true"
                 initial={{ opacity: 0, x: 20, rotate: 8 }}
                 animate={{ opacity: 1, x: 0, rotate: 5 }}
                 transition={{ delay: 0.7, duration: 0.6 }}
-                className="absolute -right-8 bottom-16 z-20 glass rounded-2xl px-4 py-3 w-[160px]"
+                className="absolute -right-10 bottom-20 z-20 glass rounded-2xl px-4 py-3 w-[170px]"
               >
                 <div className="flex items-center gap-2">
                   <span
@@ -181,10 +216,10 @@ export default function Hero() {
                     className="w-2 h-2 rounded-full bg-celeste animate-pulse-soft"
                   />
                   <p className="text-[10px] font-medium text-text-muted uppercase tracking-wider">
-                    Check-in
+                    Check-in del día
                   </p>
                 </div>
-                <p className="text-[14px] font-semibold text-text-dark mt-1 leading-tight">
+                <p className="text-[14px] font-semibold text-text-dark mt-1.5 leading-tight">
                   Energía hoy
                 </p>
                 <div className="flex gap-1 mt-2">
@@ -199,24 +234,25 @@ export default function Hero() {
                 </div>
               </motion.div>
 
-              {/* Mockup iPhone */}
+              {/* iPhone frame con screenshot real */}
               <div
-                data-placeholder="true"
-                className="relative w-[280px] lg:w-[320px] aspect-[9/19] bg-gradient-to-br from-text-dark to-[#0a0a0a] rounded-[2.75rem] p-3 shadow-glass z-10"
-                aria-label="Mockup app Nutrico pendiente"
+                className="relative w-[280px] lg:w-[320px] aspect-[9/19] bg-text-dark rounded-[2.75rem] p-3 shadow-glass z-10 ring-1 ring-white/10"
+                aria-label="App Nutrico — dashboard del día"
               >
-                <div className="w-full h-full bg-surface-low rounded-[2.25rem] flex items-center justify-center overflow-hidden relative">
-                  {/* Mock header decorativo */}
-                  <div className="absolute top-0 left-0 right-0 h-12 flex items-center justify-center">
-                    <div className="w-20 h-1 rounded-full bg-text-dark/10" />
-                  </div>
-                  <span className="text-text-muted text-sm text-center px-4 relative z-10">
-                    [Mockup pendiente]
-                    <br />
-                    <span className="text-[11px] text-text-muted/70">
-                      mock-dashboard-home.png
-                    </span>
-                  </span>
+                {/* Notch decorativo */}
+                <div
+                  aria-hidden="true"
+                  className="absolute top-3 left-1/2 -translate-x-1/2 w-24 h-6 bg-text-dark rounded-b-2xl z-20"
+                />
+                <div className="w-full h-full bg-surface-low rounded-[2.25rem] overflow-hidden relative">
+                  <Image
+                    src="/mockups/dashboard-home.png"
+                    alt="App Nutrico — vista del dashboard con check-in del día y plan activo"
+                    fill
+                    sizes="(min-width: 1024px) 320px, 280px"
+                    className="object-cover object-top"
+                    priority
+                  />
                 </div>
               </div>
             </div>
