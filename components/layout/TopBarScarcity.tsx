@@ -30,10 +30,10 @@ export function TopBarScarcity() {
         }}
       />
 
-      <div className="relative z-10 h-10 flex items-center justify-center px-4 text-[12px] md:text-[13px] gap-2.5">
+      <div className="relative z-10 h-10 flex items-center justify-center px-3 text-[11.5px] md:text-[13px] gap-2 md:gap-2.5">
         <Sparkles
-          size={13}
-          className="text-white/95 flex-shrink-0 animate-pulse-soft"
+          size={12}
+          className="text-white/95 flex-shrink-0 animate-pulse-soft hidden xs:inline-block sm:inline-block"
           aria-hidden="true"
         />
 
@@ -43,24 +43,26 @@ export function TopBarScarcity() {
         </span>
 
         {/* Mobile message — copy más corto */}
-        <span className="sm:hidden font-medium tracking-tight">
+        <span className="sm:hidden font-medium tracking-tight whitespace-nowrap">
           {TOP_BAR_SCARCITY.messageMobile}
         </span>
 
         <a
           href={TOP_BAR_SCARCITY.ctaHref}
-          className="ml-2 inline-flex items-center gap-1 underline decoration-white/60 underline-offset-2 font-semibold hover:decoration-white transition-all"
+          className="ml-1 md:ml-2 inline-flex items-center gap-1 underline decoration-white/60 underline-offset-2 font-semibold hover:decoration-white transition-all whitespace-nowrap"
         >
-          {TOP_BAR_SCARCITY.cta} <span aria-hidden="true">→</span>
+          <span className="hidden xs:inline sm:inline">{TOP_BAR_SCARCITY.cta}</span>
+          <span className="xs:hidden sm:hidden">Reservar</span>
+          <span aria-hidden="true">→</span>
         </a>
 
         <button
           type="button"
           onClick={() => setDismissed(true)}
           aria-label="Cerrar anuncio"
-          className="ml-2 p-1 rounded-full hover:bg-white/15 transition-colors"
+          className="ml-1 md:ml-2 p-1 rounded-full hover:bg-white/15 transition-colors flex-shrink-0"
         >
-          <X size={14} aria-hidden="true" />
+          <X size={13} aria-hidden="true" />
         </button>
       </div>
     </div>

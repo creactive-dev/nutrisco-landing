@@ -14,6 +14,7 @@
 /* ─── Base ───────────────────────────────────────────────── */
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 100px; /* topbar 40 + navbar pill 56 + breathing 4 */
 }
 
 body {
@@ -22,6 +23,12 @@ body {
   color: #1A1A1A;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Section anchors get scroll margin so navbar doesn't cover heading */
+section[id] {
+  scroll-margin-top: 100px;
 }
 
 /* ─── Warm Mesh Background (legacy — sutil) ──────────── */

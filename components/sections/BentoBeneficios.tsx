@@ -102,10 +102,10 @@ export function BentoBeneficios() {
                 />
 
                 {isConstanza ? (
-                  // Card de Constanza expandida — col-span-2
-                  <div className="relative z-10 grid grid-cols-[auto_1fr] gap-5 items-start h-full">
+                  // Card de Constanza expandida — col-span-2 desktop, vertical mobile
+                  <div className="relative z-10 flex flex-col md:grid md:grid-cols-[auto_1fr] gap-5 items-start h-full">
                     {/* Foto real Constanza */}
-                    <div className="relative w-24 h-24 md:w-28 md:h-28 rounded-2xl overflow-hidden ring-2 ring-white/60 shadow-card flex-shrink-0">
+                    <div className="relative w-20 h-20 md:w-28 md:h-28 rounded-2xl overflow-hidden ring-2 ring-white/60 shadow-card flex-shrink-0">
                       <Image
                         src={SITE_CONFIG.brand.constanzaThumb}
                         alt="Constanza Jiménez — nutricionista"

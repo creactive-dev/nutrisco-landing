@@ -1,16 +1,32 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { NAVBAR, SITE_CONFIG } from "@/lib/constants"
 import { Button } from "@/components/ui/Button"
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false)
+  const [hidden, setHidden] = useState(false)
+  const lastY = useRef(0)
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 12)
+      const y = window.scrollY
+      setScrolled(y > 12)
+
+      // Auto-hide on scroll down past 200px, show on scroll up
+      // Only applies on mobile (< 768px) — desktop always visible
+      const isMobile = window.innerWidth < 768
+      if (isMobile && y > 200) {
+        const goingDown = y > lastY.current + 4
+        const goingUp = y < lastY.current - 4
+        if (goingDown) setHidden(true)
+        else if (goingUp) setHidden(false)
+      } else {
+        setHidden(false)
+      }
+      lastY.current = y
     }
     window.addEventListener("scroll", handleScroll, { passive: true })
     return () => window.removeEventListener("scroll", handleScroll)
@@ -19,9 +35,12 @@ export function Navbar() {
   return (
     <motion.header
       initial={{ opacity: 0, y: -16 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.45, ease: "easeOut" }}
-      className="fixed top-10 left-0 right-0 z-50 px-4 md:px-6 pt-3"
+      animate={{
+        opacity: hidden ? 0 : 1,
+        y: hidden ? -80 : 0,
+      }}
+      transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
+      className="fixed top-10 left-0 right-0 z-50 px-3 md:px-6 pt-2 md:pt-3"
     >
       <div
         className={[
@@ -29,17 +48,17 @@ export function Navbar() {
           scrolled ? "glass-strong shadow-glass" : "glass",
         ].join(" ")}
       >
-        <div className="px-5 md:px-6 h-14 flex items-center justify-between">
+        <div className="px-4 md:px-6 h-12 md:h-14 flex items-center justify-between gap-3">
           {/* Logo tipográfico */}
           <a
             href="#"
             aria-label={`${SITE_CONFIG.name} — Inicio`}
             className="flex-shrink-0 group"
           >
-            <span className="font-serif text-xl font-bold tracking-tight text-text-dark transition-colors group-hover:text-sandia">
+            <span className="font-serif text-lg md:text-xl font-bold tracking-tight text-text-dark transition-colors group-hover:text-sandia">
               nutri
             </span>
-            <span className="font-serif text-xl font-bold tracking-tight text-gradient-warm">
+            <span className="font-serif text-lg md:text-xl font-bold tracking-tight text-gradient-warm">
               co
             </span>
           </a>
@@ -72,11 +91,14 @@ export function Navbar() {
                 {NAVBAR.cta}
               </Button>
             </span>
-            {/* Mobile */}
+            {/* Mobile — más compacto */}
             <span className="block md:hidden">
-              <Button variant="primary" href={SITE_CONFIG.mpPaymentUrl}>
+              <a
+                href={SITE_CONFIG.mpPaymentUrl}
+                className="inline-flex items-center justify-center bg-gradient-warm text-white font-semibold rounded-full px-4 py-2 text-[13px] shadow-glow-sandia transition-all duration-200 active:scale-95"
+              >
                 {NAVBAR.ctaMobile}
-              </Button>
+              </a>
             </span>
           </div>
         </div>

@@ -51,7 +51,7 @@ export function TestimoniosMixto() {
         {/* Bloque 1 — Videos */}
         <motion.div
           variants={item}
-          className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6 mb-16 md:mb-20"
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-16 md:mb-20 max-w-md sm:max-w-none mx-auto"
         >
           {TESTIMONIOS_MIXTO.videos.map((video, idx) => (
             <button
@@ -59,7 +59,7 @@ export function TestimoniosMixto() {
               type="button"
               data-placeholder="true"
               aria-label={`Reproducir testimonio de ${video.name}`}
-              className="group relative aspect-[9/16] bg-text-dark rounded-[1.75rem] overflow-hidden shadow-glass hover:shadow-glass-hover transition-all duration-300 hover:-translate-y-1"
+              className="group relative aspect-[4/5] sm:aspect-[3/4] md:aspect-[9/16] bg-text-dark rounded-[1.75rem] overflow-hidden shadow-glass hover:shadow-glass-hover transition-all duration-300 hover:-translate-y-1"
             >
               {/* Halo glow */}
               <div

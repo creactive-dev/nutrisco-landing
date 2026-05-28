@@ -77,14 +77,14 @@ export function ComoFunciona() {
               className="relative flex flex-col items-center text-center"
             >
               {/* Mockup iPhone REAL con halo glow */}
-              <div className="relative mb-6">
+              <div className="relative mb-6 w-[200px] md:w-[220px] aspect-[9/19]">
                 <div
                   aria-hidden="true"
                   className={`absolute inset-0 rounded-[2rem] blur-2xl opacity-40 ${
                     idx === 1 ? "bg-celeste/40" : "bg-sandia/30"
                   }`}
                 />
-                <div className="relative w-full max-w-[220px] aspect-[9/19] bg-text-dark rounded-[2rem] p-2.5 shadow-glass ring-1 ring-white/10">
+                <div className="relative w-full h-full bg-text-dark rounded-[2rem] p-2.5 shadow-glass ring-1 ring-white/10">
                   {/* Notch decorativo */}
                   <div
                     aria-hidden="true"
@@ -102,7 +102,7 @@ export function ComoFunciona() {
                 </div>
 
                 {/* Caption del screen */}
-                <p className="absolute -bottom-3 left-1/2 -translate-x-1/2 glass-strong rounded-full px-3 py-1 text-[10px] font-medium text-text-dark whitespace-nowrap">
+                <p className="absolute -bottom-3 left-1/2 -translate-x-1/2 glass-strong rounded-full px-3 py-1 text-[10px] font-medium text-text-dark whitespace-nowrap z-30">
                   {step.mockupLabel}
                 </p>
               </div>

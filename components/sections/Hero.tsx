@@ -34,7 +34,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative overflow-hidden pt-36 pb-20 px-5 md:pt-44 md:pb-28 md:px-8"
+      className="relative overflow-hidden pt-28 pb-16 px-5 md:pt-44 md:pb-28 md:px-8"
     >
       <MeshAurora variant="light" blobs grain />
 
@@ -72,7 +72,10 @@ export default function Hero() {
                   5.0
                 </span>
                 <span className="text-[11px] text-text-muted">
-                  · +2.500 pacientes · 10 años
+                  · +2.500 pacientes
+                </span>
+                <span className="hidden sm:inline text-[11px] text-text-muted">
+                  · 10 años
                 </span>
               </a>
             </motion.div>

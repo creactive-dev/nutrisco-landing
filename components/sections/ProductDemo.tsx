@@ -44,7 +44,7 @@ export function ProductDemo() {
 
       {/* Carrusel de screens reales */}
       <motion.div
-        className="relative z-10 max-w-md mx-auto"
+        className="relative z-10 w-[260px] sm:w-[300px] md:w-[360px] mx-auto"
         initial={{ opacity: 0, scale: 0.96 }}
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true, margin: "-60px" }}
@@ -57,11 +57,11 @@ export function ProductDemo() {
         />
 
         {/* iPhone frame con screen real */}
-        <div className="relative bg-text-dark rounded-[2.5rem] p-3 shadow-glass ring-1 ring-white/10">
+        <div className="relative bg-text-dark rounded-[2.5rem] p-2.5 md:p-3 shadow-glass ring-1 ring-white/10">
           {/* Notch */}
           <div
             aria-hidden="true"
-            className="absolute top-3 left-1/2 -translate-x-1/2 w-28 h-7 bg-text-dark rounded-b-2xl z-30"
+            className="absolute top-2.5 md:top-3 left-1/2 -translate-x-1/2 w-20 md:w-28 h-5 md:h-7 bg-text-dark rounded-b-2xl z-30"
           />
           <div className="relative aspect-[9/19] w-full bg-surface-low rounded-[2rem] overflow-hidden">
             {screens.map((screen, idx) => (
@@ -77,7 +77,7 @@ export function ProductDemo() {
                   src={screen.src}
                   alt={`App Nutrico — ${screen.label}`}
                   fill
-                  sizes="(min-width: 768px) 400px, 90vw"
+                  sizes="(min-width: 768px) 360px, 260px"
                   className="object-cover object-top"
                 />
               </div>
@@ -86,15 +86,17 @@ export function ProductDemo() {
         </div>
 
         {/* Label flotante step */}
-        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 glass-strong rounded-full px-4 py-2 flex items-center gap-2">
+        <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 glass-strong rounded-full px-3 md:px-4 py-1.5 md:py-2 flex items-center gap-1.5 md:gap-2 whitespace-nowrap z-30">
           <span
             aria-hidden="true"
             className="w-1.5 h-1.5 rounded-full bg-sandia animate-pulse-soft"
           />
-          <span className="text-[12px] font-semibold text-text-dark">
+          <span className="text-[11px] md:text-[12px] font-semibold text-text-dark">
             {active.label}
           </span>
-          <span className="text-[10px] text-text-muted">· {active.step}</span>
+          <span className="text-[10px] text-text-muted hidden sm:inline">
+            · {active.step}
+          </span>
         </div>
       </motion.div>
 
