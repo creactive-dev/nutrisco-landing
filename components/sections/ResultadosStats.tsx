@@ -42,8 +42,8 @@ export function ResultadosStats() {
             variants={item}
             className="font-serif font-bold text-text-dark text-[2rem] md:text-[2.75rem] leading-[1.1] tracking-[-0.025em]"
           >
-            Los números del{" "}
-            <span className="text-gradient-warm">piloto</span>.
+            21 días,{" "}
+            <span className="text-gradient-warm">en sus palabras</span>.
           </motion.h2>
         </div>
 

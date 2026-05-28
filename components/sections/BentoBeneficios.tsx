@@ -1,10 +1,9 @@
 "use client"
 
-import Image from "next/image"
 import { motion } from "framer-motion"
-import { Activity, Zap, Shirt, Smile, User, ShieldCheck } from "lucide-react"
+import { Activity, Zap, Shirt, Smile, User } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
-import { BENTO_BENEFICIOS, SITE_CONFIG } from "@/lib/constants"
+import { BENTO_BENEFICIOS } from "@/lib/constants"
 import { Eyebrow } from "@/components/ui/Eyebrow"
 
 const iconMap: Record<string, LucideIcon> = {
@@ -13,17 +12,16 @@ const iconMap: Record<string, LucideIcon> = {
   shirt: Shirt,
   smile: Smile,
   user: User,
-  "shield-check": ShieldCheck,
 }
 
-// Bento spans desktop — card de Constanza ocupa 2 col
+// Bento layout — 5 cards, primera span 2 desktop (más prominente)
+// Mobile: 1 col stack | sm: 2 cols | md: 3 cols con primera card hero
 const cellSpan: Record<number, string> = {
-  0: "md:col-span-1",
+  0: "md:col-span-2",
   1: "md:col-span-1",
   2: "md:col-span-1",
   3: "md:col-span-1",
   4: "md:col-span-1",
-  5: "md:col-span-2",
 }
 
 const container = {
@@ -71,7 +69,7 @@ export function BentoBeneficios() {
         >
           {BENTO_BENEFICIOS.cards.map((card, index) => {
             const Icon = iconMap[card.icon] ?? Activity
-            const isConstanza = card.icon === "shield-check"
+            const isHero = index === 0
             const accentColor = index % 2 === 0 ? "sandia" : "celeste"
             return (
               <motion.article
@@ -86,9 +84,7 @@ export function BentoBeneficios() {
                 <div
                   aria-hidden="true"
                   className={`absolute -inset-px rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none ${
-                    isConstanza
-                      ? "bg-gradient-warm-cool"
-                      : accentColor === "sandia"
+                    accentColor === "sandia"
                       ? "bg-gradient-warm"
                       : "bg-gradient-cool"
                   }`}
@@ -101,112 +97,52 @@ export function BentoBeneficios() {
                   }}
                 />
 
-                {isConstanza ? (
-                  // Card de Constanza expandida — col-span-2 desktop, vertical mobile
-                  <div className="relative z-10 flex flex-col md:grid md:grid-cols-[auto_1fr] gap-5 items-start h-full">
-                    {/* Foto real Constanza */}
-                    <div className="relative w-20 h-20 md:w-28 md:h-28 rounded-2xl overflow-hidden ring-2 ring-white/60 shadow-card flex-shrink-0">
-                      <Image
-                        src={SITE_CONFIG.brand.constanzaThumb}
-                        alt="Constanza Jiménez — nutricionista"
-                        fill
-                        sizes="112px"
-                        className="object-cover object-center"
-                      />
-                    </div>
-
-                    <div className="flex flex-col gap-2 h-full">
-                      <div className="flex items-center gap-2">
-                        <ShieldCheck
-                          size={14}
-                          className="text-celeste-600"
-                          aria-hidden="true"
-                        />
-                        <p className="text-[11px] font-semibold text-celeste-600 uppercase tracking-wider">
-                          Supervisión clínica
-                        </p>
-                      </div>
-                      <h3 className="font-serif font-semibold text-[1.25rem] md:text-[1.5rem] text-text-dark leading-snug">
-                        {card.title}
-                      </h3>
-                      <p className="text-[14px] text-text-muted leading-relaxed">
-                        {card.description}
-                      </p>
-
-                      {/* Stats inline */}
-                      <div className="flex flex-wrap items-center gap-4 mt-3 pt-3 border-t border-text-dark/8">
-                        <div>
-                          <p className="text-[20px] font-serif font-bold text-gradient-warm leading-none tabular-nums">
-                            +2.500
-                          </p>
-                          <p className="text-[10px] text-text-muted mt-1 uppercase tracking-wider">
-                            pacientes
-                          </p>
-                        </div>
-                        <div className="h-8 w-px bg-text-dark/10" aria-hidden="true" />
-                        <div>
-                          <p className="text-[20px] font-serif font-bold text-gradient-warm leading-none tabular-nums">
-                            10
-                          </p>
-                          <p className="text-[10px] text-text-muted mt-1 uppercase tracking-wider">
-                            años
-                          </p>
-                        </div>
-                        <div className="h-8 w-px bg-text-dark/10" aria-hidden="true" />
-                        <div>
-                          <p className="text-[20px] font-serif font-bold text-gradient-warm leading-none tabular-nums">
-                            5.0
-                          </p>
-                          <p className="text-[10px] text-text-muted mt-1 uppercase tracking-wider">
-                            Google
-                          </p>
-                        </div>
-                      </div>
-                    </div>
+                <div className="relative z-10 flex flex-col gap-4 h-full">
+                  {/* Icon glass squircle */}
+                  <div
+                    className={[
+                      isHero ? "w-14 h-14" : "w-12 h-12",
+                      "rounded-2xl flex items-center justify-center ring-1 flex-shrink-0",
+                      accentColor === "sandia"
+                        ? "bg-sandia/10 ring-sandia/20 text-sandia-600"
+                        : "bg-celeste/10 ring-celeste/20 text-celeste-600",
+                    ].join(" ")}
+                  >
+                    <Icon size={isHero ? 26 : 22} aria-hidden="true" />
                   </div>
-                ) : (
-                  // Cards normales con descripción + metric
-                  <div className="relative z-10 flex flex-col gap-4 h-full">
-                    {/* Icon glass squircle */}
-                    <div
+
+                  <h3
+                    className={[
+                      "font-serif font-semibold text-text-dark leading-snug",
+                      isHero
+                        ? "text-[1.375rem] md:text-[1.625rem]"
+                        : "text-[1.125rem] md:text-[1.25rem]",
+                    ].join(" ")}
+                  >
+                    {card.title}
+                  </h3>
+
+                  <p className="text-[14px] text-text-muted leading-relaxed flex-1">
+                    {card.description}
+                  </p>
+
+                  {/* Metric chip al fondo */}
+                  <div className="flex items-center gap-2 mt-1 pt-3 border-t border-text-dark/8">
+                    <span
+                      aria-hidden="true"
                       className={[
-                        "w-12 h-12 rounded-2xl flex items-center justify-center ring-1 flex-shrink-0",
-                        accentColor === "sandia"
-                          ? "bg-sandia/10 ring-sandia/20 text-sandia-600"
-                          : "bg-celeste/10 ring-celeste/20 text-celeste-600",
+                        "w-1.5 h-1.5 rounded-full",
+                        accentColor === "sandia" ? "bg-sandia" : "bg-celeste",
                       ].join(" ")}
-                    >
-                      <Icon size={22} aria-hidden="true" />
-                    </div>
-
-                    <h3 className="font-serif font-semibold text-[1.125rem] md:text-[1.25rem] text-text-dark leading-snug">
-                      {card.title}
-                    </h3>
-
-                    <p className="text-[14px] text-text-muted leading-relaxed flex-1">
-                      {card.description}
-                    </p>
-
-                    {/* Metric chip al fondo */}
-                    <div className="flex items-center gap-2 mt-1 pt-3 border-t border-text-dark/8">
-                      <span
-                        aria-hidden="true"
-                        className={[
-                          "w-1.5 h-1.5 rounded-full",
-                          accentColor === "sandia"
-                            ? "bg-sandia"
-                            : "bg-celeste",
-                        ].join(" ")}
-                      />
-                      <span className="text-[12px] font-semibold text-text-dark">
-                        {card.metric}
-                      </span>
-                      <span className="text-[11px] text-text-muted">
-                        · {card.metricLabel}
-                      </span>
-                    </div>
+                    />
+                    <span className="text-[12px] font-semibold text-text-dark">
+                      {card.metric}
+                    </span>
+                    <span className="text-[11px] text-text-muted">
+                      · {card.metricLabel}
+                    </span>
                   </div>
-                )}
+                </div>
               </motion.article>
             )
           })}

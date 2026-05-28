@@ -299,9 +299,25 @@ export const TOP_BAR_SCARCITY = {
 export const TRUST_BAR = {
   headline: "Las primeras 290 mujeres del Reto ya están adentro.",
   stats: [
-    { number: "+2.500", label: "pacientes acompañadas por Constanza en 10 años" },
-    { number: "5.0", label: "promedio en Google · cero reseñas bajo 5 estrellas" },
-    { number: "290", label: "mujeres del Reto graduadas ya están adentro" },
+    {
+      icon: "users",
+      number: "+2.500",
+      label: "pacientes acompañadas",
+      sub: "En 10 años de consulta · La Serena y online",
+    },
+    {
+      icon: "star",
+      number: "5.0",
+      label: "promedio en Google",
+      sub: "Cero reseñas bajo 5 estrellas",
+      cta: "Ver reseñas",
+    },
+    {
+      icon: "sparkles",
+      number: "290",
+      label: "graduadas del Reto",
+      sub: "Fueron las primeras en preguntar qué seguía",
+    },
   ],
 }
 
@@ -385,26 +401,28 @@ export const BENTO_BENEFICIOS = {
       metric: "11 variables",
       metricLabel: "screening personal",
     },
-    {
-      icon: "shield-check",
-      title: "Constanza supervisa cada ajuste",
-      description:
-        "La IA propone, ella decide. Cada cambio de plan pasa por su revisión clínica antes de llegar a ti. 10 años de práctica respaldan cada decisión.",
-      metric: "Revisión clínica",
-      metricLabel: "100% supervisado por Constanza",
-    },
   ],
 }
 
 export const RESULTADOS_STATS = {
-  eyebrow: "Resultados verificados del Reto 21 días",
-  h2: "Los números del piloto.",
+  eyebrow: "Lo que reportaron las que ya lo hicieron",
+  h2: "21 días, en sus palabras.",
   stats: [
-    { number: "+200", label: "mujeres reportaron menos hinchazón en 21 días" },
-    { number: "+200", label: "reportaron mejor energía sostenida según check-in semana 3" },
-    { number: "421%", label: "ROI medido del Reto piloto (290 mujeres · Dic 2025 → Feb 2026)" },
+    {
+      number: "+200",
+      label: "reportaron menos hinchazón antes de la semana 3",
+    },
+    {
+      number: "+200",
+      label: "dijeron tener mejor energía a media tarde",
+    },
+    {
+      number: "290",
+      label: "completaron el Reto y están ahora en Nutrico",
+    },
   ],
-  footnote: "Datos del Reto Antiinflamatorio 21 días · Dic 2025 → Feb 2026",
+  footnote:
+    "Mensajes y respuestas recogidas de las participantes del Reto Antiinflamatorio · diciembre 2025 → febrero 2026",
 }
 
 export const FOUNDER_STORY = {
