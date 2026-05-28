@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion"
 import { Accordion } from "@/components/ui/Accordion"
-import { FAQ_ITEMS } from "@/lib/constants"
+import { FAQ_ITEMS_V2 } from "@/lib/constants"
 
 const container = {
   hidden: {},
@@ -37,7 +37,7 @@ export function FAQ() {
 
         {/* Accordion */}
         <motion.div variants={item}>
-          <Accordion items={FAQ_ITEMS} />
+          <Accordion items={FAQ_ITEMS_V2} />
         </motion.div>
       </motion.div>
     </section>

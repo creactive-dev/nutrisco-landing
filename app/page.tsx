@@ -1,34 +1,36 @@
+import { TopBarScarcity } from "@/components/layout/TopBarScarcity"
 import { Navbar } from "@/components/layout/Navbar"
 import Hero from "@/components/sections/Hero"
-import ElPuente from "@/components/sections/ElPuente"
-import QueIncluye from "@/components/sections/QueIncluye"
-import { Nutricionista } from "@/components/sections/Nutricionista"
+import { TrustBar } from "@/components/sections/TrustBar"
+import { ProblemAgitation } from "@/components/sections/ProblemAgitation"
 import { ComoFunciona } from "@/components/sections/ComoFunciona"
-import { Testimonios } from "@/components/sections/Testimonios"
-import { PrecioFundador } from "@/components/sections/PrecioFundador"
+import { ProductDemo } from "@/components/sections/ProductDemo"
+import { BentoBeneficios } from "@/components/sections/BentoBeneficios"
+import { ResultadosStats } from "@/components/sections/ResultadosStats"
+import { Nutricionista } from "@/components/sections/Nutricionista"
+import { TestimoniosMixto } from "@/components/sections/TestimoniosMixto"
+import { PrecioLas50 } from "@/components/sections/PrecioLas50"
 import { FAQ } from "@/components/sections/FAQ"
-import { CTAFinal } from "@/components/sections/CTAFinal"
+import { CTAFinalScarcity } from "@/components/sections/CTAFinalScarcity"
 import { Footer } from "@/components/layout/Footer"
 
 export default function Home() {
   return (
     <main>
+      <TopBarScarcity />
       <Navbar />
-      <div id="hero">
-        <Hero />
-      </div>
-      <ElPuente />
-      <div id="que-incluye">
-        <QueIncluye />
-      </div>
-      <Nutricionista />
+      <Hero />
+      <TrustBar />
+      <ProblemAgitation />
       <ComoFunciona />
-      <Testimonios />
-      {/* id="precio" está declarado dentro del componente PrecioFundador */}
-      <PrecioFundador />
-      {/* id="faq" está declarado dentro del componente FAQ */}
+      <ProductDemo />
+      <BentoBeneficios />
+      <ResultadosStats />
+      <Nutricionista />
+      <TestimoniosMixto />
+      <PrecioLas50 />
       <FAQ />
-      <CTAFinal />
+      <CTAFinalScarcity />
       <Footer />
     </main>
   )

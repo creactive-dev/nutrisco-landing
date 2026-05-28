@@ -18,29 +18,44 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: `${SITE_CONFIG.name} — Plan alimentario antiinflamatorio personalizado`,
+  metadataBase: new URL(SITE_CONFIG.url),
+  title: "Nutrico · Las 50 Primeras · Tu cuerpo sin inflamación en 60 días",
   description:
-    "Tu plan alimentario antiinflamatorio diseñado por Constanza y su equipo. Personalizado para tus síntomas, ajustado cada 15 días. Precio fundador $19.990/mes.",
+    "El plan antiinflamatorio chileno que se ajusta a quién eres tú. Diseñado por Constanza Jiménez Paschold, Nutricionista. Apertura viernes 5 de junio · 50 cupos fundadoras.",
   keywords: [
     "nutrición antiinflamatoria",
     "plan alimentario personalizado",
-    "Constanza nutricionista",
-    "Nutrisco",
+    "Constanza Jiménez Paschold nutricionista",
+    "Nutrico",
+    "Las 50 Primeras",
     "alimentación antiinflamatoria Chile",
+    "reembolso isapre nutricionista",
+    "boleta exenta IVA nutrición",
   ],
   openGraph: {
-    title: "Nutrisco — Tu plan antiinflamatorio personalizado",
+    title: "Nutrico · Las 50 Primeras · Tu cuerpo sin inflamación en 60 días",
     description:
-      "El plan que continúa después del Reto. Diseñado por Constanza, ajustado cada 15 días.",
+      "El plan antiinflamatorio chileno que se ajusta a quién eres tú. Diseñado por Constanza Jiménez Paschold, Nutricionista. Apertura viernes 5 de junio · 50 cupos fundadoras.",
     url: SITE_CONFIG.url,
     siteName: SITE_CONFIG.name,
     locale: "es_CL",
     type: "website",
+    images: [
+      {
+        // TODO: replace with /og-constanza-las-50.jpg (1200x630)
+        url: "/og-constanza-las-50.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Constanza Jiménez Paschold · Nutrico · Las 50 Primeras",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Nutrisco — Tu plan antiinflamatorio personalizado",
-    description: "El plan que continúa después del Reto.",
+    title: "Nutrico · Las 50 Primeras · Tu cuerpo sin inflamación en 60 días",
+    description:
+      "El plan antiinflamatorio chileno que se ajusta a quién eres tú. Apertura viernes 5 de junio · 50 cupos fundadoras.",
+    images: ["/og-constanza-las-50.jpg"],
   },
   robots: {
     index: true,

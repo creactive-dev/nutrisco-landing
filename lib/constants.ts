@@ -1,17 +1,22 @@
 // ============================================================
-// NUTRISCO LANDING — Constantes centralizadas
+// NUTRICO LANDING — Constantes centralizadas
 // Editar aquí para actualizar copy o configuración
 // ============================================================
 
 export const SITE_CONFIG = {
-  name: "Nutrisco",
+  name: "Nutrico",
   tagline: "Tu plan alimentario antiinflamatorio, personalizado por Constanza",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://nutrisco.cl",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://nutrico.constanzanutricion.cl",
   mpPaymentUrl: process.env.NEXT_PUBLIC_MP_PAYMENT_URL ?? "#",
   whatsappNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "56900000000",
-  whatsappMessage: "Hola Constanza, tengo una pregunta sobre Nutrisco",
+  whatsappMessage: "Hola Constanza, tengo una pregunta sobre Nutrico",
   instagram: "@constanza.nutricion",
-  email: "hola@nutrisco.cl",
+  email: "hola@constanzanutricion.cl",
+  legal: {
+    razonSocial: "Constanza Jiménez Paschold",
+    rut: "78.120.238-K",
+    direccion: "Jorge Montt 538, La Serena, Chile",
+  },
 }
 
 export const NAVBAR = {
@@ -25,24 +30,26 @@ export const NAVBAR = {
 }
 
 export const HERO = {
+  eyebrow: "Nutrición antiinflamatoria · Por Constanza Jiménez Paschold",
   badge: "Precio fundador · $19.990/mes",
-  h1: ["El Reto terminó.", "Tu cuerpo no."],
+  h1: ["Tu cuerpo sin inflamación,", "en 60 días."],
   subtitle:
-    "Tu plan alimentario diseñado por Constanza y su equipo — personalizado para tus síntomas, ajustado cada 15 días, con soporte siempre disponible.",
+    "El plan antiinflamatorio chileno que se ajusta a quién eres tú. Diseñado por Constanza, supervisado por ella.",
   trustBadges: [
     { icon: "shield-check", text: "Reembolso isapre" },
     { icon: "receipt", text: "Boleta exenta IVA" },
-    { icon: "lock", text: "Precio bloqueado de por vida" },
+    { icon: "lock", text: "Sin permanencia" },
+    { icon: "x-circle", text: "Cancelas cuando quieras" },
   ],
-  cta: "Quiero mi plan personalizado →",
-  microcopy: "Sin permanencia. Cancelas cuando quieras.",
+  cta: "Quiero mi plan →",
+  microcopy: "Boleta exenta IVA · reembolso isapre · sin permanencia · cancelas cuando quieras",
 }
 
 export const PUENTE = {
   eyebrow: "Para quienes ya hicieron el Reto",
   h2: ["Ya diste el primer paso.", "El más difícil ya pasó."],
   p1: "Durante 21 días probaste que puedes. Viste lo que la alimentación antiinflamatoria hace con tu cuerpo cuando le das la oportunidad.",
-  p2: "Nutrisco es lo que viene después del ebook: un plan diseñado para ti específicamente — no un PDF genérico — que evoluciona con tu progreso cada quince días.",
+  p2: "Nutrico es lo que viene después del ebook: un plan diseñado para ti específicamente — no un PDF genérico — que evoluciona con tu progreso cada quince días.",
 }
 
 export const QUE_INCLUYE = {
@@ -78,7 +85,7 @@ export const QUE_INCLUYE = {
       icon: "bar-chart-2",
       title: "Tu plan evoluciona",
       description:
-        "Cada 15 días haces un check-in y el equipo ajusta tu plan según tu progreso.",
+        "Cada 15 días haces un check-in y Constanza ajusta tu plan según tu progreso.",
       featured: false,
     },
     {
@@ -103,7 +110,7 @@ export const QUE_INCLUYE = {
       icon: "refresh-cw",
       title: "Tu plan nunca se queda quieto",
       description:
-        "El equipo revisa tu progreso cada 15 días y hace los ajustes que necesitas para seguir avanzando.",
+        "Constanza revisa tu progreso cada 15 días y aprueba los ajustes que necesitas para seguir avanzando. La tecnología asiste, ella decide.",
       featured: false,
       fullWidth: true,
     },
@@ -112,46 +119,47 @@ export const QUE_INCLUYE = {
 
 export const NUTRICIONISTA = {
   eyebrow: "Tu nutricionista",
-  name: "Constanza Paschold N.",
+  name: "Constanza Jiménez Paschold",
   title: "Nutricionista clínica · Especialista en nutrición antiinflamatoria",
   stat: "290+",
   statLabel: "personas acompañadas",
   quote:
-    "Diseñé cada pauta pensando en que la alimentación sea un alivio, no un castigo. Nutrisco me permite acompañar a muchas más personas con la misma atención que pongo en cada consulta.",
+    "Diseñé cada pauta pensando en que la alimentación sea un alivio, no un castigo. Nutrico me permite acompañar a muchas más personas con la misma atención que pongo en cada consulta.",
   credentials: [
     "Especialización en nutrición funcional y antiinflamatoria",
     "Metodología probada con más de 290 pacientes",
+    "Cada pauta y cada ajuste pasan por mi revisión clínica antes de llegar a ti",
     "Disponible mensualmente en sesión grupal en vivo",
   ],
 }
 
 export const COMO_FUNCIONA = {
   eyebrow: "El proceso",
-  h2: ["Cuatro pasos.", "Un solo objetivo: que tu cuerpo funcione bien."],
+  h2: ["Tres pasos.", "Tu cuerpo, distinto."],
   steps: [
     {
       number: "01",
-      title: "Suscríbete",
+      title: "Cuestionario de 10 min",
       description:
-        "$19.990/mes. Sin contratos, sin permanencia. Reembolsable por tu isapre.",
+        "Cuéntanos tus síntomas, objetivos, restricciones y hábitos. Cada respuesta entra al motor que asigna tu pauta.",
+      mockup: "mock-screening-paso5.png",
+      mockupLabel: "Screening · paso 5/11",
     },
     {
       number: "02",
-      title: "Responde el screening",
+      title: "Tu plan en 24 horas",
       description:
-        "Un cuestionario de 10 minutos donde le cuentas a Constanza tus síntomas, objetivos y hábitos actuales.",
+        "Constanza revisa tu screening y aprueba tu plan personalizado. Lo recibes con recetas, lista de compras y agenda semanal.",
+      mockup: "mock-dashboard-home.png",
+      mockupLabel: "Tu plan del día",
     },
     {
       number: "03",
-      title: "Recibe tu plan en 24 horas",
+      title: "Tu plan evoluciona contigo cada 15 días",
       description:
-        "Constanza y su equipo revisan tu perfil y diseñan tu plan alimentario personalizado. Nada genérico.",
-    },
-    {
-      number: "04",
-      title: "Soporte continuo",
-      description:
-        "Check-in quincenal, ajustes de plan, soporte disponible y sesión mensual en vivo. Tu progreso, acompañado.",
+        "Cada quincena haces un check-in y tu plan se ajusta. Sin estancarte. Sin volver a empezar.",
+      mockup: "mock-checkin-quincenal.png",
+      mockupLabel: "Check-in quincenal",
     },
   ],
 }
@@ -177,7 +185,7 @@ export const TESTIMONIOS = {
     {
       badge: "Digestión",
       quote:
-        "Después del Reto de 21 días sabía que quería seguir, pero sola no podía mantenerlo. Nutrisco me da la estructura que necesito y el respaldo de Constanza cuando tengo dudas.",
+        "Después del Reto de 21 días sabía que quería seguir, pero sola no podía mantenerlo. Nutrico me da la estructura que necesito y el respaldo de Constanza cuando tengo dudas.",
       name: "Claudia M.",
       detail: "38 años",
     },
@@ -185,11 +193,12 @@ export const TESTIMONIOS = {
 }
 
 export const PRECIO = {
-  eyebrow: "Precio fundador",
+  eyebrow: "Precio fundador · Solo 50 cupos",
   h2: ["Entraste primero.", "El precio lo reconoce."],
   price: "$19.990",
   period: "/mes",
   priceLabel: "Precio fundador — bloqueado de por vida",
+  cuposBadge: "50 cupos · En orden de inscripción",
   benefits: [
     {
       icon: "shield-check",
@@ -224,15 +233,15 @@ export const FAQ_ITEMS = [
   },
   {
     q: "¿Cómo funciona el reembolso por isapre?",
-    a: "Nutrisco emite boleta exenta de IVA en cada cobro mensual. Muchas isapres cubren servicios nutricionales bajo su beneficio de salud: preséntala directamente y recupera parte o el total del costo. Consulta con tu isapre qué código de prestación aplica.",
+    a: "Por cada cobro mensual recibes una boleta electrónica exenta de IVA dentro de 48 horas hábiles. Muchas isapres cubren servicios nutricionales bajo su beneficio de salud: preséntala directamente y recupera parte o el total del costo. Consulta con tu isapre qué código de prestación aplica.",
   },
   {
-    q: "¿La boleta exenta de IVA es automática?",
-    a: "Sí. Cada cobro genera una boleta exenta de IVA automáticamente. La recibirás por email.",
+    q: "¿Cuándo recibo la boleta exenta de IVA?",
+    a: "Dentro de 48 horas hábiles desde la confirmación del pago. La recibes en tu correo registrado y puedes presentarla a tu isapre para reembolso.",
   },
   {
     q: "¿Es lo mismo que el ebook del Reto?",
-    a: "No. El ebook fue un plan fijo de 21 días. Nutrisco es un plan personalizado para tu perfil específico que se ajusta cada 15 días, con soporte continuo y sesión mensual con Constanza.",
+    a: "No. El ebook fue un plan fijo de 21 días. Nutrico es un plan personalizado para tu perfil específico que se ajusta cada 15 días, con soporte continuo y sesión mensual con Constanza.",
   },
   {
     q: "¿El plan es el mismo para todos?",
@@ -240,7 +249,7 @@ export const FAQ_ITEMS = [
   },
   {
     q: "¿Necesito instalar una aplicación?",
-    a: "No. Nutrisco funciona desde el navegador de tu celular. Solo necesitas crear una cuenta después de suscribirte.",
+    a: "No. Nutrico funciona desde el navegador de tu celular. Solo necesitas crear una cuenta después de suscribirte.",
   },
   {
     q: "¿Cada cuánto se ajusta mi plan?",
@@ -255,15 +264,229 @@ export const FAQ_ITEMS = [
 export const CTA_FINAL = {
   price: "$19.990/mes",
   priceLabel: "Precio fundador · Bloqueado de por vida",
-  urgency: "Disponible mientras dure la etapa de lanzamiento",
+  urgency: "Solo 50 cupos · Bloqueas el precio por vida",
   cta: "Quiero mi plan personalizado →",
   microcopy: "Reembolsable por tu isapre · Sin permanencia · Cancelas cuando quieras.",
 }
 
 export const FOOTER = {
   legal: [
-    { label: "Términos y condiciones", href: "#" },
-    { label: "Política de privacidad", href: "#" },
+    { label: "Términos y condiciones", href: "/terminos" },
+    { label: "Política de privacidad", href: "/privacidad" },
+    { label: "Eliminación de datos", href: "/privacidad#eliminacion" },
   ],
-  copyright: "© 2026 Nutrisco · Constanza Paschold N.",
+  copyright: "© 2026 Nutrico · Constanza Jiménez Paschold",
 }
+
+// ============================================================
+// LANDING V2 — Hormozi redesign · "Las 50 Primeras"
+// Nuevos exports agregados 2026-05-28
+// ============================================================
+
+export const TOP_BAR_SCARCITY = {
+  message: "Apertura vie 5 jun · 9 AM · Solo 50 cupos fundadoras",
+  messageMobile: "5-jun · 9 AM · 50 cupos",
+  cta: "Reservar mi cupo",
+  ctaHref: "#precio",
+}
+
+export const TRUST_BAR = {
+  headline: "Las primeras 290 mujeres del Reto ya están adentro.",
+  stats: [
+    { number: "290", label: "mujeres del Reto ya están adentro" },
+    { number: "+1.200", label: "pacientes acompañadas por Constanza históricas" },
+    { number: "26", label: "pautas antiinflamatorias diseñadas por ella" },
+  ],
+}
+
+export const PROBLEM_AGITATION = {
+  h2: "Los planes nutricionales son genéricos. Tu cuerpo no.",
+  body: "Si terminaste el Reto a principios de año y volviste a sentirte hinchada, lo entiendes.",
+}
+
+export const PRODUCT_DEMO = {
+  eyebrow: "Mira cómo se ve adentro",
+  h2: "Tu plan, listo en 24 horas.",
+  microcopy: "Tap para activar audio · Constanza te lo cuenta",
+  videoSrc: "/mockups/mock-flow-completo.mp4",
+  posterSrc: "/mockups/mock-flow-poster.jpg",
+}
+
+export const BENTO_BENEFICIOS = {
+  eyebrow: "Lo que vas a sentir",
+  h2: ["Todo lo que necesitas.", "Nada que no necesitas."],
+  cards: [
+    { icon: "activity", title: "Despertarás sin hinchazón" },
+    { icon: "zap", title: "Energía que dura todo el día" },
+    { icon: "shirt", title: "Ropa que dejaste de usar" },
+    { icon: "smile", title: "Comer sin culpa" },
+    { icon: "user", title: "Tu plan sabe quién eres" },
+    { icon: "shield-check", title: "Constanza supervisa todo" },
+  ],
+}
+
+export const RESULTADOS_STATS = {
+  eyebrow: "Resultados verificados del Reto 21 días",
+  h2: "Los números del piloto.",
+  stats: [
+    { number: "+200", label: "mujeres reportaron menos hinchazón en 21 días" },
+    { number: "+200", label: "reportaron mejor energía sostenida según check-in semana 3" },
+    { number: "421%", label: "ROI medido del Reto piloto (290 mujeres · Dic 2025 → Feb 2026)" },
+  ],
+  footnote: "Datos del Reto Antiinflamatorio 21 días · Dic 2025 → Feb 2026",
+}
+
+export const FOUNDER_STORY = {
+  eyebrow: "Quién está detrás de Nutrico",
+  name: "Constanza Jiménez Paschold",
+  title: "Nutricionista clínica · Especialista en nutrición antiinflamatoria",
+  h3: "Yo soy Constanza Jiménez Paschold, Nutricionista clínica.",
+  body: "Llevo años escuchando lo mismo en consulta: \"no sé qué comer, lo intenté pero volví a lo mismo\". A principios de año hice el Reto Antiinflamatorio 21 días — y casi 300 mujeres me escribieron preguntando qué seguía. Estos meses los pasé construyendo eso. Nutrico no es un ebook nuevo · es la plataforma que pensé para que después del Reto el cuerpo no se devuelva.",
+  credentials: [
+    "Nutricionista titulada",
+    "Especialización en nutrición antiinflamatoria",
+    "+1.200 pacientes acompañadas históricas",
+    "Cada pauta y cada ajuste pasan por mi revisión clínica",
+  ],
+  quote: "La IA asiste, yo decido.",
+}
+
+export const TESTIMONIOS_MIXTO = {
+  eyebrow: "Mujeres del Reto cuentan",
+  h2: "No tengo que convencerte yo.",
+  videos: [
+    {
+      id: "v1",
+      name: "María P.",
+      age: "34 años",
+      topic: "Hinchazón",
+      poster: "/testimonios/testimonio-1-poster.jpg",
+    },
+    {
+      id: "v2",
+      name: "Valentina R.",
+      age: "41 años",
+      topic: "Energía",
+      poster: "/testimonios/testimonio-2-poster.jpg",
+    },
+    {
+      id: "v3",
+      name: "Claudia M.",
+      age: "38 años",
+      topic: "Digestión",
+      poster: "/testimonios/testimonio-3-poster.jpg",
+    },
+  ],
+  whatsappFooter: "Mensajes reales · Diciembre 2025 → Abril 2026 · publicados con autorización",
+  whatsapps: [
+    {
+      id: "w1",
+      author: "Camila · 36",
+      message: "Constanza, después del Reto siento mucho más liviana. Hoy desperté sin hinchazón por primera vez en años.",
+    },
+    {
+      id: "w2",
+      author: "Pamela · 42",
+      message: "El plan tuyo es lo único que he podido sostener. No tengo que pensar qué comer.",
+    },
+    {
+      id: "w3",
+      author: "Javiera · 29",
+      message: "Mi marido me dice que ando con más energía. Voy a contarles a las cabras del grupo.",
+    },
+    {
+      id: "w4",
+      author: "Loreto · 45",
+      message: "Bajé 3 kilos sin pasar hambre. Nunca había hecho una pauta tan sostenible.",
+    },
+    {
+      id: "w5",
+      author: "Daniela · 38",
+      message: "Las recetas son simples, fáciles, ricas. Mi hija de 8 también las come.",
+    },
+    {
+      id: "w6",
+      author: "Constanza A. · 33",
+      message: "Después del segundo check-in el plan se ajustó perfecto. Sentí que me escuchaste de verdad.",
+    },
+  ],
+}
+
+export const VALUE_STACK = {
+  eyebrow: "Tarifa Las 50 Primeras",
+  h2: ["$19.990 hoy.", "$258.000 de valor real."],
+  monthlyItems: [
+    { label: "Plan antiinflamatorio personalizado con IA", value: 89000 },
+    { label: "Check-in quincenal con ajuste de tu plan", value: 60000 },
+    { label: "84 recetas chilenas filtradas para tu pauta", value: 29000 },
+    { label: "Comunidad WhatsApp privada Las 50 Primeras", value: 40000 },
+    { label: "Lista de compras semanal automática", value: 15000 },
+    { label: "Tracker de síntomas + reporte mensual", value: 25000 },
+  ],
+  monthlyTotal: 258000,
+  bonusEyebrow: "Bonus exclusivo Las 50 Primeras",
+  bonusItems: [
+    { label: "PDF Reto Antiinflamatorio 21 días", value: 14990 },
+    { label: "Libro digital \"Recetas antiinflamatorias para la cocina chilena\"", value: 34990 },
+    { label: "Recetario navideño antiinflamatorio (entregable dic-2026)", value: 19990 },
+  ],
+  bonusTotal: 69970,
+  price: 19990,
+  priceLabel: "/mes bloqueado de por vida",
+  priceAfter: 34990,
+  priceAfterLabel: "Después de las 50 primeras: $34.990/mes",
+  cta: "Quiero ser una de Las 50 Primeras →",
+  microcopy: "Sin permanencia · cancelas cuando quieras · boleta exenta IVA",
+}
+
+export const CTA_FINAL_V2 = {
+  h2: "Las 50 Primeras de Nutrico.",
+  sub: "Tu plan. Tu cuerpo. Tu lugar entre las primeras.",
+  counter: "50 cupos disponibles · arranque vie 5 jun 9 AM",
+  cta: "Quiero mi cupo · $19.990/mes →",
+  microcopy: "Sin permanencia · cancelas cuando quieras · boleta exenta IVA · arranque vie 5 jun 9 AM",
+}
+
+// FAQ v2 — agrega 2 preguntas críticas + modifica boleta
+export const FAQ_ITEMS_V2 = [
+  {
+    q: "¿Cómo es diferente del Reto que ya hice?",
+    a: "El Reto fue un PDF de 21 días con un plan fijo, igual para todas las que lo compraron. Nutrico es una plataforma con tu plan personalizado según tu screening (síntomas, objetivos, restricciones), que se ajusta cada 15 días según cómo te sientas. El Reto fue el primer paso. Nutrico es lo que sostiene los resultados.",
+  },
+  {
+    q: "¿Qué pasa al mes 31 si entré como Las 50 Primeras?",
+    a: "Tu precio queda bloqueado en $19.990/mes de por vida mientras mantengas tu suscripción activa. No importa si subimos el precio público a $34.990 o más adelante — tú sigues pagando $19.990. Si cancelas y vuelves después, ya no aplica.",
+  },
+  {
+    q: "¿Puedo cancelar cuando quiera?",
+    a: "Sí. No hay permanencia ni contratos. Puedes cancelar en cualquier momento desde tu perfil o escribiéndonos por WhatsApp.",
+  },
+  {
+    q: "¿Cómo funciona el reembolso por isapre?",
+    a: "Por cada cobro mensual recibes una boleta electrónica exenta de IVA dentro de 48 horas hábiles. Muchas isapres cubren servicios nutricionales bajo su beneficio de salud: preséntala directamente y recupera parte o el total del costo. Consulta con tu isapre qué código de prestación aplica.",
+  },
+  {
+    q: "¿Cuándo recibo la boleta exenta de IVA?",
+    a: "Dentro de 48 horas hábiles desde la confirmación del pago. La recibes en tu correo registrado y puedes presentarla a tu isapre para reembolso. La emisión es manual durante las primeras semanas (Constanza la firma) — eso garantiza que esté correcta.",
+  },
+  {
+    q: "¿El plan es el mismo para todos?",
+    a: "No. Constanza y su equipo diseñan tu plan basado en tu cuestionario inicial: síntomas, objetivos, condiciones y hábitos. Cada plan es distinto.",
+  },
+  {
+    q: "¿Necesito instalar una aplicación?",
+    a: "No. Nutrico funciona desde el navegador de tu celular. Solo necesitas crear una cuenta después de suscribirte.",
+  },
+  {
+    q: "¿Cada cuánto se ajusta mi plan?",
+    a: "Cada 15 días recibes un formulario de check-in. Con esas respuestas, Constanza revisa y ajusta tu plan para la siguiente quincena.",
+  },
+  {
+    q: "¿Puedo hacer preguntas directamente a Constanza?",
+    a: "En la comunidad WhatsApp privada de Las 50 Primeras, sí. Para dudas del día a día tienes soporte con IA disponible las 24 horas, basado en su metodología.",
+  },
+  {
+    q: "¿Qué pasa si necesito pausar mi suscripción?",
+    a: "Escríbenos por WhatsApp y te ayudamos a pausar hasta 30 días sin perder tu precio bloqueado. Si necesitas pausar más tiempo, conversamos caso a caso.",
+  },
+]

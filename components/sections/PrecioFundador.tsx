@@ -82,6 +82,17 @@ export function PrecioFundador() {
             {PRECIO.priceLabel}
           </p>
 
+          {/* Badge de cupos */}
+          <div className="inline-flex items-center gap-1.5 mt-3 px-3 py-1 bg-sandia/10 border border-sandia/20 rounded-full">
+            <span
+              aria-hidden="true"
+              className="w-1.5 h-1.5 rounded-full bg-sandia animate-pulse"
+            />
+            <span className="text-[12px] font-medium text-sandia tracking-tight">
+              {PRECIO.cuposBadge}
+            </span>
+          </div>
+
           {/* Separador tonal */}
           <div
             aria-hidden="true"

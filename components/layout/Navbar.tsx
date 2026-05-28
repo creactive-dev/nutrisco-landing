@@ -34,7 +34,7 @@ export function Navbar() {
             nutri
           </span>
           <span className="font-serif text-xl font-bold tracking-tight text-sandia">
-            sco
+            co
           </span>
         </a>
 
