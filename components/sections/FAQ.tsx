@@ -3,6 +3,7 @@
 import { motion } from "framer-motion"
 import { Accordion } from "@/components/ui/Accordion"
 import { FAQ_ITEMS_V2 } from "@/lib/constants"
+import { Eyebrow } from "@/components/ui/Eyebrow"
 
 const container = {
   hidden: {},
@@ -20,9 +21,14 @@ const item = {
 
 export function FAQ() {
   return (
-    <section id="faq" className="bg-crema py-16 px-5 md:py-24 md:px-8">
+    <section
+      id="faq"
+      className="relative overflow-hidden bg-crema py-20 px-5 md:py-28 md:px-8"
+    >
+      <div aria-hidden="true" className="absolute inset-0 aurora-mesh-soft opacity-50" />
+
       <motion.div
-        className="max-w-2xl mx-auto"
+        className="relative z-10 max-w-2xl mx-auto"
         variants={container}
         initial="hidden"
         whileInView="visible"
@@ -30,13 +36,17 @@ export function FAQ() {
       >
         {/* Header */}
         <motion.div variants={item} className="text-center mb-10">
+          <div className="inline-flex mb-5">
+            <Eyebrow tone="celeste">Resolvemos tus dudas</Eyebrow>
+          </div>
           <h2 className="font-serif font-bold text-text-dark text-[2rem] md:text-[2.75rem] leading-[1.1] tracking-[-0.025em]">
-            Preguntas frecuentes
+            Preguntas{" "}
+            <span className="text-gradient-warm">frecuentes</span>
           </h2>
         </motion.div>
 
-        {/* Accordion */}
-        <motion.div variants={item}>
+        {/* Accordion en glass card */}
+        <motion.div variants={item} className="glass rounded-3xl p-2 md:p-3">
           <Accordion items={FAQ_ITEMS_V2} />
         </motion.div>
       </motion.div>

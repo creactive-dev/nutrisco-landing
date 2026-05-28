@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { ChevronDown } from "lucide-react"
+import { Plus } from "lucide-react"
 
 type AccordionItem = {
   q: string
@@ -29,26 +29,37 @@ export function Accordion({ items }: AccordionProps) {
 
         return (
           <div key={index}>
-            {/* Item del acordeón */}
-            <div className="py-4">
+            <div className="px-4 py-4">
               <button
                 type="button"
                 onClick={() => toggle(index)}
                 aria-expanded={isOpen}
                 className="w-full flex items-start justify-between gap-4 text-left group"
               >
-                <span className="text-sm font-semibold text-text-dark group-hover:text-sandia transition-colors duration-150 leading-snug">
+                <span
+                  className={[
+                    "text-[15px] font-semibold leading-snug transition-colors duration-200",
+                    isOpen
+                      ? "text-text-dark"
+                      : "text-text-dark group-hover:text-sandia",
+                  ].join(" ")}
+                >
                   {item.q}
                 </span>
 
-                {/* Chevron con rotación animada */}
+                {/* Plus rotating to X */}
                 <motion.span
-                  animate={{ rotate: isOpen ? 180 : 0 }}
-                  transition={{ duration: 0.22, ease: "easeInOut" }}
-                  className="flex-shrink-0 mt-0.5 text-text-muted"
+                  animate={{ rotate: isOpen ? 45 : 0 }}
+                  transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
+                  className={[
+                    "flex-shrink-0 mt-0.5 w-6 h-6 rounded-full flex items-center justify-center transition-colors duration-200",
+                    isOpen
+                      ? "bg-sandia text-white"
+                      : "bg-surface-high text-text-muted group-hover:bg-sandia/10 group-hover:text-sandia",
+                  ].join(" ")}
                   aria-hidden="true"
                 >
-                  <ChevronDown size={16} strokeWidth={2} />
+                  <Plus size={14} strokeWidth={2.5} />
                 </motion.span>
               </button>
 
@@ -60,10 +71,10 @@ export function Accordion({ items }: AccordionProps) {
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: "auto" }}
                     exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.25, ease: "easeInOut" }}
+                    transition={{ duration: 0.28, ease: [0.25, 0.1, 0.25, 1] }}
                     className="overflow-hidden"
                   >
-                    <p className="pt-2.5 text-sm text-text-muted leading-relaxed">
+                    <p className="pt-3 pr-8 text-[14px] text-text-muted leading-relaxed">
                       {item.a}
                     </p>
                   </motion.div>
@@ -71,9 +82,12 @@ export function Accordion({ items }: AccordionProps) {
               </AnimatePresence>
             </div>
 
-            {/* Separador tonal — NO usar <hr> */}
+            {/* Separador tonal sutil */}
             {!isLast && (
-              <div className="h-px w-full bg-surface-high" aria-hidden="true" />
+              <div
+                className="h-px w-full bg-text-dark/8 mx-auto"
+                aria-hidden="true"
+              />
             )}
           </div>
         )

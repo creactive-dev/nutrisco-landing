@@ -3,7 +3,7 @@
 import { motion } from "framer-motion"
 import type { ComponentPropsWithoutRef } from "react"
 
-type ButtonVariant = "primary" | "secondary"
+type ButtonVariant = "primary" | "secondary" | "ghost"
 
 type BaseProps = {
   variant?: ButtonVariant
@@ -27,12 +27,20 @@ type ButtonProps = ButtonAsAnchor | ButtonAsButton
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary:
-    "bg-sandia text-white rounded-xl px-5 py-2.5 text-sm font-semibold shadow-card-sm hover:bg-[#d63a4a] transition-colors duration-150",
+    "relative overflow-hidden bg-gradient-warm text-white rounded-full px-5 py-2.5 text-sm font-semibold shadow-glow-sandia hover:shadow-[0_0_0_1px_rgba(233,69,85,0.24),0_12px_36px_-4px_rgba(233,69,85,0.40)] transition-all duration-250",
   secondary:
-    "border border-sandia/30 text-sandia bg-transparent rounded-xl px-5 py-2.5 text-sm font-semibold hover:bg-sandia/5 transition-colors duration-150",
+    "glass-pill text-text-dark rounded-full px-5 py-2.5 text-sm font-semibold hover:shadow-glass transition-all duration-250",
+  ghost:
+    "text-text-dark rounded-full px-5 py-2.5 text-sm font-semibold hover:bg-text-dark/5 transition-colors duration-200",
 }
 
-export function Button({ variant = "primary", children, className = "", pulse = false, ...rest }: ButtonProps) {
+export function Button({
+  variant = "primary",
+  children,
+  className = "",
+  pulse = false,
+  ...rest
+}: ButtonProps) {
   const classes = [
     variantClasses[variant],
     variant === "primary" && pulse ? "animate-breathe" : "",
@@ -43,21 +51,33 @@ export function Button({ variant = "primary", children, className = "", pulse = 
     .join(" ")
 
   const motionProps = {
-    whileHover: { scale: 1.01 },
-    whileTap: { scale: 0.99 },
-    transition: { duration: 0.15, ease: "easeOut" },
+    whileHover: { scale: 1.02, y: -1 },
+    whileTap: { scale: 0.98 },
+    transition: { duration: 0.18, ease: "easeOut" },
   }
+
+  // Shimmer inner para primary
+  const shimmer =
+    variant === "primary" ? (
+      <span
+        aria-hidden="true"
+        className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none transition-transform duration-700 ease-out group-hover:translate-x-full"
+      />
+    ) : null
 
   if ("href" in rest && rest.href) {
     const { href, ...anchorRest } = rest as ButtonAsAnchor
     return (
       <motion.a
         href={href}
-        className={classes}
+        className={`${classes} group`}
         {...motionProps}
         {...(anchorRest as Record<string, unknown>)}
       >
-        {children}
+        {shimmer}
+        <span className="relative z-10 inline-flex items-center gap-1.5">
+          {children}
+        </span>
       </motion.a>
     )
   }
@@ -67,11 +87,14 @@ export function Button({ variant = "primary", children, className = "", pulse = 
     <motion.button
       type="button"
       onClick={onClick}
-      className={classes}
+      className={`${classes} group`}
       {...motionProps}
       {...(buttonRest as Record<string, unknown>)}
     >
-      {children}
+      {shimmer}
+      <span className="relative z-10 inline-flex items-center gap-1.5">
+        {children}
+      </span>
     </motion.button>
   )
 }

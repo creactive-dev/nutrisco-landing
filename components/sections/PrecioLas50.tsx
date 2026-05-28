@@ -1,8 +1,9 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Check, Gift, CreditCard } from "lucide-react"
+import { Check, Gift, CreditCard, ArrowRight, Sparkles } from "lucide-react"
 import { VALUE_STACK, SITE_CONFIG } from "@/lib/constants"
+import { Eyebrow } from "@/components/ui/Eyebrow"
 
 const container = {
   hidden: {},
@@ -27,41 +28,61 @@ export function PrecioLas50() {
     <section
       id="precio"
       aria-label="Precio Las 50 Primeras"
-      className="bg-surface-low py-16 px-5 md:py-24 md:px-8"
+      className="relative overflow-hidden py-20 px-5 md:py-28 md:px-8"
     >
+      {/* Aurora mesh light */}
+      <div aria-hidden="true" className="absolute inset-0 aurora-mesh" />
+      <div aria-hidden="true" className="grain-subtle" />
+
       <motion.div
-        className="max-w-2xl mx-auto text-center mb-12"
+        className="relative z-10 max-w-2xl mx-auto text-center mb-12"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-80px" }}
         variants={container}
       >
-        <motion.p
-          variants={item}
-          className="text-[13px] font-medium text-sandia uppercase tracking-[0.08em] mb-4"
-        >
-          {VALUE_STACK.eyebrow}
-        </motion.p>
+        <motion.div variants={item} className="inline-flex mb-5">
+          <Eyebrow tone="sandia">{VALUE_STACK.eyebrow}</Eyebrow>
+        </motion.div>
         <motion.h2
           variants={item}
           className="font-serif font-bold text-text-dark text-[2rem] md:text-[3rem] leading-[1.1] tracking-[-0.025em]"
         >
-          {VALUE_STACK.h2[0]}
+          <span className="text-gradient-warm">{VALUE_STACK.h2[0]}</span>
           <br />
           {VALUE_STACK.h2[1]}
         </motion.h2>
       </motion.div>
 
-      {/* Card de precio + value stack */}
+      {/* Card de precio + value stack — glass strong */}
       <motion.div
-        className="max-w-2xl mx-auto"
+        className="relative z-10 max-w-2xl mx-auto"
         initial={{ opacity: 0, y: 24, scale: 0.97 }}
         whileInView={{ opacity: 1, y: 0, scale: 1 }}
         viewport={{ once: true, margin: "-60px" }}
-        transition={{ duration: 0.55, ease: [0.25, 0.1, 0.25, 1] }}
+        transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
       >
-        <div className="bg-crema rounded-4xl p-7 md:p-10 shadow-ambient">
+        {/* Halo dorado detrás de la card */}
+        <div
+          aria-hidden="true"
+          className="absolute -inset-4 bg-gradient-warm-cool opacity-30 rounded-[2.5rem] blur-3xl pointer-events-none"
+        />
+
+        <div className="relative glass-strong rounded-[2rem] p-7 md:p-10 shadow-glass overflow-hidden">
+          {/* Ribbon "founder" decorativo top-right */}
+          <div className="absolute top-6 right-6 glass-pill rounded-full px-3 py-1.5 flex items-center gap-1.5 ring-1 ring-sandia/20">
+            <Sparkles size={12} className="text-sandia" aria-hidden="true" />
+            <span className="text-[11px] font-semibold text-sandia-600 uppercase tracking-wider">
+              Founder
+            </span>
+          </div>
+
           {/* Value Stack mensual */}
+          <div className="mb-1">
+            <p className="text-[12px] font-medium text-text-muted uppercase tracking-wider mb-4">
+              Lo que recibes cada mes
+            </p>
+          </div>
           <ul
             className="flex flex-col gap-3"
             aria-label="Qué incluye tu suscripción"
@@ -69,14 +90,17 @@ export function PrecioLas50() {
             {VALUE_STACK.monthlyItems.map((stackItem, i) => (
               <li
                 key={i}
-                className="flex items-start gap-3 justify-between border-b border-surface-high last:border-0 pb-3 last:pb-0"
+                className="flex items-start gap-3 justify-between border-b border-text-dark/8 last:border-0 pb-3 last:pb-0"
               >
                 <div className="flex items-start gap-3 flex-1 min-w-0">
-                  <Check
-                    size={18}
-                    className="text-celeste flex-shrink-0 mt-0.5"
-                    aria-hidden="true"
-                  />
+                  <span className="flex-shrink-0 w-5 h-5 rounded-full bg-celeste/10 flex items-center justify-center mt-0.5">
+                    <Check
+                      size={12}
+                      className="text-celeste-600"
+                      strokeWidth={2.5}
+                      aria-hidden="true"
+                    />
+                  </span>
                   <span className="text-[14px] md:text-[15px] text-text-dark leading-snug">
                     {stackItem.label}
                   </span>
@@ -89,7 +113,7 @@ export function PrecioLas50() {
           </ul>
 
           {/* Total mensual */}
-          <div className="mt-5 pt-5 border-t-2 border-text-dark flex items-center justify-between">
+          <div className="mt-5 pt-5 border-t-2 border-text-dark/15 flex items-center justify-between">
             <span className="text-[15px] md:text-[16px] font-semibold text-text-dark">
               Valor total mensual
             </span>
@@ -98,16 +122,16 @@ export function PrecioLas50() {
             </span>
           </div>
 
-          {/* Bonus stack */}
-          <div className="mt-8 bg-sandia/5 border border-sandia/20 rounded-3xl p-5 md:p-6">
+          {/* Bonus stack — glass tinted sandia */}
+          <div className="mt-8 relative overflow-hidden rounded-3xl p-5 md:p-6 bg-gradient-to-br from-sandia/10 via-sandia/5 to-celeste/5 ring-1 ring-sandia/20">
             <div className="flex items-center gap-2 mb-4">
               <Gift size={18} className="text-sandia" aria-hidden="true" />
-              <p className="text-[12px] font-semibold text-sandia uppercase tracking-[0.06em]">
+              <p className="text-[12px] font-semibold text-sandia-600 uppercase tracking-[0.08em]">
                 {VALUE_STACK.bonusEyebrow}
               </p>
             </div>
 
-            <ul className="flex flex-col gap-2.5">
+            <ul className="flex flex-col gap-3">
               {VALUE_STACK.bonusItems.map((bonus, i) => (
                 <li
                   key={i}
@@ -116,9 +140,11 @@ export function PrecioLas50() {
                   <div className="flex items-start gap-3 flex-1 min-w-0">
                     <span
                       aria-hidden="true"
-                      className="text-sandia font-bold flex-shrink-0 mt-0.5"
+                      className="flex-shrink-0 w-5 h-5 rounded-full bg-sandia/15 flex items-center justify-center mt-0.5"
                     >
-                      +
+                      <span className="text-sandia font-bold text-[12px]">
+                        +
+                      </span>
                     </span>
                     <span className="text-[14px] text-text-dark leading-snug">
                       {bonus.label}
@@ -132,23 +158,32 @@ export function PrecioLas50() {
             </ul>
 
             <div className="mt-4 pt-4 border-t border-sandia/20 flex items-center justify-between">
-              <span className="text-[13px] font-semibold text-sandia">
+              <span className="text-[13px] font-semibold text-sandia-600">
                 Valor total bonus
               </span>
-              <span className="text-[15px] font-bold text-sandia tabular-nums">
+              <span className="text-[15px] font-bold text-sandia-600 tabular-nums">
                 {formatCLP(VALUE_STACK.bonusTotal)}
               </span>
             </div>
           </div>
 
-          {/* Precio */}
-          <div className="mt-10 text-center">
-            <div className="flex items-baseline justify-center gap-1">
-              <span className="font-serif font-bold text-sandia text-[4.5rem] md:text-[6rem] leading-none">
+          {/* Tarjeta de valor total tachado */}
+          <div className="mt-8 text-center">
+            <p className="text-[13px] text-text-muted mb-2">
+              Valor real combinado:{" "}
+              <span className="font-semibold text-text-dark line-through decoration-text-muted/40 tabular-nums">
+                {formatCLP(VALUE_STACK.monthlyTotal + VALUE_STACK.bonusTotal)}
+              </span>
+            </p>
+            <p className="text-[12px] text-text-muted">Tu precio fundadora hoy:</p>
+
+            {/* Precio principal con gradient */}
+            <div className="flex items-baseline justify-center gap-1 mt-2">
+              <span className="font-serif font-bold text-gradient-warm text-[4.5rem] md:text-[6rem] leading-none tabular-nums">
                 {formatCLP(VALUE_STACK.price)}
               </span>
             </div>
-            <p className="text-[14px] text-text-muted mt-2">
+            <p className="text-[14px] text-text-muted mt-3">
               {VALUE_STACK.priceLabel}
             </p>
 
@@ -164,9 +199,20 @@ export function PrecioLas50() {
           <div className="mt-8">
             <a
               href={SITE_CONFIG.mpPaymentUrl}
-              className="w-full inline-block bg-sandia hover:bg-[#D63B4A] active:bg-[#C0353F] text-white font-semibold rounded-xl py-4 text-[17px] transition-colors duration-200 animate-breathe text-center"
+              className="group relative overflow-hidden w-full inline-flex items-center justify-center gap-2 bg-gradient-warm text-white font-semibold rounded-full py-4 text-[17px] shadow-glow-sandia hover:shadow-[0_0_0_1px_rgba(233,69,85,0.24),0_18px_48px_-6px_rgba(233,69,85,0.45)] transition-all duration-300 animate-breathe text-center"
             >
-              {VALUE_STACK.cta}
+              <span
+                aria-hidden="true"
+                className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none transition-transform duration-700 ease-out group-hover:translate-x-full"
+              />
+              <span className="relative z-10 inline-flex items-center gap-2">
+                {VALUE_STACK.cta.replace(" →", "")}
+                <ArrowRight
+                  size={18}
+                  className="transition-transform duration-300 group-hover:translate-x-1"
+                  aria-hidden="true"
+                />
+              </span>
             </a>
 
             <div className="flex items-center justify-center gap-1.5 mt-4">

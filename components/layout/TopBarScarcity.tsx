@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { X } from "lucide-react"
+import { X, Sparkles } from "lucide-react"
 import { TOP_BAR_SCARCITY } from "@/lib/constants"
 
 export function TopBarScarcity() {
@@ -13,33 +13,56 @@ export function TopBarScarcity() {
     <div
       role="region"
       aria-label="Anuncio de apertura · cupos limitados"
-      className="bg-sandia text-white sticky top-0 z-[60] h-9 flex items-center justify-center text-[12px] md:text-[13px] px-3"
+      className="sticky top-0 z-[60] overflow-hidden text-white"
     >
-      <span aria-hidden="true" className="mr-2 text-white/80">
-        ▸
-      </span>
+      {/* Background con gradient + shimmer sutil */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-gradient-to-r from-sandia via-[#E73D4D] to-sandia"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 opacity-30"
+        style={{
+          backgroundImage:
+            "linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.25) 50%, transparent 70%)",
+          backgroundSize: "200% 100%",
+        }}
+      />
 
-      {/* Desktop message */}
-      <span className="hidden sm:inline">{TOP_BAR_SCARCITY.message}</span>
+      <div className="relative z-10 h-10 flex items-center justify-center px-4 text-[12px] md:text-[13px] gap-2.5">
+        <Sparkles
+          size={13}
+          className="text-white/95 flex-shrink-0 animate-pulse-soft"
+          aria-hidden="true"
+        />
 
-      {/* Mobile message — copy más corto */}
-      <span className="sm:hidden">{TOP_BAR_SCARCITY.messageMobile}</span>
+        {/* Desktop message */}
+        <span className="hidden sm:inline font-medium tracking-tight">
+          {TOP_BAR_SCARCITY.message}
+        </span>
 
-      <a
-        href={TOP_BAR_SCARCITY.ctaHref}
-        className="ml-3 underline font-semibold hover:text-white/90 transition-colors"
-      >
-        {TOP_BAR_SCARCITY.cta} →
-      </a>
+        {/* Mobile message — copy más corto */}
+        <span className="sm:hidden font-medium tracking-tight">
+          {TOP_BAR_SCARCITY.messageMobile}
+        </span>
 
-      <button
-        type="button"
-        onClick={() => setDismissed(true)}
-        aria-label="Cerrar anuncio"
-        className="ml-3 p-0.5 rounded-full hover:bg-white/10 transition-colors"
-      >
-        <X size={14} aria-hidden="true" />
-      </button>
+        <a
+          href={TOP_BAR_SCARCITY.ctaHref}
+          className="ml-2 inline-flex items-center gap-1 underline decoration-white/60 underline-offset-2 font-semibold hover:decoration-white transition-all"
+        >
+          {TOP_BAR_SCARCITY.cta} <span aria-hidden="true">→</span>
+        </a>
+
+        <button
+          type="button"
+          onClick={() => setDismissed(true)}
+          aria-label="Cerrar anuncio"
+          className="ml-2 p-1 rounded-full hover:bg-white/15 transition-colors"
+        >
+          <X size={14} aria-hidden="true" />
+        </button>
+      </div>
     </div>
   )
 }

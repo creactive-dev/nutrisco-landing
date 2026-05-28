@@ -24,16 +24,49 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ─── Warm Mesh Background ───────────────────────────────── */
-/* Use as className="warm-mesh" on section backgrounds */
+/* ─── Warm Mesh Background (legacy — sutil) ──────────── */
 .warm-mesh {
   background-image:
     radial-gradient(ellipse 80% 60% at 60% -10%, rgba(233, 69, 85, 0.06) 0%, transparent 60%),
     radial-gradient(ellipse 60% 40% at 10% 80%, rgba(115, 195, 228, 0.05) 0%, transparent 60%);
 }
 
+/* ─── Aurora Mesh — Hero + CTA atmospheric backdrop ──── */
+.aurora-mesh {
+  background-color: #FAFAF8;
+  background-image:
+    radial-gradient(ellipse 60% 50% at 12% -10%, rgba(233, 69, 85, 0.18) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 40% at 88% 8%, rgba(115, 195, 228, 0.20) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 38% at 18% 92%, rgba(115, 195, 228, 0.14) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 45% at 90% 88%, rgba(233, 69, 85, 0.12) 0%, transparent 55%);
+}
+
+.aurora-mesh-soft {
+  background-color: #FAFAF8;
+  background-image:
+    radial-gradient(ellipse 70% 50% at 0% 0%, rgba(233, 69, 85, 0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 65% 45% at 100% 100%, rgba(115, 195, 228, 0.10) 0%, transparent 55%);
+}
+
+.aurora-mesh-dark {
+  background-color: #1A1A1A;
+  background-image:
+    radial-gradient(ellipse 55% 45% at 15% 10%, rgba(233, 69, 85, 0.30) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 88% 25%, rgba(115, 195, 228, 0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 25% 92%, rgba(115, 195, 228, 0.10) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 45% at 92% 85%, rgba(233, 69, 85, 0.22) 0%, transparent 60%);
+}
+
+/* ─── Aurora floating blobs (animated) ───────────────── */
+.aurora-blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+}
+
 /* ─── Grain Texture ──────────────────────────────────────── */
-/* Use as a sibling <div aria-hidden="true" className="grain" /> */
 .grain {
   position: absolute;
   inset: 0;
@@ -45,11 +78,96 @@ body {
   animation: grain-drift 8s linear infinite;
 }
 
-/* ─── Glassmorphism ──────────────────────────────────────── */
+.grain-subtle {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  opacity: 0.02;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── Glass primitives ──────────────────────────────────── */
+.glass {
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(16px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow:
+    0 1px 0 0 rgba(255, 255, 255, 0.6) inset,
+    0 -1px 0 0 rgba(255, 255, 255, 0.2) inset,
+    0 1px 2px rgba(16, 24, 40, 0.04),
+    0 8px 24px -6px rgba(16, 24, 40, 0.08),
+    0 24px 48px -12px rgba(16, 24, 40, 0.10);
+}
+
+.glass-strong {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+.glass-soft {
+  background: rgba(255, 255, 255, 0.40);
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.glass-dark {
+  background: rgba(26, 26, 26, 0.55);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+.glass-pill {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(12px) saturate(160%);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow:
+    0 1px 0 0 rgba(255, 255, 255, 0.6) inset,
+    0 1px 2px rgba(16, 24, 40, 0.04),
+    0 4px 16px -2px rgba(16, 24, 40, 0.06);
+}
+
+.glass-pill-dark {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px) saturate(160%);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+/* Glassmorphism legacy (kept for backwards compat) */
 .glassmorphism {
   background: rgba(255, 255, 255, 0.80);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+}
+
+/* ─── Gradient text utilities ───────────────────────── */
+.text-gradient-warm {
+  background: linear-gradient(135deg, #E94555 0%, #FF7560 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.text-gradient-cool {
+  background: linear-gradient(135deg, #5BB1DA 0%, #73C3E4 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.text-gradient-warm-cool {
+  background: linear-gradient(135deg, #E94555 0%, #73C3E4 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 /* ─── Ghost Border (ONLY for inputs) ───────────────────────── */
@@ -63,15 +181,19 @@ body {
   background-color: #ffffff;
 }
 
-/* ─── Breathe Shadow (CTA button pulse) ─────────────────── */
-/* Applied via Tailwind animation class: animate-breathe */
-/* Defined in tailwind.config.ts keyframes */
-
 /* ─── Tonal separator (replaces <hr>) ───────────────────── */
 .tonal-divider {
   width: 3rem;
   height: 2px;
   background-color: #e8e8e6;
+  border: none;
+  margin: 0 auto;
+}
+
+.tonal-divider-gradient {
+  width: 4rem;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, #E94555 50%, transparent 100%);
   border: none;
   margin: 0 auto;
 }
@@ -88,4 +210,27 @@ body {
 
 .font-sans {
   font-family: var(--font-inter);
+}
+
+/* ─── Focus visible (accessibility) ─────────────────────── */
+*:focus-visible {
+  outline: 2px solid #E94555;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ─── Reduced motion ─────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .grain,
+  .grain-subtle,
+  .aurora-blob {
+    animation: none !important;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
