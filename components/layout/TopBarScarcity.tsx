@@ -1,13 +1,62 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { X, Sparkles } from "lucide-react"
 import { TOP_BAR_SCARCITY } from "@/lib/constants"
 
+const APP_URL =
+  process.env.NEXT_PUBLIC_APP_URL ?? "https://app.constanzanutricion.cl"
+
+interface Contador {
+  ocupadas: number
+  total: number
+  disponibles: number
+}
+
 export function TopBarScarcity() {
   const [dismissed, setDismissed] = useState(false)
+  const [contador, setContador] = useState<Contador | null>(null)
+
+  useEffect(() => {
+    let cancelled = false
+
+    async function load() {
+      try {
+        const res = await fetch(`${APP_URL}/api/contador`, {
+          cache: "no-store",
+        })
+        if (!res.ok) return
+        const data = (await res.json()) as Contador
+        if (!cancelled) setContador(data)
+      } catch {
+        // sin internet o CORS: el copy estático se mantiene
+      }
+    }
+
+    load()
+    const interval = setInterval(load, 60_000)
+    return () => {
+      cancelled = true
+      clearInterval(interval)
+    }
+  }, [])
 
   if (dismissed) return null
+
+  // Si el contador se cargó, usamos copy dinámico
+  const messageDesktop =
+    contador && contador.disponibles > 0
+      ? `Quedan ${contador.disponibles} de ${contador.total} cupos fundadora · Apertura vie 5 jun · 9 AM`
+      : contador && contador.disponibles === 0
+        ? `Cupos fundadora agotados · Precio regular $24.990/mes`
+        : TOP_BAR_SCARCITY.message
+
+  const messageMobile =
+    contador && contador.disponibles > 0
+      ? `${contador.disponibles}/${contador.total} cupos · 5-jun 9 AM`
+      : contador && contador.disponibles === 0
+        ? `Cupos agotados · $24.990/mes`
+        : TOP_BAR_SCARCITY.messageMobile
 
   return (
     <div
@@ -15,7 +64,6 @@ export function TopBarScarcity() {
       aria-label="Anuncio de apertura · cupos limitados"
       className="sticky top-0 z-[60] overflow-hidden text-white"
     >
-      {/* Background con gradient + shimmer sutil */}
       <div
         aria-hidden="true"
         className="absolute inset-0 bg-gradient-to-r from-sandia via-[#E73D4D] to-sandia"
@@ -37,14 +85,12 @@ export function TopBarScarcity() {
           aria-hidden="true"
         />
 
-        {/* Desktop message */}
         <span className="hidden sm:inline font-medium tracking-tight">
-          {TOP_BAR_SCARCITY.message}
+          {messageDesktop}
         </span>
 
-        {/* Mobile message — copy más corto */}
         <span className="sm:hidden font-medium tracking-tight whitespace-nowrap">
-          {TOP_BAR_SCARCITY.messageMobile}
+          {messageMobile}
         </span>
 
         <a

@@ -83,18 +83,19 @@ export function Navbar() {
             ))}
           </nav>
 
-          {/* CTA — siempre visible */}
+          {/* CTA — siempre visible. Apunta a #precio donde está el form
+              de suscripción con switcher mensual/trimestral/anual + email. */}
           <div className="flex-shrink-0">
             {/* Desktop */}
             <span className="hidden md:block">
-              <Button variant="primary" href={SITE_CONFIG.mpPaymentUrl}>
+              <Button variant="primary" href="#precio">
                 {NAVBAR.cta}
               </Button>
             </span>
             {/* Mobile — más compacto */}
             <span className="block md:hidden">
               <a
-                href={SITE_CONFIG.mpPaymentUrl}
+                href="#precio"
                 className="inline-flex items-center justify-center bg-gradient-warm text-white font-semibold rounded-full px-4 py-2 text-[13px] shadow-glow-sandia transition-all duration-200 active:scale-95"
               >
                 {NAVBAR.ctaMobile}
