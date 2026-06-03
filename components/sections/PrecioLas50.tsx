@@ -1,9 +1,13 @@
 "use client"
 
+import { useState } from "react"
 import { motion } from "framer-motion"
 import { Check, Gift, CreditCard, ArrowRight, Sparkles } from "lucide-react"
 import { VALUE_STACK, SITE_CONFIG } from "@/lib/constants"
 import { Eyebrow } from "@/components/ui/Eyebrow"
+
+const APP_URL = "https://app.constanzanutricion.cl"
+const LEGAL_CONSENT_STORAGE_KEY = "nutrico_legal_consent"
 
 const container = {
   hidden: {},
@@ -24,6 +28,32 @@ function formatCLP(value: number): string {
 }
 
 export function PrecioLas50() {
+  const [accepted, setAccepted] = useState(false)
+  const [shake, setShake] = useState(false)
+
+  function handleCtaClick(e: React.MouseEvent<HTMLAnchorElement>) {
+    if (!accepted) {
+      e.preventDefault()
+      setShake(true)
+      setTimeout(() => setShake(false), 600)
+      return
+    }
+    try {
+      const consentRecord = {
+        accepted_at: new Date().toISOString(),
+        documents: {
+          terminos: "v1.0",
+          privacidad: "v3.0",
+          aviso_datos_sensibles: "v1.0",
+        },
+        user_agent: typeof navigator !== "undefined" ? navigator.userAgent : null,
+      }
+      window.localStorage.setItem(LEGAL_CONSENT_STORAGE_KEY, JSON.stringify(consentRecord))
+    } catch {
+      /* Storage no disponible — la aceptación queda registrada por el click intencional */
+    }
+  }
+
   return (
     <section
       id="precio"
@@ -195,11 +225,72 @@ export function PrecioLas50() {
             </p>
           </div>
 
+          {/* Consentimiento legal — checkbox blocking */}
+          <div
+            className={`mt-8 rounded-2xl p-4 transition-all duration-200 ${
+              shake ? "ring-2 ring-sandia animate-shake" : ""
+            } ${accepted ? "bg-celeste/5 ring-1 ring-celeste/20" : "bg-text-dark/[0.03] ring-1 ring-text-dark/8"}`}
+            aria-live="polite"
+          >
+            <label className="flex items-start gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={accepted}
+                onChange={(e) => setAccepted(e.target.checked)}
+                className="mt-1 h-4 w-4 rounded border-text-dark/30 text-sandia focus:ring-2 focus:ring-sandia/40 cursor-pointer flex-shrink-0"
+                aria-describedby="legal-consent-text"
+              />
+              <span
+                id="legal-consent-text"
+                className="text-[13px] text-text-dark leading-relaxed"
+              >
+                He leído y acepto los{" "}
+                <a
+                  href={`${APP_URL}/terminos`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sandia underline underline-offset-2 hover:opacity-80"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  Términos y Condiciones
+                </a>
+                , la{" "}
+                <a
+                  href={`${APP_URL}/privacidad`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sandia underline underline-offset-2 hover:opacity-80"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  Política de Privacidad
+                </a>{" "}
+                y el{" "}
+                <a
+                  href={`${APP_URL}/aviso-datos-sensibles`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sandia underline underline-offset-2 hover:opacity-80"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  tratamiento de mis datos sensibles de salud
+                </a>
+                . Declaro ser mayor de 18 años.
+              </span>
+            </label>
+          </div>
+
           {/* CTA + Mercado Pago */}
-          <div className="mt-8">
+          <div className="mt-5">
             <a
               href={SITE_CONFIG.mpPaymentUrl}
-              className="group relative overflow-hidden w-full inline-flex items-center justify-center gap-2 bg-gradient-warm text-white font-semibold rounded-full py-4 text-[17px] shadow-glow-sandia hover:shadow-[0_0_0_1px_rgba(233,69,85,0.24),0_18px_48px_-6px_rgba(233,69,85,0.45)] transition-all duration-300 animate-breathe text-center"
+              onClick={handleCtaClick}
+              aria-disabled={!accepted}
+              tabIndex={accepted ? 0 : -1}
+              className={`group relative overflow-hidden w-full inline-flex items-center justify-center gap-2 bg-gradient-warm text-white font-semibold rounded-full py-4 text-[17px] transition-all duration-300 text-center ${
+                accepted
+                  ? "shadow-glow-sandia hover:shadow-[0_0_0_1px_rgba(233,69,85,0.24),0_18px_48px_-6px_rgba(233,69,85,0.45)] animate-breathe"
+                  : "opacity-50 cursor-not-allowed grayscale-[0.3]"
+              }`}
             >
               <span
                 aria-hidden="true"
@@ -214,6 +305,12 @@ export function PrecioLas50() {
                 />
               </span>
             </a>
+
+            {!accepted && (
+              <p className="text-[11px] text-sandia-600 text-center mt-2 font-medium">
+                Marca la casilla de aceptación para continuar
+              </p>
+            )}
 
             <div className="flex items-center justify-center gap-1.5 mt-4">
               <CreditCard

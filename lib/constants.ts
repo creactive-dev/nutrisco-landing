@@ -277,9 +277,10 @@ export const CTA_FINAL = {
 
 export const FOOTER = {
   legal: [
-    { label: "Términos y condiciones", href: "/terminos" },
-    { label: "Política de privacidad", href: "/privacidad" },
-    { label: "Eliminación de datos", href: "/privacidad#eliminacion" },
+    { label: "Términos y condiciones", href: "https://app.constanzanutricion.cl/terminos" },
+    { label: "Política de privacidad", href: "https://app.constanzanutricion.cl/privacidad" },
+    { label: "Datos sensibles de salud", href: "https://app.constanzanutricion.cl/aviso-datos-sensibles" },
+    { label: "Eliminación de datos", href: "https://app.constanzanutricion.cl/eliminacion-datos" },
   ],
   copyright: "© 2026 Nutrico · Constanza Jiménez Paschold",
 }

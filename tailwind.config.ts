@@ -105,6 +105,11 @@ const config: Config = {
           "0%": { backgroundPosition: "-200% 0" },
           "100%": { backgroundPosition: "200% 0" },
         },
+        shake: {
+          "0%, 100%": { transform: "translateX(0)" },
+          "20%, 60%": { transform: "translateX(-6px)" },
+          "40%, 80%": { transform: "translateX(6px)" },
+        },
       },
       animation: {
         "fade-up": "fade-up 0.5s ease-out forwards",
@@ -114,6 +119,7 @@ const config: Config = {
         "aurora-drift": "aurora-drift 18s ease-in-out infinite",
         "pulse-soft": "pulse-soft 2.4s ease-in-out infinite",
         shimmer: "shimmer 2.4s linear infinite",
+        shake: "shake 0.5s ease-in-out",
       },
     },
   },

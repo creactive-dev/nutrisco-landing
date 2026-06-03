@@ -78,7 +78,7 @@ export function CTAFinalScarcity() {
         {/* CTA full-width con glow */}
         <motion.div variants={item} className="mt-10">
           <a
-            href={SITE_CONFIG.mpPaymentUrl}
+            href="#precio"
             className="group relative overflow-hidden w-full block bg-gradient-warm text-white font-semibold rounded-full px-8 py-5 text-[18px] md:text-[20px] shadow-glow-sandia hover:shadow-[0_0_0_1px_rgba(233,69,85,0.30),0_24px_64px_-8px_rgba(233,69,85,0.55)] transition-all duration-300 animate-breathe text-center"
           >
             <span

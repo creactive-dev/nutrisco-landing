@@ -112,7 +112,7 @@ export default function Hero() {
               className="mt-9 flex flex-col items-center md:items-start gap-4"
             >
               <a
-                href={SITE_CONFIG.mpPaymentUrl}
+                href="#precio"
                 className="group relative overflow-hidden inline-flex items-center justify-center gap-2 w-full sm:w-auto sm:min-w-[300px] bg-gradient-warm text-white font-semibold rounded-full px-8 py-4 text-[17px] shadow-glow-sandia hover:shadow-[0_0_0_1px_rgba(233,69,85,0.24),0_18px_48px_-6px_rgba(233,69,85,0.45)] transition-all duration-300 animate-breathe text-center"
               >
                 <span
