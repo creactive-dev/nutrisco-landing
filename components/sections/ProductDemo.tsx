@@ -2,146 +2,134 @@
 
 import Image from "next/image"
 import { motion } from "framer-motion"
-import { useState } from "react"
-import { ChevronLeft, ChevronRight } from "lucide-react"
 import { PRODUCT_DEMO } from "@/lib/constants"
 import { Eyebrow } from "@/components/ui/Eyebrow"
 
+const container = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.12 } },
+}
+
+const item = {
+  hidden: { opacity: 0, y: 18 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] },
+  },
+}
+
 export function ProductDemo() {
-  const [activeIdx, setActiveIdx] = useState(0)
-  const screens = PRODUCT_DEMO.staticScreens
-  const active = screens[activeIdx]
-
-  const prev = () => setActiveIdx((i) => (i - 1 + screens.length) % screens.length)
-  const next = () => setActiveIdx((i) => (i + 1) % screens.length)
-
   return (
     <section
-      aria-label="Demo del producto"
+      aria-label="Mira cómo se ve adentro"
       className="relative overflow-hidden py-20 px-5 md:py-28 md:px-8 bg-surface-low"
     >
       <div aria-hidden="true" className="absolute inset-0 aurora-mesh-soft opacity-50" />
 
+      {/* Header */}
       <motion.div
-        className="relative z-10 max-w-3xl mx-auto text-center mb-12"
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        className="relative z-10 max-w-3xl mx-auto text-center mb-14 md:mb-16"
+        initial="hidden"
+        whileInView="visible"
         viewport={{ once: true, margin: "-80px" }}
-        transition={{ duration: 0.5 }}
+        variants={container}
       >
-        <div className="inline-flex mb-5">
+        <motion.div variants={item} className="inline-flex mb-5">
           <Eyebrow tone="celeste">{PRODUCT_DEMO.eyebrow}</Eyebrow>
-        </div>
-        <h2 className="font-serif font-bold text-text-dark text-[2rem] md:text-[2.75rem] leading-[1.1] tracking-[-0.025em]">
-          Tu plan, listo en{" "}
-          <span className="text-gradient-warm">24 horas</span>.
-        </h2>
-        <p className="text-[1rem] md:text-[1.0625rem] text-text-muted mt-5 max-w-xl mx-auto leading-relaxed">
-          Estas son las pantallas reales que vas a ver. Sin filtros, sin
-          renders — la app que estamos lanzando el 5 de junio.
-        </p>
+        </motion.div>
+        <motion.h2
+          variants={item}
+          className="font-serif font-bold text-text-dark text-[2rem] md:text-[2.75rem] leading-[1.1] tracking-[-0.025em]"
+        >
+          {PRODUCT_DEMO.h2[0]}{" "}
+          <span className="text-gradient-warm">{PRODUCT_DEMO.h2[1]}</span>
+        </motion.h2>
+        <motion.p
+          variants={item}
+          className="text-[1rem] md:text-[1.0625rem] text-text-muted mt-5 max-w-xl mx-auto leading-relaxed"
+        >
+          {PRODUCT_DEMO.subcopy}
+        </motion.p>
       </motion.div>
 
-      {/* Carrusel de screens reales */}
-      <motion.div
-        className="relative z-10 w-[260px] sm:w-[300px] md:w-[360px] mx-auto"
-        initial={{ opacity: 0, scale: 0.96 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: true, margin: "-60px" }}
-        transition={{ duration: 0.55, ease: [0.25, 0.1, 0.25, 1] }}
-      >
-        {/* Halo glow detrás */}
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 bg-gradient-warm-cool opacity-30 blur-[80px] pointer-events-none"
-        />
+      {/* Cuerpo — pasos + mockups */}
+      <div className="relative z-10 max-w-6xl mx-auto grid md:grid-cols-2 gap-12 md:gap-16 items-center">
+        {/* Pasos */}
+        <motion.ol
+          className="flex flex-col gap-8 order-2 md:order-1"
+          variants={container}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-60px" }}
+        >
+          {PRODUCT_DEMO.steps.map((step) => (
+            <motion.li key={step.number} variants={item} className="flex gap-5">
+              <div className="flex-shrink-0 glass rounded-2xl w-12 h-12 flex items-center justify-center">
+                <span
+                  aria-hidden="true"
+                  className="font-serif font-bold text-[1.15rem] text-gradient-warm leading-none"
+                >
+                  {step.number}
+                </span>
+              </div>
+              <div className="pt-0.5">
+                <h3 className="font-serif font-semibold text-[1.2rem] text-text-dark leading-snug mb-1.5">
+                  {step.title}
+                </h3>
+                <p className="text-[0.9375rem] text-text-muted leading-[1.6]">
+                  {step.description}
+                </p>
+              </div>
+            </motion.li>
+          ))}
+        </motion.ol>
 
-        {/* iPhone frame con screen real */}
-        <div className="relative bg-text-dark rounded-[2.5rem] p-2.5 md:p-3 shadow-glass ring-1 ring-white/10">
-          {/* Notch */}
+        {/* Mockups escalonados */}
+        <motion.div
+          className="relative order-1 md:order-2 flex justify-center md:justify-end"
+          initial={{ opacity: 0, scale: 0.96 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+        >
+          {/* Halo glow */}
           <div
             aria-hidden="true"
-            className="absolute top-2.5 md:top-3 left-1/2 -translate-x-1/2 w-20 md:w-28 h-5 md:h-7 bg-text-dark rounded-b-2xl z-30"
+            className="absolute inset-0 bg-gradient-warm-cool opacity-25 blur-[80px] pointer-events-none"
           />
-          <div className="relative aspect-[9/19] w-full bg-surface-low rounded-[2rem] overflow-hidden">
-            {screens.map((screen, idx) => (
-              <div
-                key={screen.src}
-                className={[
-                  "absolute inset-0 transition-opacity duration-500 ease-out",
-                  idx === activeIdx ? "opacity-100" : "opacity-0",
-                ].join(" ")}
-                aria-hidden={idx !== activeIdx}
-              >
-                <Image
-                  src={screen.src}
-                  alt={`App Nutrico — ${screen.label}`}
-                  fill
-                  sizes="(min-width: 768px) 360px, 260px"
-                  className="object-cover object-top"
-                />
-              </div>
-            ))}
+
+          <div className="relative w-[260px] sm:w-[300px] md:w-[340px]">
+            {/* Mockup trasero (screening) */}
+            <div className="absolute -left-16 sm:-left-20 top-10 w-[58%] hidden sm:block opacity-90 -rotate-6">
+              <Image
+                src={PRODUCT_DEMO.framedScreens[0].src}
+                alt={`App Nutrico — ${PRODUCT_DEMO.framedScreens[0].caption}`}
+                width={701}
+                height={1444}
+                sizes="200px"
+                className="w-full h-auto drop-shadow-2xl"
+              />
+            </div>
+
+            {/* Mockup principal (progreso) */}
+            <div className="relative z-10 rotate-2">
+              <Image
+                src={PRODUCT_DEMO.framedScreens[1].src}
+                alt={`App Nutrico — ${PRODUCT_DEMO.framedScreens[1].caption}`}
+                width={701}
+                height={1444}
+                sizes="(min-width: 768px) 340px, 280px"
+                className="w-full h-auto drop-shadow-2xl"
+                priority
+              />
+            </div>
           </div>
-        </div>
-
-        {/* Label flotante step */}
-        <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 glass-strong rounded-full px-3 md:px-4 py-1.5 md:py-2 flex items-center gap-1.5 md:gap-2 whitespace-nowrap z-30">
-          <span
-            aria-hidden="true"
-            className="w-1.5 h-1.5 rounded-full bg-sandia animate-pulse-soft"
-          />
-          <span className="text-[11px] md:text-[12px] font-semibold text-text-dark">
-            {active.label}
-          </span>
-          <span className="text-[10px] text-text-muted hidden sm:inline">
-            · {active.step}
-          </span>
-        </div>
-      </motion.div>
-
-      {/* Controles + indicadores */}
-      <div className="relative z-10 mt-14 flex items-center justify-center gap-4">
-        <button
-          type="button"
-          onClick={prev}
-          aria-label="Pantalla anterior"
-          className="glass-pill rounded-full p-2.5 hover:-translate-y-0.5 transition-transform"
-        >
-          <ChevronLeft size={18} className="text-text-dark" aria-hidden="true" />
-        </button>
-
-        <div className="flex items-center gap-2" role="tablist" aria-label="Pantallas">
-          {screens.map((s, idx) => (
-            <button
-              key={s.src}
-              type="button"
-              role="tab"
-              aria-selected={idx === activeIdx}
-              aria-label={`Ir a ${s.label}`}
-              onClick={() => setActiveIdx(idx)}
-              className={[
-                "h-2 rounded-full transition-all duration-300",
-                idx === activeIdx
-                  ? "w-8 bg-gradient-warm"
-                  : "w-2 bg-text-dark/15 hover:bg-text-dark/30",
-              ].join(" ")}
-            />
-          ))}
-        </div>
-
-        <button
-          type="button"
-          onClick={next}
-          aria-label="Pantalla siguiente"
-          className="glass-pill rounded-full p-2.5 hover:-translate-y-0.5 transition-transform"
-        >
-          <ChevronRight size={18} className="text-text-dark" aria-hidden="true" />
-        </button>
+        </motion.div>
       </div>
 
-      <p className="text-[12px] text-text-muted text-center mt-6">
-        Pantallas reales de la app · capturas de QA · 28 de mayo 2026
+      <p className="relative z-10 text-[12px] text-text-muted text-center mt-14 md:mt-16">
+        {PRODUCT_DEMO.footnote}
       </p>
     </section>
   )

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
-import { Check, Gift, CreditCard, ArrowRight, Sparkles } from "lucide-react"
+import { Check, Gift, CreditCard, ArrowRight, Sparkles, ChevronDown, ShieldCheck, Lock, Receipt } from "lucide-react"
 import { VALUE_STACK } from "@/lib/constants"
 import { Eyebrow } from "@/components/ui/Eyebrow"
 
@@ -195,9 +195,9 @@ export function PrecioLas50() {
         </motion.h2>
       </motion.div>
 
-      {/* Card de precio + value stack — glass strong */}
+      {/* Card de precio — glass strong. Orden: switcher → precio → CTA → detalle colapsable */}
       <motion.div
-        className="relative z-10 max-w-2xl mx-auto"
+        className="relative z-10 max-w-md mx-auto"
         initial={{ opacity: 0, y: 24, scale: 0.97 }}
         whileInView={{ opacity: 1, y: 0, scale: 1 }}
         viewport={{ once: true, margin: "-60px" }}
@@ -208,7 +208,7 @@ export function PrecioLas50() {
           className="absolute -inset-4 bg-gradient-warm-cool opacity-30 rounded-[2.5rem] blur-3xl pointer-events-none"
         />
 
-        <div className="relative glass-strong rounded-[2rem] p-7 md:p-10 shadow-glass overflow-hidden">
+        <div className="relative glass-strong rounded-[2rem] p-6 md:p-8 shadow-glass overflow-hidden">
           {/* Ribbon "Founder" o "Regular" */}
           <div className="absolute top-6 right-6 glass-pill rounded-full px-3 py-1.5 flex items-center gap-1.5 ring-1 ring-sandia/20">
             <Sparkles size={12} className="text-sandia" aria-hidden="true" />
@@ -234,11 +234,12 @@ export function PrecioLas50() {
             </div>
           )}
 
-          {/* Switcher mensual / trimestral / anual */}
-          <div role="tablist" aria-label="Frecuencia de pago" className="grid grid-cols-3 gap-1.5 rounded-2xl bg-text-dark/[0.04] p-1 mb-6">
+          {/* Switcher mensual / trimestral / anual — trimestral marcado como recomendado */}
+          <div role="tablist" aria-label="Frecuencia de pago" className="grid grid-cols-3 gap-1.5 rounded-2xl bg-text-dark/[0.04] p-1 mb-6 mt-2">
             {(["mensual", "trimestral", "anual"] as BillingCycle[]).map((c) => {
               const active = c === cycle
               const ahorro = c === "trimestral" ? ahorroTrim : c === "anual" ? ahorroAnual : 0
+              const recomendado = c === "trimestral"
               return (
                 <button
                   key={c}
@@ -252,6 +253,11 @@ export function PrecioLas50() {
                       : "text-text-muted hover:text-text-dark"
                   }`}
                 >
+                  {recomendado && (
+                    <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 whitespace-nowrap bg-gradient-warm text-white text-[8.5px] font-bold uppercase tracking-wide rounded-full px-2 py-0.5 shadow-sm">
+                      Recomendado
+                    </span>
+                  )}
                   <span className="block">{CYCLE_LABEL[c].short}</span>
                   {ahorro > 0 && (
                     <span className={`block text-[10px] font-medium ${active ? "text-sandia-600" : "text-text-muted/70"}`}>
@@ -263,82 +269,9 @@ export function PrecioLas50() {
             })}
           </div>
 
-          {/* Value Stack mensual (no cambia con switcher — siempre describe el beneficio mensual) */}
-          <div className="mb-1">
-            <p className="text-[12px] font-medium text-text-muted uppercase tracking-wider mb-4">
-              Lo que recibes cada mes
-            </p>
-          </div>
-          <ul className="flex flex-col gap-3" aria-label="Qué incluye tu suscripción">
-            {VALUE_STACK.monthlyItems.map((stackItem, i) => (
-              <li
-                key={i}
-                className="flex items-start gap-3 justify-between border-b border-text-dark/8 last:border-0 pb-3 last:pb-0"
-              >
-                <div className="flex items-start gap-3 flex-1 min-w-0">
-                  <span className="flex-shrink-0 w-5 h-5 rounded-full bg-celeste/10 flex items-center justify-center mt-0.5">
-                    <Check size={12} className="text-celeste-600" strokeWidth={2.5} aria-hidden="true" />
-                  </span>
-                  <span className="text-[14px] md:text-[15px] text-text-dark leading-snug">
-                    {stackItem.label}
-                  </span>
-                </div>
-                <span className="text-[14px] md:text-[15px] text-text-muted font-medium tabular-nums flex-shrink-0">
-                  {formatCLP(stackItem.value)}
-                </span>
-              </li>
-            ))}
-          </ul>
-
-          <div className="mt-5 pt-5 border-t-2 border-text-dark/15 flex items-center justify-between">
-            <span className="text-[15px] md:text-[16px] font-semibold text-text-dark">
-              Valor total mensual
-            </span>
-            <span className="text-[18px] md:text-[20px] font-bold text-text-dark tabular-nums">
-              {formatCLP(VALUE_STACK.monthlyTotal)}
-            </span>
-          </div>
-
-          {/* Bonus stack */}
-          <div className="mt-8 relative overflow-hidden rounded-3xl p-5 md:p-6 bg-gradient-to-br from-sandia/10 via-sandia/5 to-celeste/5 ring-1 ring-sandia/20">
-            <div className="flex items-center gap-2 mb-4">
-              <Gift size={18} className="text-sandia" aria-hidden="true" />
-              <p className="text-[12px] font-semibold text-sandia-600 uppercase tracking-[0.08em]">
-                {VALUE_STACK.bonusEyebrow}
-              </p>
-            </div>
-
-            <ul className="flex flex-col gap-3">
-              {VALUE_STACK.bonusItems.map((bonus, i) => (
-                <li key={i} className="flex items-start gap-3 justify-between">
-                  <div className="flex items-start gap-3 flex-1 min-w-0">
-                    <span aria-hidden="true" className="flex-shrink-0 w-5 h-5 rounded-full bg-sandia/15 flex items-center justify-center mt-0.5">
-                      <span className="text-sandia font-bold text-[12px]">+</span>
-                    </span>
-                    <span className="text-[14px] text-text-dark leading-snug">
-                      {bonus.label}
-                    </span>
-                  </div>
-                  <span className="text-[13px] text-text-muted font-medium tabular-nums flex-shrink-0">
-                    {formatCLP(bonus.value)}
-                  </span>
-                </li>
-              ))}
-            </ul>
-
-            <div className="mt-4 pt-4 border-t border-sandia/20 flex items-center justify-between">
-              <span className="text-[13px] font-semibold text-sandia-600">
-                Valor total bonus
-              </span>
-              <span className="text-[15px] font-bold text-sandia-600 tabular-nums">
-                {formatCLP(VALUE_STACK.bonusTotal)}
-              </span>
-            </div>
-          </div>
-
-          {/* Precio dinámico — depende de cycle y cohortActivo */}
-          <div className="mt-8 text-center">
-            <p className="text-[13px] text-text-muted mb-2">
+          {/* Precio dinámico — ARRIBA, reacciona al instante al cambiar de plan */}
+          <div className="text-center">
+            <p className="text-[12px] text-text-muted mb-1">
               Valor real combinado:{" "}
               <span className="font-semibold text-text-dark line-through decoration-text-muted/40 tabular-nums">
                 {formatCLP(VALUE_STACK.monthlyTotal + VALUE_STACK.bonusTotal)}
@@ -348,8 +281,8 @@ export function PrecioLas50() {
               {esFundador ? "Tu precio fundadora hoy:" : "Tu precio hoy:"}
             </p>
 
-            <div className="flex items-baseline justify-center gap-2 mt-2 flex-wrap">
-              <span className="font-serif font-bold text-gradient-warm text-[3.5rem] md:text-[4.5rem] leading-none tabular-nums">
+            <div className="flex items-baseline justify-center gap-2 mt-1 flex-wrap">
+              <span className="font-serif font-bold text-gradient-warm text-[3.25rem] md:text-[4rem] leading-none tabular-nums">
                 {formatCLP(precioActivo)}
               </span>
               <span className="text-text-muted text-[15px] font-medium">
@@ -364,7 +297,7 @@ export function PrecioLas50() {
             )}
 
             {esFundador && (
-              <p className="text-[14px] text-text-muted mt-3">
+              <p className="text-[13px] text-text-muted mt-2">
                 {VALUE_STACK.priceLabel}
               </p>
             )}
@@ -401,7 +334,7 @@ export function PrecioLas50() {
 
           {/* Consentimiento legal — checkbox blocking */}
           <div
-            className={`mt-6 rounded-2xl p-4 transition-all duration-200 ${
+            className={`mt-5 rounded-2xl p-4 transition-all duration-200 ${
               shake ? "ring-2 ring-sandia animate-shake" : ""
             } ${accepted ? "bg-celeste/5 ring-1 ring-celeste/20" : "bg-text-dark/[0.03] ring-1 ring-text-dark/8"}`}
             aria-live="polite"
@@ -488,7 +421,23 @@ export function PrecioLas50() {
               </p>
             )}
 
-            <div className="flex items-center justify-center gap-1.5 mt-4">
+            {/* Pills de confianza */}
+            <div className="flex flex-wrap items-center justify-center gap-2 mt-4">
+              <span className="glass-pill rounded-full px-3 py-1.5 text-[11px] text-text-dark/80 flex items-center gap-1.5">
+                <ShieldCheck size={12} className="text-celeste-600" aria-hidden="true" />
+                Reembolso isapre
+              </span>
+              <span className="glass-pill rounded-full px-3 py-1.5 text-[11px] text-text-dark/80 flex items-center gap-1.5">
+                <Lock size={12} className="text-celeste-600" aria-hidden="true" />
+                Sin permanencia
+              </span>
+              <span className="glass-pill rounded-full px-3 py-1.5 text-[11px] text-text-dark/80 flex items-center gap-1.5">
+                <Receipt size={12} className="text-celeste-600" aria-hidden="true" />
+                Boleta exenta IVA
+              </span>
+            </div>
+
+            <div className="flex items-center justify-center gap-1.5 mt-3">
               <CreditCard
                 size={14}
                 className="text-text-muted flex-shrink-0"
@@ -498,11 +447,93 @@ export function PrecioLas50() {
                 Pago seguro con Mercado Pago
               </span>
             </div>
-
-            <p className="text-[12px] text-text-muted text-center mt-3">
-              {VALUE_STACK.microcopy}
-            </p>
           </form>
+
+          {/* Detalle del valor — colapsable */}
+          <details className="group mt-6 pt-5 border-t border-text-dark/10">
+            <summary className="flex items-center justify-between cursor-pointer list-none">
+              <span className="text-[13px] font-semibold text-text-dark">
+                Ver todo lo que incluye{" "}
+                <span className="text-text-muted font-normal">
+                  ({formatCLP(VALUE_STACK.monthlyTotal)} de valor mensual)
+                </span>
+              </span>
+              <ChevronDown
+                size={18}
+                className="text-text-muted transition-transform duration-200 group-open:rotate-180"
+                aria-hidden="true"
+              />
+            </summary>
+
+            <div className="mt-4">
+              <ul className="flex flex-col gap-3" aria-label="Qué incluye tu suscripción">
+                {VALUE_STACK.monthlyItems.map((stackItem, i) => (
+                  <li
+                    key={i}
+                    className="flex items-start gap-3 justify-between border-b border-text-dark/8 last:border-0 pb-3 last:pb-0"
+                  >
+                    <div className="flex items-start gap-3 flex-1 min-w-0">
+                      <span className="flex-shrink-0 w-5 h-5 rounded-full bg-celeste/10 flex items-center justify-center mt-0.5">
+                        <Check size={12} className="text-celeste-600" strokeWidth={2.5} aria-hidden="true" />
+                      </span>
+                      <span className="text-[14px] text-text-dark leading-snug">
+                        {stackItem.label}
+                      </span>
+                    </div>
+                    <span className="text-[14px] text-text-muted font-medium tabular-nums flex-shrink-0">
+                      {formatCLP(stackItem.value)}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="mt-5 pt-4 border-t-2 border-text-dark/15 flex items-center justify-between">
+                <span className="text-[15px] font-semibold text-text-dark">
+                  Valor total mensual
+                </span>
+                <span className="text-[18px] font-bold text-text-dark tabular-nums">
+                  {formatCLP(VALUE_STACK.monthlyTotal)}
+                </span>
+              </div>
+
+              {/* Bonus stack */}
+              <div className="mt-6 relative overflow-hidden rounded-3xl p-5 bg-gradient-to-br from-sandia/10 via-sandia/5 to-celeste/5 ring-1 ring-sandia/20">
+                <div className="flex items-center gap-2 mb-4">
+                  <Gift size={18} className="text-sandia" aria-hidden="true" />
+                  <p className="text-[12px] font-semibold text-sandia-600 uppercase tracking-[0.08em]">
+                    {VALUE_STACK.bonusEyebrow}
+                  </p>
+                </div>
+
+                <ul className="flex flex-col gap-3">
+                  {VALUE_STACK.bonusItems.map((bonus, i) => (
+                    <li key={i} className="flex items-start gap-3 justify-between">
+                      <div className="flex items-start gap-3 flex-1 min-w-0">
+                        <span aria-hidden="true" className="flex-shrink-0 w-5 h-5 rounded-full bg-sandia/15 flex items-center justify-center mt-0.5">
+                          <span className="text-sandia font-bold text-[12px]">+</span>
+                        </span>
+                        <span className="text-[14px] text-text-dark leading-snug">
+                          {bonus.label}
+                        </span>
+                      </div>
+                      <span className="text-[13px] text-text-muted font-medium tabular-nums flex-shrink-0">
+                        {formatCLP(bonus.value)}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="mt-4 pt-4 border-t border-sandia/20 flex items-center justify-between">
+                  <span className="text-[13px] font-semibold text-sandia-600">
+                    Valor total bonus
+                  </span>
+                  <span className="text-[15px] font-bold text-sandia-600 tabular-nums">
+                    {formatCLP(VALUE_STACK.bonusTotal)}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </details>
         </div>
       </motion.div>
     </section>

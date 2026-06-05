@@ -3,7 +3,6 @@ import { Navbar } from "@/components/layout/Navbar"
 import Hero from "@/components/sections/Hero"
 import { TrustBar } from "@/components/sections/TrustBar"
 import { ProblemAgitation } from "@/components/sections/ProblemAgitation"
-import { ComoFunciona } from "@/components/sections/ComoFunciona"
 import { ProductDemo } from "@/components/sections/ProductDemo"
 import { BentoBeneficios } from "@/components/sections/BentoBeneficios"
 import { ResultadosStats } from "@/components/sections/ResultadosStats"
@@ -22,7 +21,6 @@ export default function Home() {
       <Hero />
       <TrustBar />
       <ProblemAgitation />
-      <ComoFunciona />
       <ProductDemo />
       <BentoBeneficios />
       <ResultadosStats />

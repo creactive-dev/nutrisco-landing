@@ -329,33 +329,36 @@ export const PROBLEM_AGITATION = {
 
 export const PRODUCT_DEMO = {
   eyebrow: "Mira cómo se ve adentro",
-  h2: "Tu plan, listo en 24 horas.",
-  microcopy: "Tap para activar audio · Constanza te lo cuenta",
-  videoSrc: "/mockups/mock-flow-completo.mp4",
-  posterSrc: "/mockups/dashboard-home.png",
-  /** Screens estáticos para fallback visual mientras se produce el video */
-  staticScreens: [
+  h2: ["Tres pasos.", "Tu cuerpo, distinto."],
+  subcopy:
+    "Estas son las pantallas reales que vas a usar. Sin filtros, sin renders — la app que estamos lanzando.",
+  /** Mockups reales (pre-enmarcados) que anclan la sección */
+  framedScreens: [
+    { src: "/mockups/m-screening.png", caption: "Cuestionario · 10 min" },
+    { src: "/mockups/m-progreso.png", caption: "Tu progreso del día" },
+  ],
+  /** Narrativa del proceso (antes sección 'El proceso') */
+  steps: [
     {
-      src: "/mockups/screening-step1.png",
-      label: "Cuéntanos sobre ti",
-      step: "Screening · paso 1",
+      number: "01",
+      title: "Cuestionario de 10 min",
+      description:
+        "Cuéntanos tus síntomas, objetivos, restricciones y hábitos. Cada respuesta entra al motor que asigna tu pauta.",
     },
     {
-      src: "/mockups/post-screening.png",
-      label: "Esto es lo que entendimos",
-      step: "Confirmación",
+      number: "02",
+      title: "Tu plan en 24 horas",
+      description:
+        "Constanza revisa tu screening y aprueba tu plan personalizado. Lo recibes con recetas, lista de compras y agenda semanal.",
     },
     {
-      src: "/mockups/plan-current.png",
-      label: "Tu primer plan está listo",
-      step: "Plan semanal",
-    },
-    {
-      src: "/mockups/dashboard-detail.png",
-      label: "Tu progreso del día",
-      step: "Dashboard diario",
+      number: "03",
+      title: "Tu plan evoluciona contigo cada 15 días",
+      description:
+        "Cada quincena haces un check-in y tu plan se ajusta. Sin estancarte. Sin volver a empezar.",
     },
   ],
+  footnote: "Pantallas reales de la app · capturas de QA",
 }
 
 export const BENTO_BENEFICIOS = {
@@ -372,7 +375,7 @@ export const BENTO_BENEFICIOS = {
     },
     {
       icon: "zap",
-      title: "Energía sostenida sin café",
+      title: "Energía sostenida sin necesidad de café",
       description:
         "Sin picos de glicemia ni caídas de mediodía. Tu plan distribuye proteína y fibra para que el cuerpo no entre en modo crash a las 4 PM.",
       metric: "Sin altibajos",
@@ -382,7 +385,7 @@ export const BENTO_BENEFICIOS = {
       icon: "shirt",
       title: "Ropa que dejaste de usar",
       description:
-        "No es una dieta de hambre. Es composición corporal: menos retención, menos grasa visceral, sin perder músculo.",
+        "No es una dieta de hambre. Es composición corporal: menos retención, menos grasa visceral, porciones reales.",
       metric: "Sin pasar hambre",
       metricLabel: "porciones reales",
     },
@@ -449,73 +452,79 @@ export const TESTIMONIOS_MIXTO = {
   videos: [
     {
       id: "v1",
-      name: "María P.",
-      age: "34 años",
-      topic: "Hinchazón",
+      name: "Catalina R.",
+      subtitle: "Paciente del Reto Antiinflamatorio",
+      src: "/testimonios/testimonio-1.mp4",
       poster: "/testimonios/testimonio-1-poster.jpg",
     },
     {
       id: "v2",
-      name: "Valentina R.",
-      age: "41 años",
-      topic: "Energía",
+      name: "Francisca M.",
+      subtitle: "Paciente del Reto Antiinflamatorio",
+      src: "/testimonios/testimonio-2.mp4",
       poster: "/testimonios/testimonio-2-poster.jpg",
     },
     {
       id: "v3",
-      name: "Claudia M.",
-      age: "38 años",
-      topic: "Digestión",
+      name: "Antonia V.",
+      subtitle: "Paciente del Reto Antiinflamatorio",
+      src: "/testimonios/testimonio-3.mp4",
       poster: "/testimonios/testimonio-3-poster.jpg",
     },
   ],
-  whatsappFooter: "Mensajes reales · Diciembre 2025 → Abril 2026 · publicados con autorización",
-  whatsapps: [
+  cardsFooter: "Mensajes reales de pacientes del Reto · Diciembre 2025 → Abril 2026 · publicados con autorización",
+  cards: [
     {
-      id: "w1",
-      author: "Camila · 36",
-      message: "Constanza, después del Reto siento mucho más liviana. Hoy desperté sin hinchazón por primera vez en años.",
+      id: "c1",
+      name: "Valentina M.",
+      initial: "V",
+      quote: "Cambió mi metabolismo. Sufría de estreñimiento hacía años y el plan es saciador, desinflama de verdad. 100% recomendado, me encantó.",
     },
     {
-      id: "w2",
-      author: "Pamela · 42",
-      message: "El plan tuyo es lo único que he podido sostener. No tengo que pensar qué comer.",
+      id: "c2",
+      name: "Carolina S.",
+      initial: "C",
+      quote: "Me desinflamé mucho y reduje talla: ropa que no me quedaba, ahora sí. Esa ha sido mi experiencia y estoy feliz.",
     },
     {
-      id: "w3",
-      author: "Javiera · 29",
-      message: "Mi marido me dice que ando con más energía. Voy a contarles a las cabras del grupo.",
+      id: "c3",
+      name: "Agustina R.",
+      initial: "A",
+      quote: "Cuando empecé pesaba 89 kilos. Terminé la tercera semana y hoy estoy en 83. No lo podía creer.",
     },
     {
-      id: "w4",
-      author: "Loreto · 45",
-      message: "Bajé 3 kilos sin pasar hambre. Nunca había hecho una pauta tan sostenible.",
+      id: "c4",
+      name: "Josefa V.",
+      initial: "J",
+      quote: "Es un programa excelente. Bajé casi 2 kilos en la semana sin ejercicios constantes y sin pasar hambre.",
     },
     {
-      id: "w5",
-      author: "Daniela · 38",
-      message: "Las recetas son simples, fáciles, ricas. Mi hija de 8 también las come.",
+      id: "c5",
+      name: "Tamara B.",
+      initial: "T",
+      quote: "Terminé hace una semana y bajé 4 kilos. Ya quiero seguir con el plan, es lo único que he podido sostener.",
     },
     {
-      id: "w6",
-      author: "Constanza A. · 33",
-      message: "Después del segundo check-in el plan se ajustó perfecto. Sentí que me escuchaste de verdad.",
+      id: "c6",
+      name: "Camila A.",
+      initial: "C",
+      quote: "Despierto sin hinchazón por primera vez en años. Me siento mucho más liviana y con energía.",
     },
   ],
 }
 
 export const VALUE_STACK = {
   eyebrow: "Tarifa Las 50 Primeras",
-  h2: ["$19.990 hoy.", "$258.000 de valor real."],
+  h2: ["$19.990 hoy.", "$180.000 de valor real."],
   monthlyItems: [
-    { label: "Plan antiinflamatorio personalizado con IA", value: 89000 },
-    { label: "Check-in quincenal con ajuste de tu plan", value: 60000 },
-    { label: "84 recetas chilenas filtradas para tu pauta", value: 29000 },
-    { label: "Comunidad WhatsApp privada Las 50 Primeras", value: 40000 },
-    { label: "Lista de compras semanal automática", value: 15000 },
-    { label: "Tracker de síntomas + reporte mensual", value: 25000 },
+    { label: "Plan antiinflamatorio personalizado con IA", value: 60000 },
+    { label: "Check-in quincenal con ajuste de tu plan", value: 45000 },
+    { label: "84 recetas chilenas filtradas para tu pauta", value: 20000 },
+    { label: "Comunidad WhatsApp privada Las 50 Primeras", value: 25000 },
+    { label: "Lista de compras semanal automática", value: 10000 },
+    { label: "Tracker de síntomas + reporte mensual", value: 20000 },
   ],
-  monthlyTotal: 258000,
+  monthlyTotal: 180000,
   bonusEyebrow: "Bonus exclusivo Las 50 Primeras",
   bonusItems: [
     { label: "PDF Reto Antiinflamatorio 21 días", value: 14990 },
@@ -525,8 +534,8 @@ export const VALUE_STACK = {
   bonusTotal: 69970,
   price: 19990,
   priceLabel: "/mes bloqueado de por vida",
-  priceAfter: 34990,
-  priceAfterLabel: "Después de las 50 primeras: $34.990/mes",
+  priceAfter: 24990,
+  priceAfterLabel: "Después de las 50 primeras: $24.990/mes",
   cta: "Quiero ser una de Las 50 Primeras →",
   microcopy: "Sin permanencia · cancelas cuando quieras · boleta exenta IVA",
 }
@@ -547,7 +556,7 @@ export const FAQ_ITEMS_V2 = [
   },
   {
     q: "¿Qué pasa al mes 31 si entré como Las 50 Primeras?",
-    a: "Tu precio queda bloqueado en $19.990/mes de por vida mientras mantengas tu suscripción activa. No importa si subimos el precio público a $34.990 o más adelante — tú sigues pagando $19.990. Si cancelas y vuelves después, ya no aplica.",
+    a: "Tu precio queda bloqueado en $19.990/mes de por vida mientras mantengas tu suscripción activa. No importa si subimos el precio público a $24.990 o más adelante — tú sigues pagando $19.990. Si cancelas y vuelves después, ya no aplica.",
   },
   {
     q: "¿Puedo cancelar cuando quiera?",
@@ -575,7 +584,7 @@ export const FAQ_ITEMS_V2 = [
   },
   {
     q: "¿Puedo hacer preguntas directamente a Constanza?",
-    a: "En la comunidad WhatsApp privada de Las 50 Primeras, sí. Para dudas del día a día tienes soporte con IA disponible las 24 horas, basado en su metodología.",
+    a: "Sí. Las dudas de carácter clínico — ajustes de tu plan, síntomas, condiciones — las responde Constanza directamente a través de la app: cuando escribes algo que requiere criterio profesional, tu consulta le llega a ella y te responde personalmente. Para las dudas del día a día (recetas, lista de compras, cómo usar la plataforma) tienes soporte con IA las 24 horas, basado en su metodología. Y en la comunidad WhatsApp privada de Las 50 Primeras también puedes escribirle.",
   },
   {
     q: "¿Qué pasa si necesito pausar mi suscripción?",

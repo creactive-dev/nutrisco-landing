@@ -128,17 +128,12 @@ export default function Hero() {
                   />
                 </span>
               </a>
-
-              {/* Trust microcopy */}
-              <p className="text-[12px] md:text-[13px] text-text-muted leading-relaxed max-w-md">
-                {HERO.microcopy}
-              </p>
             </motion.div>
 
             {/* Trust badges como glass pills */}
             <motion.div
               variants={item}
-              className="hidden md:flex flex-wrap gap-2 mt-7"
+              className="flex flex-wrap justify-center md:justify-start gap-2 mt-7"
             >
               {HERO.trustBadges.map((badge) => {
                 const Icon = trustIconMap[badge.icon as TrustIconKey]
@@ -237,26 +232,20 @@ export default function Hero() {
                 </div>
               </motion.div>
 
-              {/* iPhone frame con screenshot real */}
+              {/* Mockup real pre-enmarcado — Tu Progreso */}
               <div
-                className="relative w-[280px] lg:w-[320px] aspect-[9/19] bg-text-dark rounded-[2.75rem] p-3 shadow-glass z-10 ring-1 ring-white/10"
-                aria-label="App Nutrico — dashboard del día"
+                className="relative w-[280px] lg:w-[320px] z-10"
+                aria-label="App Nutrico — tu progreso del día"
               >
-                {/* Notch decorativo */}
-                <div
-                  aria-hidden="true"
-                  className="absolute top-3 left-1/2 -translate-x-1/2 w-24 h-6 bg-text-dark rounded-b-2xl z-20"
+                <Image
+                  src="/mockups/m-progreso.png"
+                  alt="App Nutrico — vista de tu progreso del día con check-in y plan activo"
+                  width={701}
+                  height={1444}
+                  sizes="(min-width: 1024px) 320px, 280px"
+                  className="w-full h-auto drop-shadow-2xl"
+                  priority
                 />
-                <div className="w-full h-full bg-surface-low rounded-[2.25rem] overflow-hidden relative">
-                  <Image
-                    src="/mockups/dashboard-home.png"
-                    alt="App Nutrico — vista del dashboard con check-in del día y plan activo"
-                    fill
-                    sizes="(min-width: 1024px) 320px, 280px"
-                    className="object-cover object-top"
-                    priority
-                  />
-                </div>
               </div>
             </div>
           </motion.div>
