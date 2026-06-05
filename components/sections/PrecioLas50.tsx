@@ -303,6 +303,92 @@ export function PrecioLas50() {
             )}
           </div>
 
+          {/* Detalle del valor — colapsable */}
+          <details className="group mt-6 pt-5 border-t border-text-dark/10">
+            <summary className="flex items-center justify-between cursor-pointer list-none">
+              <span className="text-[13px] font-semibold text-text-dark">
+                Ver todo lo que incluye{" "}
+                <span className="text-text-muted font-normal">
+                  ({formatCLP(VALUE_STACK.monthlyTotal)} de valor mensual)
+                </span>
+              </span>
+              <ChevronDown
+                size={18}
+                className="text-text-muted transition-transform duration-200 group-open:rotate-180"
+                aria-hidden="true"
+              />
+            </summary>
+
+            <div className="mt-4">
+              <ul className="flex flex-col gap-3" aria-label="Qué incluye tu suscripción">
+                {VALUE_STACK.monthlyItems.map((stackItem, i) => (
+                  <li
+                    key={i}
+                    className="flex items-start gap-3 justify-between border-b border-text-dark/8 last:border-0 pb-3 last:pb-0"
+                  >
+                    <div className="flex items-start gap-3 flex-1 min-w-0">
+                      <span className="flex-shrink-0 w-5 h-5 rounded-full bg-celeste/10 flex items-center justify-center mt-0.5">
+                        <Check size={12} className="text-celeste-600" strokeWidth={2.5} aria-hidden="true" />
+                      </span>
+                      <span className="text-[14px] text-text-dark leading-snug">
+                        {stackItem.label}
+                      </span>
+                    </div>
+                    <span className="text-[14px] text-text-muted font-medium tabular-nums flex-shrink-0">
+                      {formatCLP(stackItem.value)}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="mt-5 pt-4 border-t-2 border-text-dark/15 flex items-center justify-between">
+                <span className="text-[15px] font-semibold text-text-dark">
+                  Valor total mensual
+                </span>
+                <span className="text-[18px] font-bold text-text-dark tabular-nums">
+                  {formatCLP(VALUE_STACK.monthlyTotal)}
+                </span>
+              </div>
+
+              {/* Bonus stack */}
+              <div className="mt-6 relative overflow-hidden rounded-3xl p-5 bg-gradient-to-br from-sandia/10 via-sandia/5 to-celeste/5 ring-1 ring-sandia/20">
+                <div className="flex items-center gap-2 mb-4">
+                  <Gift size={18} className="text-sandia" aria-hidden="true" />
+                  <p className="text-[12px] font-semibold text-sandia-600 uppercase tracking-[0.08em]">
+                    {VALUE_STACK.bonusEyebrow}
+                  </p>
+                </div>
+
+                <ul className="flex flex-col gap-3">
+                  {VALUE_STACK.bonusItems.map((bonus, i) => (
+                    <li key={i} className="flex items-start gap-3 justify-between">
+                      <div className="flex items-start gap-3 flex-1 min-w-0">
+                        <span aria-hidden="true" className="flex-shrink-0 w-5 h-5 rounded-full bg-sandia/15 flex items-center justify-center mt-0.5">
+                          <span className="text-sandia font-bold text-[12px]">+</span>
+                        </span>
+                        <span className="text-[14px] text-text-dark leading-snug">
+                          {bonus.label}
+                        </span>
+                      </div>
+                      <span className="text-[13px] text-text-muted font-medium tabular-nums flex-shrink-0">
+                        {formatCLP(bonus.value)}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="mt-4 pt-4 border-t border-sandia/20 flex items-center justify-between">
+                  <span className="text-[13px] font-semibold text-sandia-600">
+                    Valor total bonus
+                  </span>
+                  <span className="text-[15px] font-bold text-sandia-600 tabular-nums">
+                    {formatCLP(VALUE_STACK.bonusTotal)}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </details>
+
           {/* Email input */}
           <div className="mt-6">
             <label htmlFor="precio-email" className="block text-[13px] font-medium text-text-dark mb-2">
@@ -448,92 +534,6 @@ export function PrecioLas50() {
               </span>
             </div>
           </form>
-
-          {/* Detalle del valor — colapsable */}
-          <details className="group mt-6 pt-5 border-t border-text-dark/10">
-            <summary className="flex items-center justify-between cursor-pointer list-none">
-              <span className="text-[13px] font-semibold text-text-dark">
-                Ver todo lo que incluye{" "}
-                <span className="text-text-muted font-normal">
-                  ({formatCLP(VALUE_STACK.monthlyTotal)} de valor mensual)
-                </span>
-              </span>
-              <ChevronDown
-                size={18}
-                className="text-text-muted transition-transform duration-200 group-open:rotate-180"
-                aria-hidden="true"
-              />
-            </summary>
-
-            <div className="mt-4">
-              <ul className="flex flex-col gap-3" aria-label="Qué incluye tu suscripción">
-                {VALUE_STACK.monthlyItems.map((stackItem, i) => (
-                  <li
-                    key={i}
-                    className="flex items-start gap-3 justify-between border-b border-text-dark/8 last:border-0 pb-3 last:pb-0"
-                  >
-                    <div className="flex items-start gap-3 flex-1 min-w-0">
-                      <span className="flex-shrink-0 w-5 h-5 rounded-full bg-celeste/10 flex items-center justify-center mt-0.5">
-                        <Check size={12} className="text-celeste-600" strokeWidth={2.5} aria-hidden="true" />
-                      </span>
-                      <span className="text-[14px] text-text-dark leading-snug">
-                        {stackItem.label}
-                      </span>
-                    </div>
-                    <span className="text-[14px] text-text-muted font-medium tabular-nums flex-shrink-0">
-                      {formatCLP(stackItem.value)}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-
-              <div className="mt-5 pt-4 border-t-2 border-text-dark/15 flex items-center justify-between">
-                <span className="text-[15px] font-semibold text-text-dark">
-                  Valor total mensual
-                </span>
-                <span className="text-[18px] font-bold text-text-dark tabular-nums">
-                  {formatCLP(VALUE_STACK.monthlyTotal)}
-                </span>
-              </div>
-
-              {/* Bonus stack */}
-              <div className="mt-6 relative overflow-hidden rounded-3xl p-5 bg-gradient-to-br from-sandia/10 via-sandia/5 to-celeste/5 ring-1 ring-sandia/20">
-                <div className="flex items-center gap-2 mb-4">
-                  <Gift size={18} className="text-sandia" aria-hidden="true" />
-                  <p className="text-[12px] font-semibold text-sandia-600 uppercase tracking-[0.08em]">
-                    {VALUE_STACK.bonusEyebrow}
-                  </p>
-                </div>
-
-                <ul className="flex flex-col gap-3">
-                  {VALUE_STACK.bonusItems.map((bonus, i) => (
-                    <li key={i} className="flex items-start gap-3 justify-between">
-                      <div className="flex items-start gap-3 flex-1 min-w-0">
-                        <span aria-hidden="true" className="flex-shrink-0 w-5 h-5 rounded-full bg-sandia/15 flex items-center justify-center mt-0.5">
-                          <span className="text-sandia font-bold text-[12px]">+</span>
-                        </span>
-                        <span className="text-[14px] text-text-dark leading-snug">
-                          {bonus.label}
-                        </span>
-                      </div>
-                      <span className="text-[13px] text-text-muted font-medium tabular-nums flex-shrink-0">
-                        {formatCLP(bonus.value)}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="mt-4 pt-4 border-t border-sandia/20 flex items-center justify-between">
-                  <span className="text-[13px] font-semibold text-sandia-600">
-                    Valor total bonus
-                  </span>
-                  <span className="text-[15px] font-bold text-sandia-600 tabular-nums">
-                    {formatCLP(VALUE_STACK.bonusTotal)}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </details>
         </div>
       </motion.div>
     </section>
