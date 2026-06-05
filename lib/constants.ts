@@ -332,30 +332,31 @@ export const PRODUCT_DEMO = {
   h2: ["Tres pasos.", "Tu cuerpo, distinto."],
   subcopy:
     "Estas son las pantallas reales que vas a usar. Sin filtros, sin renders — la app que estamos lanzando.",
-  /** Mockups reales (pre-enmarcados) que anclan la sección */
-  framedScreens: [
-    { src: "/mockups/m-screening.png", caption: "Cuestionario · 10 min" },
-    { src: "/mockups/m-progreso.png", caption: "Tu progreso del día" },
-  ],
-  /** Narrativa del proceso (antes sección 'El proceso') */
+  /** Narrativa del proceso + mockup real (pre-enmarcado) por paso */
   steps: [
     {
       number: "01",
       title: "Cuestionario de 10 min",
       description:
         "Cuéntanos tus síntomas, objetivos, restricciones y hábitos. Cada respuesta entra al motor que asigna tu pauta.",
+      mockup: "/mockups/m-screening.png",
+      caption: "Cuestionario · 10 min",
     },
     {
       number: "02",
-      title: "Tu plan en 24 horas",
+      title: "Tu plan con recetas, en 24 horas",
       description:
-        "Constanza revisa tu screening y aprueba tu plan personalizado. Lo recibes con recetas, lista de compras y agenda semanal.",
+        "Constanza aprueba tu plan personalizado: recetas chilenas filtradas para tu pauta, lista de compras y agenda semanal.",
+      mockup: "/mockups/m-recetas.png",
+      caption: "Recetas para tu pauta",
     },
     {
       number: "03",
-      title: "Tu plan evoluciona contigo cada 15 días",
+      title: "Tu plan evoluciona cada 15 días",
       description:
-        "Cada quincena haces un check-in y tu plan se ajusta. Sin estancarte. Sin volver a empezar.",
+        "Cada quincena haces un check-in y tu plan se ajusta. Ves tus tendencias, tu fase y tu progreso en un solo lugar.",
+      mockup: "/mockups/m-progreso-full.png",
+      caption: "Tu progreso",
     },
   ],
   footnote: "Pantallas reales de la app",

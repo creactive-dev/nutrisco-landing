@@ -7,7 +7,7 @@ import { Eyebrow } from "@/components/ui/Eyebrow"
 
 const container = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.12 } },
+  visible: { transition: { staggerChildren: 0.14 } },
 }
 
 const item = {
@@ -16,6 +16,15 @@ const item = {
     opacity: 1,
     y: 0,
     transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] },
+  },
+}
+
+const stepItem = {
+  hidden: { opacity: 0, y: 24 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, ease: [0.25, 0.1, 0.25, 1] },
   },
 }
 
@@ -29,7 +38,7 @@ export function ProductDemo() {
 
       {/* Header */}
       <motion.div
-        className="relative z-10 max-w-3xl mx-auto text-center mb-14 md:mb-16"
+        className="relative z-10 max-w-3xl mx-auto text-center mb-14 md:mb-20"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-80px" }}
@@ -53,80 +62,69 @@ export function ProductDemo() {
         </motion.p>
       </motion.div>
 
-      {/* Cuerpo — pasos + mockups */}
-      <div className="relative z-10 max-w-6xl mx-auto grid md:grid-cols-2 gap-12 md:gap-16 items-center">
-        {/* Pasos */}
-        <motion.ol
-          className="flex flex-col gap-8 order-2 md:order-1"
-          variants={container}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-60px" }}
-        >
-          {PRODUCT_DEMO.steps.map((step) => (
-            <motion.li key={step.number} variants={item} className="flex gap-5">
-              <div className="flex-shrink-0 glass rounded-2xl w-12 h-12 flex items-center justify-center">
-                <span
-                  aria-hidden="true"
-                  className="font-serif font-bold text-[1.15rem] text-gradient-warm leading-none"
-                >
-                  {step.number}
-                </span>
-              </div>
-              <div className="pt-0.5">
-                <h3 className="font-serif font-semibold text-[1.2rem] text-text-dark leading-snug mb-1.5">
-                  {step.title}
-                </h3>
-                <p className="text-[0.9375rem] text-text-muted leading-[1.6]">
-                  {step.description}
-                </p>
-              </div>
-            </motion.li>
-          ))}
-        </motion.ol>
+      {/* Showcase — 3 phones, uno por paso */}
+      <motion.div
+        className="relative z-10 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8"
+        variants={container}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-60px" }}
+      >
+        {/* Línea conectora desktop */}
+        <div
+          aria-hidden="true"
+          className="hidden md:block absolute top-[290px] left-[16%] right-[16%] h-px bg-gradient-to-r from-transparent via-sandia/30 to-transparent"
+        />
 
-        {/* Mockups escalonados */}
-        <motion.div
-          className="relative order-1 md:order-2 flex justify-center md:justify-end"
-          initial={{ opacity: 0, scale: 0.96 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-        >
-          {/* Halo glow */}
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 bg-gradient-warm-cool opacity-25 blur-[80px] pointer-events-none"
-          />
-
-          <div className="relative w-[260px] sm:w-[300px] md:w-[340px]">
-            {/* Mockup trasero (screening) */}
-            <div className="absolute -left-16 sm:-left-20 top-10 w-[58%] hidden sm:block opacity-90 -rotate-6">
+        {PRODUCT_DEMO.steps.map((step, idx) => (
+          <motion.div
+            key={step.number}
+            variants={stepItem}
+            className="relative flex flex-col items-center text-center"
+          >
+            {/* Mockup pre-enmarcado */}
+            <div className="relative w-[220px] sm:w-[240px] mb-7">
+              <div
+                aria-hidden="true"
+                className={`absolute inset-0 rounded-[2rem] blur-2xl opacity-35 ${
+                  idx === 1 ? "bg-celeste/40" : "bg-sandia/30"
+                }`}
+              />
               <Image
-                src={PRODUCT_DEMO.framedScreens[0].src}
-                alt={`App Nutrico — ${PRODUCT_DEMO.framedScreens[0].caption}`}
+                src={step.mockup}
+                alt={`App Nutrico — ${step.caption}`}
                 width={701}
                 height={1444}
-                sizes="200px"
-                className="w-full h-auto drop-shadow-2xl"
+                sizes="240px"
+                className="relative w-full h-auto drop-shadow-2xl"
+                priority={idx === 0}
               />
+              {/* Caption flotante */}
+              <p className="absolute -bottom-2 left-1/2 -translate-x-1/2 glass-strong rounded-full px-3 py-1 text-[10px] font-medium text-text-dark whitespace-nowrap z-20">
+                {step.caption}
+              </p>
             </div>
 
-            {/* Mockup principal (progreso) */}
-            <div className="relative z-10 rotate-2">
-              <Image
-                src={PRODUCT_DEMO.framedScreens[1].src}
-                alt={`App Nutrico — ${PRODUCT_DEMO.framedScreens[1].caption}`}
-                width={701}
-                height={1444}
-                sizes="(min-width: 768px) 340px, 280px"
-                className="w-full h-auto drop-shadow-2xl"
-                priority
-              />
+            {/* Número */}
+            <div className="relative glass rounded-full w-12 h-12 flex items-center justify-center mb-4 z-10">
+              <span
+                aria-hidden="true"
+                className="font-serif font-bold text-[1.25rem] text-gradient-warm leading-none"
+              >
+                {step.number}
+              </span>
             </div>
-          </div>
-        </motion.div>
-      </div>
+
+            {/* Título + descripción */}
+            <h3 className="font-serif font-semibold text-[1.2rem] text-text-dark leading-snug mb-2.5 max-w-[24ch]">
+              {step.title}
+            </h3>
+            <p className="text-[0.9375rem] text-text-muted leading-[1.6] max-w-[30ch]">
+              {step.description}
+            </p>
+          </motion.div>
+        ))}
+      </motion.div>
 
       <p className="relative z-10 text-[12px] text-text-muted text-center mt-14 md:mt-16">
         {PRODUCT_DEMO.footnote}
