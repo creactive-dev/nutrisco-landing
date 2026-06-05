@@ -197,7 +197,7 @@ export function PrecioLas50() {
 
       {/* Card de precio — glass strong. Orden: switcher → precio → CTA → detalle colapsable */}
       <motion.div
-        className="relative z-10 max-w-md mx-auto"
+        className="relative z-10 max-w-[33.6rem] mx-auto"
         initial={{ opacity: 0, y: 24, scale: 0.97 }}
         whileInView={{ opacity: 1, y: 0, scale: 1 }}
         viewport={{ once: true, margin: "-60px" }}
@@ -272,9 +272,9 @@ export function PrecioLas50() {
           {/* Precio dinámico — ARRIBA, reacciona al instante al cambiar de plan */}
           <div className="text-center">
             <p className="text-[12px] text-text-muted mb-1">
-              Valor real combinado:{" "}
+              Valor real:{" "}
               <span className="font-semibold text-text-dark line-through decoration-text-muted/40 tabular-nums">
-                {formatCLP(VALUE_STACK.monthlyTotal + VALUE_STACK.bonusTotal)}
+                {formatCLP(VALUE_STACK.monthlyTotal)}
               </span>
             </p>
             <p className="text-[12px] text-text-muted">
