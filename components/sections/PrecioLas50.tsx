@@ -272,9 +272,9 @@ export function PrecioLas50() {
           {/* Precio dinámico — ARRIBA, reacciona al instante al cambiar de plan */}
           <div className="text-center">
             <p className="text-[12px] text-text-muted mb-1">
-              Valor real:{" "}
+              Valor real combinado:{" "}
               <span className="font-semibold text-text-dark line-through decoration-text-muted/40 tabular-nums">
-                {formatCLP(VALUE_STACK.monthlyTotal)}
+                {formatCLP(VALUE_STACK.monthlyTotal + VALUE_STACK.bonusTotal)}
               </span>
             </p>
             <p className="text-[12px] text-text-muted">
@@ -303,8 +303,8 @@ export function PrecioLas50() {
             )}
           </div>
 
-          {/* Detalle del valor — colapsable */}
-          <details className="group mt-6">
+          {/* Detalle del valor — colapsable, abierto por defecto */}
+          <details open className="group mt-6">
             <summary className="flex items-center justify-between gap-3 cursor-pointer list-none rounded-2xl bg-celeste/10 ring-1 ring-celeste/25 px-4 py-3.5 transition-colors hover:bg-celeste/[0.16] group-open:rounded-b-none group-open:bg-celeste/[0.16]">
               <span className="flex items-center gap-2 text-[14px] font-bold text-text-dark">
                 <Sparkles size={16} className="text-celeste-600 flex-shrink-0" aria-hidden="true" />
