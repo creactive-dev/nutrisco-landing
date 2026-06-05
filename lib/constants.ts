@@ -453,21 +453,21 @@ export const TESTIMONIOS_MIXTO = {
   videos: [
     {
       id: "v1",
-      name: "Catalina R.",
+      name: "Norma",
       subtitle: "Paciente del Reto Antiinflamatorio",
       src: "/testimonios/testimonio-1.mp4",
       poster: "/testimonios/testimonio-1-poster.jpg",
     },
     {
       id: "v2",
-      name: "Francisca M.",
+      name: "Jorge",
       subtitle: "Paciente del Reto Antiinflamatorio",
       src: "/testimonios/testimonio-2.mp4",
       poster: "/testimonios/testimonio-2-poster.jpg",
     },
     {
       id: "v3",
-      name: "Antonia V.",
+      name: "Paulina",
       subtitle: "Paciente del Reto Antiinflamatorio",
       src: "/testimonios/testimonio-3.mp4",
       poster: "/testimonios/testimonio-3-poster.jpg",
@@ -544,7 +544,7 @@ export const VALUE_STACK = {
 export const CTA_FINAL_V2 = {
   h2: "Las 50 Primeras de Nutrico.",
   sub: "Tu plan. Tu cuerpo. Tu lugar entre las primeras.",
-  counter: "50 cupos disponibles · arranque vie 5 jun 9 AM",
+  counter: "Solo para Las 50 Primeras · arranque vie 5 jun 9 AM",
   cta: "Quiero mi cupo · $19.990/mes →",
   microcopy: "Sin permanencia · cancelas cuando quieras · boleta exenta IVA · arranque vie 5 jun 9 AM",
 }

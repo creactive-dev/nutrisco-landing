@@ -217,15 +217,9 @@ export function PrecioLas50() {
             </span>
           </div>
 
-          {/* Contador inline de cupos fundadora */}
-          {contador && esFundador && (
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-sandia/10 px-3 py-1.5 ring-1 ring-sandia/20">
-              <span className="h-1.5 w-1.5 rounded-full bg-sandia animate-pulse-soft" aria-hidden="true" />
-              <span className="text-[12px] font-medium text-sandia-600">
-                Quedan <strong className="tabular-nums">{contador.disponibles}</strong> de {contador.total} cupos fundadora
-              </span>
-            </div>
-          )}
+          {/* Contador inline de cupos fundadora — removido por decisión comercial.
+              Conservamos la lógica de cohort (fundadora→regular) sin exponer el
+              número de disponibles, que no aportaba FOMO. */}
           {contador && !esFundador && (
             <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-text-dark/5 px-3 py-1.5 ring-1 ring-text-dark/10">
               <span className="text-[12px] font-medium text-text-muted">
