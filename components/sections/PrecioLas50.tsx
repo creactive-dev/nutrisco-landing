@@ -145,9 +145,12 @@ export function PrecioLas50() {
           billing_cycle: cycle,
         }),
       })
-      const data = await res.json()
+      const data = await res.json().catch(() => ({}))
       if (!res.ok) {
         throw new Error(data.error ?? "No pudimos iniciar tu pago")
+      }
+      if (!data.url) {
+        throw new Error("No recibimos el link de pago. Inténtalo de nuevo en un momento.")
       }
       // Redirect a Mercado Pago
       window.location.href = data.url
