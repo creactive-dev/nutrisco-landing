@@ -358,7 +358,7 @@ export const PRODUCT_DEMO = {
         "Cada quincena haces un check-in y tu plan se ajusta. Sin estancarte. Sin volver a empezar.",
     },
   ],
-  footnote: "Pantallas reales de la app · capturas de QA",
+  footnote: "Pantallas reales de la app",
 }
 
 export const BENTO_BENEFICIOS = {
