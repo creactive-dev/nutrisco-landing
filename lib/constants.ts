@@ -518,7 +518,7 @@ export const VALUE_STACK = {
   eyebrow: "Tarifa Las 50 Primeras",
   h2: ["$19.990 hoy.", "$180.000 de valor real."],
   monthlyItems: [
-    { label: "Plan antiinflamatorio personalizado con IA", value: 60000 },
+    { label: "Plan antiinflamatorio personalizado", value: 60000 },
     { label: "Check-in quincenal con ajuste de tu plan", value: 45000 },
     { label: "84 recetas chilenas filtradas para tu pauta", value: 20000 },
     { label: "Comunidad WhatsApp privada Las 50 Primeras", value: 25000 },

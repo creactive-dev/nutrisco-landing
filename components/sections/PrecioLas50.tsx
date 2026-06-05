@@ -304,22 +304,27 @@ export function PrecioLas50() {
           </div>
 
           {/* Detalle del valor — colapsable */}
-          <details className="group mt-6 pt-5 border-t border-text-dark/10">
-            <summary className="flex items-center justify-between cursor-pointer list-none">
-              <span className="text-[13px] font-semibold text-text-dark">
-                Ver todo lo que incluye{" "}
-                <span className="text-text-muted font-normal">
-                  ({formatCLP(VALUE_STACK.monthlyTotal)} de valor mensual)
+          <details className="group mt-6">
+            <summary className="flex items-center justify-between gap-3 cursor-pointer list-none rounded-2xl bg-celeste/10 ring-1 ring-celeste/25 px-4 py-3.5 transition-colors hover:bg-celeste/[0.16] group-open:rounded-b-none group-open:bg-celeste/[0.16]">
+              <span className="flex items-center gap-2 text-[14px] font-bold text-text-dark">
+                <Sparkles size={16} className="text-celeste-600 flex-shrink-0" aria-hidden="true" />
+                <span>
+                  Ver todo lo que incluye{" "}
+                  <span className="text-celeste-600 font-semibold">
+                    · {formatCLP(VALUE_STACK.monthlyTotal)} de valor
+                  </span>
                 </span>
               </span>
-              <ChevronDown
-                size={18}
-                className="text-text-muted transition-transform duration-200 group-open:rotate-180"
-                aria-hidden="true"
-              />
+              <span className="flex-shrink-0 w-7 h-7 rounded-full bg-white/80 ring-1 ring-celeste/25 flex items-center justify-center">
+                <ChevronDown
+                  size={16}
+                  className="text-celeste-600 transition-transform duration-200 group-open:rotate-180"
+                  aria-hidden="true"
+                />
+              </span>
             </summary>
 
-            <div className="mt-4">
+            <div className="rounded-b-2xl ring-1 ring-celeste/20 bg-white/30 px-4 pt-4 pb-4">
               <ul className="flex flex-col gap-3" aria-label="Qué incluye tu suscripción">
                 {VALUE_STACK.monthlyItems.map((stackItem, i) => (
                   <li
