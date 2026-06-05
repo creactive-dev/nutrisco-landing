@@ -311,7 +311,7 @@ export function PrecioLas50() {
                 <span>
                   Ver todo lo que incluye{" "}
                   <span className="text-celeste-600 font-semibold">
-                    · {formatCLP(VALUE_STACK.monthlyTotal)} de valor
+                    · {formatCLP(VALUE_STACK.monthlyTotal + VALUE_STACK.bonusTotal)} de valor
                   </span>
                 </span>
               </span>
