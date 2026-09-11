@@ -5,7 +5,20 @@ import { useState, useEffect, useRef } from "react"
 import { NAVBAR, SITE_CONFIG } from "@/lib/constants"
 import { Button } from "@/components/ui/Button"
 
-export function Navbar() {
+type NavbarProps = {
+  /** Texto del botón en desktop. Por defecto, el de la página de suscripción. */
+  cta?: string
+  /** Texto del botón en móvil, donde no cabe el largo. */
+  ctaMobile?: string
+}
+
+/**
+ * El texto del CTA es configurable porque el mismo navbar sirve dos ofertas
+ * distintas: el programa de pago único en la home y la suscripción mensual en
+ * `/suscripcion`. "Suscribirme" sobre un programa que se paga una sola vez
+ * promete lo contrario de lo que se vende.
+ */
+export function Navbar({ cta = NAVBAR.cta, ctaMobile = NAVBAR.ctaMobile }: NavbarProps = {}) {
   const [scrolled, setScrolled] = useState(false)
   const [hidden, setHidden] = useState(false)
   const lastY = useRef(0)
@@ -89,7 +102,7 @@ export function Navbar() {
             {/* Desktop */}
             <span className="hidden md:block">
               <Button variant="primary" href="#precio">
-                {NAVBAR.cta}
+                {cta}
               </Button>
             </span>
             {/* Mobile — más compacto */}
@@ -98,7 +111,7 @@ export function Navbar() {
                 href="#precio"
                 className="inline-flex items-center justify-center bg-gradient-warm text-white font-semibold rounded-full px-4 py-2 text-[13px] shadow-glow-sandia transition-all duration-200 active:scale-95"
               >
-                {NAVBAR.ctaMobile}
+                {ctaMobile}
               </a>
             </span>
           </div>
