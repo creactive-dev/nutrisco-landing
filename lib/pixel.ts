@@ -5,13 +5,20 @@
 // ocurren y optimiza con datos incompletos: en la campaña del Reto subcontó un
 // 36% de las ventas reales, medidas contra la pasarela.
 //
-// El ID vive en una variable de entorno y no en el código: si algún día hay que
-// cambiarlo o apagarlo, es una variable en Vercel y no un deploy. Cuando no
-// está definida, todas las funciones de acá no hacen nada, que es lo correcto
-// en desarrollo y en previews.
+// Un píxel de Meta NO es un secreto: viaja en el HTML de cualquier página que
+// lo usa y se lee con ver-código-fuente. Por eso el ID de producción puede
+// vivir en el repo, y conviene que viva acá: si dependiera solo de una variable
+// del panel de Vercel, olvidarla no rompe nada visible y la pauta corre a
+// ciegas durante toda la ventana de venta sin que nadie se entere.
+//
+// `NEXT_PUBLIC_META_PIXEL_ID` sigue mandando cuando está definida, para poder
+// cambiarlo o apagarlo sin un deploy. La resolución del valor por defecto vive
+// en `components/MetaPixel.tsx`, que es un componente de servidor y puede mirar
+// el entorno real.
 // ============================================================
 
-export const PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID ?? ""
+/** El píxel "Pixel Constanza Landing" de la cuenta de Constanza. */
+export const PIXEL_PRODUCCION = "843670005250661"
 
 type Fbq = (
   comando: "init" | "track" | "trackCustom",
