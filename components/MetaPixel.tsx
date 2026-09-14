@@ -14,9 +14,14 @@ import { PIXEL_PRODUCCION } from "@/lib/pixel"
  * - en desarrollo y en previews no renderiza nada, para no ensuciar los datos
  *   de la cuenta con tráfico nuestro.
  *
- * El `<noscript>` cubre a quien navega con JavaScript apagado y, sobre todo, al
- * navegador dentro de Instagram cuando bloquea scripts de terceros, que es por
- * donde llega buena parte del tráfico de esta campaña.
+ * El `<noscript>` cubre solo a quien navega con JavaScript apagado. No ayuda al
+ * navegador de Instagram cuando bloquea el script de Meta: ahí JavaScript sigue
+ * encendido y el `<noscript>` no se muestra.
+ *
+ * Va con `dangerouslySetInnerHTML` y no con un `<img>` hijo: con el hijo, React
+ * crea la imagen en el navegador aunque JavaScript esté encendido, y cada visita
+ * contaba dos PageView (el del script y el de `noscript=1`). Se vio en Chromium
+ * contra la URL de revisión el 14-sep.
  */
 export function MetaPixel() {
   const explicito = process.env.NEXT_PUBLIC_META_PIXEL_ID
@@ -41,16 +46,11 @@ fbq('init', '${pixelId}');
 fbq('track', 'PageView');
         `}
       </Script>
-      <noscript>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          height="1"
-          width="1"
-          style={{ display: "none" }}
-          alt=""
-          src={`https://www.facebook.com/tr?id=${pixelId}&ev=PageView&noscript=1`}
-        />
-      </noscript>
+      <noscript
+        dangerouslySetInnerHTML={{
+          __html: `<img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=${pixelId.replace(/\D/g, "")}&ev=PageView&noscript=1"/>`,
+        }}
+      />
     </>
   )
 }
