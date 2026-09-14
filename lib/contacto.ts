@@ -14,6 +14,8 @@ export interface Canal {
   tipo: "whatsapp" | "correo"
   href: string
   etiqueta: string
+  /** La dirección a la vista, para quien no tiene un cliente de correo configurado. */
+  detalle: string | null
 }
 
 const RELLENO = "56900000000"
@@ -25,11 +27,15 @@ export function canalDeContacto(mensaje: string): Canal {
       tipo: "whatsapp",
       href: `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`,
       etiqueta: "Escríbenos por WhatsApp",
+      detalle: null,
     }
   }
   return {
     tipo: "correo",
     href: `mailto:${SITE_CONFIG.email}?subject=${encodeURIComponent(mensaje)}`,
-    etiqueta: `Escríbenos a ${SITE_CONFIG.email}`,
+    // La dirección no va en el botón: es una palabra de 26 caracteres sin
+    // cortes y a 320 px empuja la columna fuera de la pantalla.
+    etiqueta: "Escríbenos por correo",
+    detalle: SITE_CONFIG.email,
   }
 }

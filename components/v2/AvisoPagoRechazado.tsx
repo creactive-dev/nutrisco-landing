@@ -22,7 +22,10 @@ export function AvisoPagoRechazado() {
       <div className="wrap pago-rechazado-grid">
         <div>
           <p className="pago-rechazado-titulo">{PORTADA.pagoRechazado.titulo}</p>
-          <p>{estado === "abierta" ? PORTADA.pagoRechazado.cuerpo : PORTADA.pagoRechazado.sinVenta}</p>
+          <p>
+            {estado === "abierta" ? PORTADA.pagoRechazado.cuerpo : PORTADA.pagoRechazado.sinVenta}
+            {estado !== "abierta" && contacto.detalle ? ` ${contacto.detalle}` : ""}
+          </p>
         </div>
         {estado === "abierta" ? (
           <button type="button" className="button primary small" onClick={abrirCheckout}>

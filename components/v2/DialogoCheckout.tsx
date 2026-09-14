@@ -340,11 +340,13 @@ export function DialogoCheckout() {
                     setRut(e.target.value)
                     if (errores.rut) setErrores((x) => ({ ...x, rut: undefined }))
                   }}
+                  // Al salir del campo solo se formatea el RUT válido. El error se
+                  // muestra al enviar: si apareciera acá, la línea nueva empuja el
+                  // checkbox de abajo entre que se aprieta y se suelta el click, y
+                  // el click no marca nada (lo encontró la prueba del formulario).
                   onBlur={() => {
-                    if (!rut.trim()) return
-                    const formateado = formatearRut(rut)
+                    const formateado = rut.trim() ? formatearRut(rut) : null
                     if (formateado) setRut(formateado)
-                    else setErrores((x) => ({ ...x, rut: PORTADA.checkout.errorRut }))
                   }}
                   aria-invalid={Boolean(errores.rut)}
                   aria-describedby={`checkout-rut-ayuda${errores.rut ? " checkout-rut-error" : ""}`}

@@ -2138,6 +2138,13 @@ dialog .dialog-note {
 .app-panel {
   width: 100%;
 }
+/* Una palabra larga (un correo, un nombre) no puede ensanchar la grilla. */
+.enrollment-grid > *,
+.founder-grid > *,
+.app-layout > *,
+.faq > * {
+  min-width: 0;
+}
 
 /* Campos */
 .campo input[aria-invalid="true"] {

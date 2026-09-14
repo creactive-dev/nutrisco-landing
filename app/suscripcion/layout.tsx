@@ -6,6 +6,18 @@ import { SITE_CONFIG } from "@/lib/constants"
 /**
  * El layout que antes era el de TODO el sitio y ahora es solo de /suscripcion.
  *
+ * OJO con las fuentes: en el PR, /suscripcion NUNCA mostró Playfair ni Inter.
+ * globals.css define `:root { --font-playfair: 'Playfair Display' }`, que pisa
+ * la variable que next/font ponía en <html>, y su `@import` de Google Fonts va
+ * después de `@tailwind`, donde el navegador lo ignora. Resultado: serif y
+ * sans del sistema. Si acá se aplicaran las clases de next/font en el div, las
+ * fuentes cargarían de verdad y la página cambiaría de aspecto, y el encargo
+ * es dejarla tal cual. Por eso las fuentes se declaran (se precargan igual que
+ * antes) pero no se aplican. Comparado píxel a píxel contra el PR a 390 y
+ * 1440: idéntica salvo los cuadros de los videos que se reproducen solos.
+ * PENDIENTE: si se quiere la tipografía que la página pretendía, basta con
+ * agregar `${playfair.variable} ${inter.variable}` al className del div.
+ *
  * La portada pasó a la v2 ("Este verano, empieza por ti"), con otra fuente y
  * otra hoja de estilos. Si Playfair, Inter de Google y globals.css siguieran en
  * el layout raíz, la portada los descargaría sin usarlos: globals.css además
@@ -72,7 +84,7 @@ export const metadata: Metadata = {
 
 export default function SuscripcionLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className={`${playfair.variable} ${inter.variable} bg-crema font-sans antialiased`}>
+    <div className="bg-crema font-sans antialiased">
       {children}
     </div>
   )

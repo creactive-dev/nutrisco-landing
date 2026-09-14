@@ -135,7 +135,7 @@ export function Oferta() {
             </>
           ) : (
             <p className="price-explanation price-explanation-sola">
-              Tres meses · {PORTADA.oferta.unSoloPago}
+              Tres meses. {PORTADA.oferta.unSoloPago}
             </p>
           )}
 
@@ -165,9 +165,12 @@ export function Oferta() {
           )}
 
           {(estado === "ninguna" || estado === "error") && (
-            <a className="button primary" href={contacto.href} target="_blank" rel="noopener noreferrer">
-              {contacto.etiqueta} {flecha}
-            </a>
+            <>
+              <a className="button primary" href={contacto.href} target="_blank" rel="noopener noreferrer">
+                {contacto.etiqueta} {flecha}
+              </a>
+              {contacto.detalle && <p className="payment-note">{contacto.detalle}</p>}
+            </>
           )}
 
           <p className="not-included">{PORTADA.oferta.noIncluye}</p>
