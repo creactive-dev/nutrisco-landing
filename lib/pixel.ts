@@ -23,8 +23,18 @@ export const PIXEL_PRODUCCION = "843670005250661"
 type Fbq = (
   comando: "init" | "track" | "trackCustom",
   evento: string,
-  parametros?: Record<string, unknown>
+  parametros?: Record<string, unknown>,
+  opciones?: { eventID?: string }
 ) => void
+
+/**
+ * El `eventID` es lo que le permite a Meta reconocer que el evento del píxel y
+ * el que la app manda por la API de Conversiones son EL MISMO, y contarlo una
+ * vez. Sin él, cada venta medida por los dos lados se cuenta doble.
+ */
+export interface OpcionesEvento {
+  eventID?: string
+}
 
 declare global {
   interface Window {
@@ -37,16 +47,28 @@ declare global {
  * romper la página ni bloquear un checkout. Si el bloqueador de anuncios del
  * visitante se comió el script, `window.fbq` no existe y acá no pasa nada.
  */
-export function track(evento: string, parametros?: Record<string, unknown>) {
+export function track(
+  evento: string,
+  parametros?: Record<string, unknown>,
+  opciones?: OpcionesEvento
+) {
   if (typeof window === "undefined" || !window.fbq) return
   try {
-    window.fbq("track", evento, parametros)
+    if (opciones?.eventID) {
+      window.fbq("track", evento, parametros, { eventID: opciones.eventID })
+    } else {
+      window.fbq("track", evento, parametros)
+    }
   } catch {
     /* la medición nunca interrumpe */
   }
 }
 
-/** Alguien miró la oferta del programa. */
+/**
+ * Alguien miró la oferta del programa. Se dispara una vez por carga, cuando la
+ * sección del precio entra en pantalla, y no al cargar: quien rebota desde el
+ * hero no vio la oferta y contarlo ensucia la audiencia de "vio el precio".
+ */
 export function verOferta(cohorte: string, precio: number) {
   track("ViewContent", {
     content_name: "Programa Prepara tu Verano",
@@ -62,20 +84,28 @@ export function verOferta(cohorte: string, precio: number) {
  * más importa mientras el checkout siga rechazando: la distancia entre esto y
  * la venta real es exactamente lo que el antifraude se está comiendo.
  */
-export function iniciarCheckout(cohorte: string, precio: number) {
-  track("InitiateCheckout", {
-    content_name: "Programa Prepara tu Verano",
-    content_ids: [cohorte],
-    content_type: "product",
-    value: precio,
-    currency: "CLP",
-  })
+export function iniciarCheckout(cohorte: string, precio: number, eventID: string) {
+  track(
+    "InitiateCheckout",
+    {
+      content_name: "Programa Prepara tu Verano",
+      content_ids: [cohorte],
+      content_type: "product",
+      value: precio,
+      currency: "CLP",
+    },
+    { eventID }
+  )
 }
 
 /** Alguien dejó su correo para el grupo del mes siguiente. */
-export function anotarseEnListaEspera(cohorte: string) {
-  track("Lead", {
-    content_name: "Lista de espera Prepara tu Verano",
-    content_ids: [cohorte],
-  })
+export function anotarseEnListaEspera(cohorte: string, eventID: string) {
+  track(
+    "Lead",
+    {
+      content_name: "Lista de espera Prepara tu Verano",
+      content_ids: [cohorte],
+    },
+    { eventID }
+  )
 }
