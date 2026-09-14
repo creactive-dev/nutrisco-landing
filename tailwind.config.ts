@@ -27,6 +27,21 @@ const config: Config = {
           600: "#3D94BF",
           700: "#2A6F92",
         },
+        // Landing v2 "Este verano, empieza por ti" (portada). Salen de
+        // `styles.css` de la iteración aprobada por Oscar el 14-sep-2026. La
+        // hoja de la portada los lee con theme(), así que este es su único hogar.
+        v2: {
+          wine: "#4b1729",
+          ink: "#3e1d2a",
+          coral: "#ea5265",
+          pink: "#f4bec5",
+          paper: "#fffdfb",
+          muted: "#75636a",
+          line: "#e9dfe1",
+          peach: "#fce8e3",
+          plum: "#b9425c",
+          focus: "#3985a6",
+        },
         crema: "#FAFAF8",
         "text-dark": "#1A1A1A",
         "text-muted": "#6B7280",
@@ -40,6 +55,10 @@ const config: Config = {
       fontFamily: {
         serif: ["var(--font-playfair)", "serif"],
         sans: ["var(--font-inter)", "sans-serif"],
+        // Portada v2: Inter variable local (next/font) y el acento serif
+        // itálico en Georgia, igual que la v2.
+        v2: ["var(--font-v2)", "Inter", "Arial", "sans-serif"],
+        "v2-serif": ["Georgia", '"Times New Roman"', "serif"],
       },
       fontSize: {
         "hero": ["4.5rem", { lineHeight: "1.0", letterSpacing: "-0.03em", fontWeight: "700" }],
