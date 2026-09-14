@@ -52,6 +52,9 @@ function esFechaUsable(valor: unknown): valor is string {
  * que no calza se degrada a `error`, que la página sabe mostrar.
  */
 export async function leerCohorteActual(): Promise<EstadoVenta> {
+  const simulado = estadoSimulado()
+  if (simulado) return simulado
+
   try {
     const res = await fetch(`${APP_URL}/api/programa/cohorte-actual`, {
       cache: "no-store",
@@ -84,6 +87,103 @@ export async function leerCohorteActual(): Promise<EstadoVenta> {
   } catch {
     return { estado: "error" }
   }
+}
+
+// ── Estado simulado (solo fuera de producción) ────────────────────────────
+// Los tres estados de la página dependen del calendario de la fila real: sin
+// esto, revisar la lista de espera obliga a esperar a que cierre la venta, y
+// revisar el checkout obliga a que esté abierta. `COHORTE_MOCK` deja pedir
+// cualquiera de los cuatro en local y en las previews.
+//
+// La guarda es `VERCEL_ENV`, que la plataforma pone sola y vale "production"
+// SOLO en el despliegue de producción. Por eso la variable se ignora ahí aunque
+// alguien la deje definida en el panel por error: una página de venta que
+// muestra una cohorte inventada es peor que una caída. Se verificó levantando
+// el build con VERCEL_ENV=production y COHORTE_MOCK definida: la página siguió
+// leyendo el endpoint real.
+
+export type EstadoSimulable = "abierta" | "proxima" | "ninguna" | "error"
+
+const DIA = 24 * 60 * 60 * 1000
+
+export function estadoSimulado(
+  entorno: Record<string, string | undefined> = process.env,
+  ahora: number = Date.now()
+): EstadoVenta | null {
+  if (entorno.VERCEL_ENV === "production") return null
+  const pedido = entorno.COHORTE_MOCK
+  if (!pedido) return null
+
+  // Sesiones solo si se piden aparte: en las capturas de aprobación no puede
+  // aparecer un horario que Constanza no dio.
+  const sesiones =
+    entorno.COHORTE_MOCK_SESIONES === "1"
+      ? [1, 2, 3].map((n) => ({
+          fecha: new Date(ahora + (12 + 30 * (n - 1)) * DIA).toISOString(),
+          tema: `Sesión simulada ${n}`,
+        }))
+      : null
+
+  // Fechas con la forma de las reales: la venta cierra a las 23:59:59 de Chile,
+  // el programa arranca a las 00:00 del día siguiente y `fecha_fin` es el
+  // corte de 92 días después (como la cohorte 1: 21 sep al 21 dic).
+  const cohorte = (diasHastaCierre: number) => {
+    const cierre = instanteChile(ahora + diasHastaCierre * DIA, "23:59:59")
+    const inicio = instanteChile(ahora + (diasHastaCierre + 1) * DIA, "00:00:00")
+    const fin = instanteChile(ahora + (diasHastaCierre + 93) * DIA, "00:00:00")
+    return {
+      slug: `simulada-${pedido}`,
+      nombre: "Prepara tu Verano",
+      precio: 59990,
+      venta_cierra: cierre,
+      fecha_inicio: inicio,
+      fecha_fin: fin,
+      sesiones,
+    }
+  }
+
+  switch (pedido as EstadoSimulable) {
+    case "abierta":
+      return { estado: "abierta", cohorte: cohorte(4) }
+    case "proxima":
+      return {
+        estado: "proxima",
+        cohorte: { ...cohorte(9), venta_abre: instanteChile(ahora + 2 * DIA, "00:00:00") },
+      }
+    case "ninguna":
+      return { estado: "ninguna" }
+    case "error":
+      return { estado: "error" }
+    default:
+      return null
+  }
+}
+
+/**
+ * Un instante ISO para una hora de reloj chileno en el día (de Chile) en que
+ * cae `instante`. Prueba los dos husos de Chile continental y se queda con el
+ * que, leído de vuelta en America/Santiago, da la hora pedida. Solo lo usa el
+ * estado simulado.
+ */
+function instanteChile(instante: number, hora: "00:00:00" | "23:59:59"): string {
+  const dia = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "America/Santiago",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(new Date(instante))
+  for (const huso of ["-03:00", "-04:00"]) {
+    const candidato = new Date(`${dia}T${hora}${huso}`)
+    const leido = new Intl.DateTimeFormat("en-GB", {
+      timeZone: "America/Santiago",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hourCycle: "h23",
+    }).format(candidato)
+    if (leido === hora) return candidato.toISOString()
+  }
+  return new Date(`${dia}T${hora}-03:00`).toISOString()
 }
 
 // ── Fechas ────────────────────────────────────────────────────────────────
@@ -141,30 +241,96 @@ export function diaSemanaYFecha(iso: string): string {
  * horario hay días de 23 y de 25 horas, y restar milisegundos cae en el día
  * equivocado. Se resta un día del CALENDARIO chileno, que es otra operación.
  */
-export function ultimoDiaDelPrograma(fechaFin: string): string {
-  const corte = new Date(fechaFin)
-  if (!Number.isFinite(corte.getTime())) return ""
+export function ultimoDiaDelPrograma(
+  fechaFin: string,
+  opciones: { mes?: "short" | "long"; anio?: boolean } = {}
+): string {
+  const civil = fechaCivilChile(fechaFin)
+  if (!civil) return ""
+
+  // Fecha civil pura en UTC: sin hora local de por medio, restar un día acá es
+  // aritmética de calendario y no de reloj.
+  civil.setUTCDate(civil.getUTCDate() - 1)
+
+  try {
+    return new Intl.DateTimeFormat("es-CL", {
+      day: "numeric",
+      month: opciones.mes ?? "short",
+      ...(opciones.anio ? { year: "numeric" } : {}),
+      timeZone: "UTC",
+    }).format(civil)
+  } catch {
+    return ""
+  }
+}
+
+/**
+ * El día del calendario chileno en que cae un instante, como fecha civil pura
+ * (medianoche UTC de ese día). Sirve para aritmética de días sin que el reloj
+ * ni el horario de verano se metan: ver `ultimoDiaDelPrograma`.
+ */
+function fechaCivilChile(iso: string): Date | null {
+  const instante = new Date(iso)
+  if (!Number.isFinite(instante.getTime())) return null
 
   const partes = new Intl.DateTimeFormat("en-CA", {
     timeZone: ZONA,
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
-  }).format(corte)
+  }).format(instante)
 
   const [anio, mes, dia] = partes.split("-").map(Number)
-  if (!anio || !mes || !dia) return ""
+  if (!anio || !mes || !dia) return null
+  return new Date(Date.UTC(anio, mes - 1, dia))
+}
 
-  // Fecha civil pura en UTC: sin hora local de por medio, restar un día acá es
-  // aritmética de calendario y no de reloj.
-  const civil = new Date(Date.UTC(anio, mes - 1, dia))
-  civil.setUTCDate(civil.getUTCDate() - 1)
+/** "septiembre". Para nombrar el grupo por el mes en que arranca. */
+export function mesDe(iso: string): string {
+  return formatear(iso, { month: "long" })
+}
 
-  return new Intl.DateTimeFormat("es-CL", {
-    day: "numeric",
-    month: "short",
-    timeZone: "UTC",
-  }).format(civil)
+/** "2026", contado en la zona de Chile y no en la del servidor. */
+export function anioDe(iso: string): string {
+  return formatear(iso, { year: "numeric" })
+}
+
+/**
+ * "20/09". Se arma a mano desde la fecha civil: el formato numérico de es-CL
+ * separa con guion ("20-09", que en una barra de anuncio se lee como rango) y
+ * además ignora el `2-digit` del mes ("20-9").
+ */
+export function diaMesNumerico(iso: string): string {
+  const civil = fechaCivilChile(iso)
+  if (!civil) return ""
+  const dia = String(civil.getUTCDate()).padStart(2, "0")
+  const mes = String(civil.getUTCMonth() + 1).padStart(2, "0")
+  return `${dia}/${mes}`
+}
+
+/** "23:59", hora de Chile. */
+export function horaDe(iso: string): string {
+  return formatear(iso, { hour: "2-digit", minute: "2-digit", hourCycle: "h23" })
+}
+
+/**
+ * La semana (lunes a domingo) en que cae un instante, en el calendario
+ * chileno. La usa el teléfono ilustrativo del hero para que su tira de días
+ * sea la semana en que arranca el grupo y no una semana escrita a mano.
+ */
+export function semanaDe(iso: string): { inicial: string; dia: number; esElDia: boolean }[] {
+  const civil = fechaCivilChile(iso)
+  if (!civil) return []
+  const iniciales = ["L", "M", "M", "J", "V", "S", "D"]
+  // getUTCDay: domingo 0. Se corre para que el lunes sea 0.
+  const indice = (civil.getUTCDay() + 6) % 7
+  const lunes = new Date(civil)
+  lunes.setUTCDate(civil.getUTCDate() - indice)
+  return iniciales.map((inicial, i) => {
+    const dia = new Date(lunes)
+    dia.setUTCDate(lunes.getUTCDate() + i)
+    return { inicial, dia: dia.getUTCDate(), esElDia: i === indice }
+  })
 }
 
 /**
@@ -174,6 +340,51 @@ export function ultimoDiaDelPrograma(fechaFin: string): string {
  */
 export function ultimoDiaDeVenta(ventaCierra: string): string {
   return diaSemanaYFecha(ventaCierra)
+}
+
+/**
+ * Cómo se muestra una sesión en vivo. Las sesiones se cargan a mano en un
+ * jsonb sin formato fijo, así que llegan de dos formas:
+ * - con hora ("2026-10-05T19:00:00-03:00"): día y hora en Chile;
+ * - solo fecha ("2026-10-05"): `new Date` la lee como medianoche UTC, que en
+ *   Chile es el día ANTERIOR a las 21:00. Se trata como fecha civil y sin hora.
+ * Devuelve null si no se puede leer, para descartar la fila y no mostrar una
+ * viñeta vacía.
+ */
+export function fechaDeSesion(fecha: string): { dia: string; hora: string | null } | null {
+  if (typeof fecha !== "string") return null
+  if (/^\d{4}-\d{2}-\d{2}$/.test(fecha)) {
+    const civil = new Date(`${fecha}T00:00:00Z`)
+    if (!Number.isFinite(civil.getTime())) return null
+    try {
+      const dia = new Intl.DateTimeFormat("es-CL", {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        timeZone: "UTC",
+      })
+        .format(civil)
+        .replace(",", "")
+      return { dia, hora: null }
+    } catch {
+      return null
+    }
+  }
+  const dia = diaSemanaYFecha(fecha)
+  if (!dia) return null
+  return { dia, hora: horaDe(fecha) || null }
+}
+
+/** Las sesiones que se pueden mostrar, ya formateadas. Null si no hay ninguna. */
+export function sesionesLegibles(
+  sesiones: Sesion[] | null | undefined
+): { dia: string; hora: string | null; tema: string }[] | null {
+  if (!Array.isArray(sesiones)) return null
+  const legibles = sesiones.flatMap((s) => {
+    const f = s && fechaDeSesion(s.fecha)
+    return f ? [{ ...f, tema: typeof s.tema === "string" ? s.tema : "" }] : []
+  })
+  return legibles.length > 0 ? legibles : null
 }
 
 export function formatCLP(valor: number): string {
