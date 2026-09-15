@@ -58,6 +58,27 @@ O conectar el repositorio en vercel.com > New Project > Import Git Repository.
 
 ---
 
+## URL de revisión (portada v2, sep-2026)
+
+Mientras Constanza no apruebe, la portada v2 **no va al dominio**: vive en
+**https://nutrisco-landing-revision.vercel.app**, un proyecto Vercel aparte (`nutrisco-landing-revision`,
+equipo `cass-projects-e05c7da3`) sin conexión a git. Se despliega a mano:
+
+```bash
+# desde un directorio temporal, nunca desde el repo (así no viajan .env ni archivos sin commitear)
+git -C ~/Dev/nutrisco-landing archive feat/landing-v2-empieza-por-ti | tar -x -C <tmp>
+cd <tmp>
+printf '{\n  "framework": "nextjs"\n}\n' > vercel.json   # sin esto el proyecto nuevo sirve 404
+npx vercel link --yes --project nutrisco-landing-revision --scope cass-projects-e05c7da3
+npx vercel deploy --prod --yes --build-env NEXT_PUBLIC_NOINDEX=1 --scope cass-projects-e05c7da3
+```
+
+- `NEXT_PUBLIC_NOINDEX=1` se fija **al construir**: sin ella la URL de revisión es indexable.
+- El checkout funciona porque el origen está en `CORS_EXTRA_ORIGINS` de la app. Vaciarlo al salir al dominio.
+- En `public/pauta-c1-q7x2/` de ese despliegue están las imágenes que usan los anuncios de Meta: si se
+  despliega desde cero, copiarlas antes o los creativos pierden su fuente.
+- Comprobar el píxel con un navegador real y `navigator.webdriver` oculto: un PageView por visita.
+
 ## Estructura del proyecto
 
 ```
