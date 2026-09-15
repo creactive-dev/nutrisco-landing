@@ -1,5 +1,5 @@
 // ============================================================
-// RUT — validación y formato para la boleta
+// RUT · validación y formato para la boleta
 //
 // El RUT es opcional en el checkout: sirve para que la boleta salga a nombre de
 // la persona y pueda pedir el reembolso a su isapre. Opcional no significa que

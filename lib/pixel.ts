@@ -1,5 +1,5 @@
 // ============================================================
-// MEDICIÓN — Meta Pixel
+// MEDICIÓN · Meta Pixel
 //
 // La página nunca tuvo píxel. Sin él Meta cuenta menos ventas de las que
 // ocurren y optimiza con datos incompletos: en la campaña del Reto subcontó un

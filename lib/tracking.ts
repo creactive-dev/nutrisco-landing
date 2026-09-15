@@ -1,5 +1,5 @@
 // ============================================================
-// MEDICIÓN — lo que viaja con cada envío a la app
+// MEDICIÓN · lo que viaja con cada envío a la app
 //
 // El píxel del navegador cuenta menos de lo que pasa: bloqueadores, el
 // navegador de Instagram, gente que cierra antes de que cargue. La app va a

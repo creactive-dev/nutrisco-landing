@@ -1,5 +1,5 @@
 // ============================================================
-// PROGRAMA "PREPARA TU VERANO" — estado de venta y formato de fechas
+// PROGRAMA "PREPARA TU VERANO" · estado de venta y formato de fechas
 //
 // La página NO sabe fechas ni precios: los lee del endpoint público de la app,
 // que a su vez los lee de la fila de `cohortes_programa`. Un cambio de fecha o

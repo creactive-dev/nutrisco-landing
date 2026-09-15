@@ -1,7 +1,7 @@
 import { SITE_CONFIG } from "@/lib/constants"
 
 // ============================================================
-// CONTACTO — a dónde mandar a alguien que no puede comprar ahora
+// CONTACTO · a dónde mandar a alguien que no puede comprar ahora
 //
 // `SITE_CONFIG.whatsappNumber` cae a "56900000000" cuando no está definida
 // `NEXT_PUBLIC_WHATSAPP_NUMBER`, y hoy no está en `.env.example` ni hay un

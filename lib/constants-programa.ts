@@ -10,6 +10,7 @@
 // archivo los desalinearía en cuanto alguien edite la tabla.
 // ============================================================
 
+import { SITE_CONFIG } from "@/lib/constants"
 import {
   diaSemanaYFecha,
   diaYMes,
@@ -38,7 +39,7 @@ export const PROGRAMA = {
     {
       titulo: "Tu pauta personalizada",
       detalle:
-        "Armada con las 11 variables del cuestionario y aprobada por Constanza. No es un PDF genérico.",
+        "Armada con las 11 variables de tu cuestionario y aprobada por Constanza antes de empezar.",
     },
     {
       titulo: "Recetario chileno filtrado para tu pauta",
@@ -50,7 +51,7 @@ export const PROGRAMA = {
     },
     {
       titulo: "Grupo de WhatsApp exclusivo",
-      detalle: "Solo para quienes entran a este grupo. Lo recibes apenas pagas.",
+      detalle: "Solo para quienes entran a este grupo.",
     },
     {
       titulo: "Tres sesiones grupales en vivo con Constanza",
@@ -58,7 +59,7 @@ export const PROGRAMA = {
     },
     {
       titulo: "Boleta exenta de IVA",
-      detalle: "La necesitas para pedir el reembolso a tu isapre.",
+      detalle: "Para pedir el reembolso a tu isapre, según tu plan.",
     },
   ],
 
@@ -310,7 +311,14 @@ export const PORTADA = {
         "Creadora del Reto Antiinflamatorio",
       ],
     },
-    cita: ["“La IA asiste,", "yo decido.”"],
+    // Frase de Constanza, dicha por ella a quien la sigue, con un ajuste mínimo
+    // (se sacó "mañana"). Fuente: reel de lanzamiento de Nutrico, junio 2026,
+    // toma IMG_2130: "Si quieres venir conmigo a este viaje mañana te espero y si
+    // no no pasa nada, nos seguimos viendo por acá"
+    // (60-clientes/activos/constanza-nutricion/outputs/contenido/reel-4-urgencia-hf/whisper-takes/IMG_2130.json).
+    // Reemplaza la cita anterior sobre la IA (decisión de Oscar del 15-sep).
+    // PENDIENTE: la confirma Constanza.
+    cita: ["“Si quieres venir conmigo", "a este viaje, te espero.”"],
     firma: "CONSTANZA JIMÉNEZ PASCHOLD",
     fotoAlt: "Constanza Jiménez Paschold en su consulta",
   },
@@ -367,7 +375,7 @@ export const PORTADA = {
     errorEnvio: "No pudimos iniciar tu pago. Revisa tu conexión e inténtalo de nuevo.",
     reintentar: "Intentar de nuevo",
     avisoTarjeta:
-      "Si tu tarjeta te da problemas, paga con saldo de Mercado Pago. Es la vía que no falla, y si aun así no resulta, escríbenos y lo resolvemos contigo.",
+      "Si tu tarjeta te da problemas, paga con saldo de Mercado Pago: es el medio con menos rechazos. Y si aun así no resulta, escríbenos y lo resolvemos contigo.",
     nota: "Pago seguro con Mercado Pago · boleta exenta a tu nombre",
     cerroTitulo: "Justo cerraron",
     cerroTituloEm: "las inscripciones.",
@@ -480,9 +488,16 @@ export function preguntasPortada(venta: EstadoVenta): { q: string; a: string }[]
         cohorte && venta.estado === "abierta"
           ? `¿Puedo entrar después del ${diaYMes(cohorte.venta_cierra)}?`
           : "¿Puedo entrar cuando el programa ya empezó?",
+      // Con la venta abierta la página no tiene formulario de lista de espera
+      // (solo el checkout): ahí no se ofrece "déjanos tu correo", se da el correo
+      // de contacto. Con la venta próxima el formulario está en la oferta.
       a: cohorte
-        ? `Las inscripciones de este grupo cierran el ${ultimoDiaDeVenta(cohorte.venta_cierra)} porque todas empiezan juntas el ${diaYMes(cohorte.fecha_inicio)} y hacen la misma quincena al mismo tiempo. Si no alcanzas, déjanos tu correo y te avisamos cuando abra el siguiente grupo.`
-        : "No. Todas avanzan juntas y hacen la misma quincena al mismo tiempo, así que se entra al inicio de cada grupo. Escríbenos y te avisamos cuando abra el siguiente.",
+        ? `Las inscripciones de este grupo cierran el ${ultimoDiaDeVenta(cohorte.venta_cierra)} porque todas empiezan juntas el ${diaYMes(cohorte.fecha_inicio)} y hacen la misma quincena al mismo tiempo. ${
+            venta.estado === "abierta"
+              ? `Si no alcanzas, escríbenos a ${SITE_CONFIG.email} y te avisamos cuando abra el siguiente grupo.`
+              : "Si no alcanzas, déjanos tu correo en la inscripción y te avisamos cuando abra el siguiente grupo."
+          }`
+        : `No. Todas avanzan juntas y hacen la misma quincena al mismo tiempo, así que se entra al inicio de cada grupo. Escríbenos a ${SITE_CONFIG.email} y te avisamos cuando abra el siguiente.`,
     },
     {
       q: "¿Recibo boleta para mi isapre?",

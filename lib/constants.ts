@@ -1,5 +1,5 @@
 // ============================================================
-// NUTRICO LANDING — Constantes centralizadas
+// NUTRICO LANDING · Constantes centralizadas
 // Editar aquí para actualizar copy o configuración
 // ============================================================
 
@@ -19,7 +19,9 @@ export const SITE_CONFIG = {
     constanzaThumb: "/brand/constanza-thumb.jpg",
   },
   legal: {
-    razonSocial: "Constanza Jiménez Paschold",
+    // Quien emite la boleta es la SpA de Constanza (corrección del 15-sep: el pie
+    // mostraba su nombre con el RUT de la sociedad).
+    razonSocial: "CJP Nutrición SpA",
     rut: "78.120.238-K",
     direccion: "Jorge Montt 538, La Serena, Chile",
   },
