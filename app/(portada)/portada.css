@@ -125,16 +125,35 @@ p {
   font-weight: 650;
   line-height: 1.6;
 }
+/*
+ * "Saltar al contenido" existe solo para quien navega con teclado. Antes vivía
+ * fijo arriba de la pantalla y se mostraba con cualquier :focus: en capturas
+ * de página completa aparecía a media página. Ahora va absoluto (pegado al
+ * inicio del documento, nunca a la pantalla), recortado a nada, y se abre solo
+ * con :focus-visible, que el clic no activa.
+ */
 .skip {
-  position: fixed;
-  left: 20px;
-  top: -80px;
+  position: absolute;
+  left: 16px;
+  top: 12px;
   z-index: 99;
-  background: white;
-  padding: 16px;
+  background: #fff;
+  color: #1a1a1a;
+  padding: 14px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  clip-path: inset(50%);
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  white-space: nowrap;
 }
-.skip:focus {
-  top: 20px;
+.skip:focus-visible {
+  clip-path: none;
+  width: auto;
+  height: auto;
+  overflow: visible;
 }
 .announcement {
   min-height: 36px;
