@@ -243,11 +243,11 @@ export const PORTADA = {
     cuerpo: "En Prepara tu Verano sabes qué comer, qué comprar y cómo seguir, durante tres meses.",
     enlace: "Así funciona el programa por dentro",
     nota: "¿Y hoy qué comemos?",
-    // 15-sep: la foto anterior mostraba a una mujer de más de 50. Esta es de una
-    // mujer de 30 a 45 en su cocina (crédito en public/v2/fotos/CREDITOS.md).
+    // 15-sep (reunión con Constanza): fotos "más reales". Mujer de 30 a 45 en su
+    // cocina, sin pose de catálogo (crédito en public/v2/fotos/CREDITOS.md).
     foto: {
-      src: "/v2/fotos/cocina-tablet.jpg",
-      alt: "Una mujer mira una tableta apoyada en el mesón de su cocina",
+      src: "/v2/fotos/cocina-mirando-celular.jpg",
+      alt: "Una mujer mira su celular con cara de duda frente a la cocina de su casa",
       width: 1400,
       height: 1400,
     } satisfies FotoPortada,
@@ -349,10 +349,10 @@ export const PORTADA = {
       {
         momento: "AL COMENZAR",
         foto: {
-          src: "/v2/fotos/telefono-cocina.jpg",
-          alt: "Una mujer mira su teléfono sentada a la mesa de su cocina",
-          width: 960,
-          height: 1200,
+          src: "/v2/fotos/sillon-celular.jpg",
+          alt: "Una mujer revisa su celular sentada en el sillón de su living",
+          width: 1400,
+          height: 933,
         } satisfies FotoPortada,
         pasos: [
           {
@@ -467,9 +467,11 @@ export const PORTADA = {
     h2: ["El próximo paso", "puede ser"],
     h2em: "para ti.",
     cuerpo: "Haz un espacio para cuidarte.",
+    // Foto de Constanza y no de stock: esta zona está junto a reseñas reales y a
+    // cifras de pacientes, y una persona de stock ahí se lee como respaldo.
     foto: {
-      src: "/v2/fotos/mesa-riendo.jpg",
-      alt: "Una mujer se ríe en la mesa mientras come frutillas",
+      src: "/v2/fotos/constanza-oferta.jpg",
+      alt: "Constanza Jiménez Paschold sonríe a la cámara con un polar crema",
       width: 960,
       height: 1280,
     } satisfies FotoPortada,
