@@ -28,7 +28,7 @@ export const PROGRAMA = {
   hero: {
     h1: ["Llega al verano", "sin hinchazón."],
     subtitle:
-      "Tres meses con tu pauta antiinflamatoria personalizada, ajustada cada quince días por Constanza. Un grupo que empieza y termina junto, con fecha.",
+      "Un programa de tres meses con tu pauta antiinflamatoria hecha por Constanza y una pauta nueva cada quince días. Un grupo que empieza y termina junto, con fecha.",
     ctaAbierta: "Quiero entrar al programa",
     ctaProxima: "Avísame cuando abran las inscripciones",
     microcopy: "Un solo pago · sin mensualidad · boleta exenta para tu isapre",
@@ -38,20 +38,20 @@ export const PROGRAMA = {
   incluye: [
     {
       titulo: "Tu pauta personalizada",
-      detalle:
-        "Armada con las 11 variables de tu cuestionario y aprobada por Constanza antes de empezar.",
+      detalle: "Constanza la arma con las 11 variables de tu cuestionario, antes de que parta el grupo.",
     },
     {
       titulo: "Recetario chileno filtrado para tu pauta",
-      detalle: "Con lista de compras y agenda semanal, para que no tengas que pensar qué cocinar.",
+      detalle: "Con lista de compras de las recetas que eliges, para que no tengas que pensar qué cocinar.",
     },
     {
-      titulo: "Ajuste cada 15 días",
-      detalle: "Haces un check-in y tu plan cambia. Son seis ajustes en los tres meses.",
+      titulo: "Una pauta nueva cada 15 días",
+      detalle:
+        "Haces tu control y Constanza te arma la pauta siguiente. Son 6 pautas diferentes, y el tercer mes es para mantener lo que lograste.",
     },
     {
       titulo: "Grupo de WhatsApp exclusivo",
-      detalle: "Solo para quienes entran a este grupo.",
+      detalle: "Solo para quienes entran a este grupo. Constanza te agrega con el WhatsApp que dejas al inscribirte.",
     },
     {
       titulo: "Tres sesiones grupales en vivo con Constanza",
@@ -66,7 +66,7 @@ export const PROGRAMA = {
   noIncluye: {
     titulo: "Consulta individual",
     detalle:
-      "El programa es la aplicación más el acompañamiento grupal. Lo decimos claro desde el principio para que nadie llegue esperando otra cosa.",
+      "El programa es tu pauta, la app y el acompañamiento en grupo. Lo decimos claro desde el principio para que nadie llegue esperando otra cosa.",
   },
 
   // La escasez de este programa es la FECHA, no un contador de cupos. Los "50
@@ -114,7 +114,7 @@ export const PROGRAMA = {
   faq: [
     {
       q: "¿Y si me rechazan la tarjeta?",
-      a: "Puede pasar, y no es que no tengas fondos: es el sistema antifraude de Mercado Pago, que a veces es duro con los montos altos. Si te rechaza, lo más rápido es pagar con saldo de Mercado Pago en vez de tarjeta. Y si igual no resulta, escríbenos y lo resolvemos contigo, no te quedes fuera por eso.",
+      a: "Puede pasar, y no es que no tengas fondos: es el sistema antifraude de Mercado Pago, que a veces es duro con los montos altos. Si te rechaza, lo más rápido es pagar con saldo de Mercado Pago en vez de tarjeta. Y si igual no resulta, puedes pagar por transferencia.",
     },
     {
       q: "¿Puedo entrar cuando el programa ya empezó?",
@@ -130,11 +130,11 @@ export const PROGRAMA = {
     },
     {
       q: "¿Incluye una consulta con Constanza?",
-      a: "No. El programa es la aplicación más el acompañamiento grupal: tu pauta personalizada que ella aprueba, los ajustes cada quince días, el grupo de WhatsApp y las tres sesiones en vivo. La consulta individual es un servicio aparte.",
+      a: "No. El programa es tu pauta personalizada que arma Constanza, una pauta nueva cada quince días, el grupo de WhatsApp y las tres sesiones en vivo. La consulta individual es un servicio aparte.",
     },
     {
       q: "¿Cuánto tiempo me va a tomar?",
-      a: "El cuestionario del principio toma unos diez minutos. Después, un check-in cada quince días y cocinar con las recetas y la lista de compras que te armamos. No hay clases que seguir ni horarios, salvo las tres sesiones en vivo.",
+      a: "El cuestionario del principio toma unos diez minutos. Después, un control cada quince días y cocinar con las recetas y la lista de compras de tu pauta. No hay clases que seguir ni horarios, salvo las tres sesiones en vivo.",
     },
   ],
 
@@ -144,6 +144,28 @@ export const PROGRAMA = {
     body: "Tres meses alcanzan de sobra si empiezas ahora. Después del cierre, el próximo grupo es el mes que viene.",
   },
 } as const
+
+/**
+ * Pago por transferencia (decisión de Oscar, 15-sep): solo como salida cuando
+ * Mercado Pago rechaza, nunca al lado del botón de pagar. Cada transferencia es
+ * un alta manual y Meta no la ve como compra por el píxel.
+ */
+export const TRANSFERENCIA = {
+  titular: "Constanza Jiménez",
+  banco: "Banco Santander",
+  tipoCuenta: "Cuenta corriente",
+  numero: "68991978",
+  rut: "17.701.236-K",
+  correo: "contacto@constanzanutricion.cl",
+  instruccion:
+    "Manda el comprobante con tu nombre, tu correo y tu WhatsApp a contacto@constanzanutricion.cl y te activamos el acceso dentro de un día hábil.",
+} as const
+
+/** "Constanza Jiménez · Banco Santander · Cuenta corriente 68991978 · RUT 17.701.236-K" */
+export function datosTransferenciaEnLinea(): string {
+  const t = TRANSFERENCIA
+  return `${t.titular} · ${t.banco} · ${t.tipoCuenta} ${t.numero} · RUT ${t.rut}`
+}
 
 // ============================================================
 // PORTADA v2 · "Este verano, empieza por ti"
@@ -159,13 +181,13 @@ export const PROGRAMA = {
 // - "Reserva un espacio para cuidarte" pasó a "Haz un espacio": "reservar" en
 //   una página de venta se lee como cupo, y este programa no tiene cupos.
 // - La lista de lo que incluye usa las seis líneas de `PROGRAMA.incluye`, que
-//   son las de la propuesta aprobada, y no la versión resumida de la v2.
+//   son las de la propuesta que aceptó Constanza, y no la versión resumida de la v2.
 // - La duda del pago rechazado usa el dato del saldo de Mercado Pago (0
 //   rechazos en 49 intentos). La v2 decía "contacta al equipo antes de volver a
 //   intentarlo", que frena justo a quien ya decidió pagar.
 // - Sin guiones largos: el brief los prohíbe como puntuación.
 //
-// Ajustes del 14-sep (`BRIEF-ajustes-landing-v2-2026-09-14.md`): menos texto y
+// Cambios del 14-sep (`BRIEF-ajustes-landing-v2-2026-09-14.md`): menos texto y
 // más imagen en toda la página. Si un párrafo pasaba de dos líneas se cortó o
 // se reemplazó por una foto. Las fotos son de Constanza (su foto de consulta y
 // cuadros de sus reels) o de stock con licencia libre; autor y licencia de
@@ -188,14 +210,15 @@ export interface FotoPortada {
 
 export const PORTADA = {
   hero: {
-    eyebrow: "PREPARA TU VERANO · CON CONSTANZA JIMÉNEZ",
-    descripcion: "Deja de improvisar qué comer. Un plan hecho para ti y una nutricionista que te acompaña.",
+    eyebrow: "PREPARA TU VERANO · PROGRAMA DE 3 MESES",
+    descripcion:
+      "Un programa de 3 meses para dejar de improvisar qué comer: tu pauta hecha para ti y una nutricionista que te acompaña.",
     persona: "Con Constanza Jiménez Paschold",
     rol: "Nutricionista clínica · creadora de Nutrico",
-    notaArriba: { titulo: "Tu pauta, hecha para ti", detalle: "Revisada por Constanza" },
+    notaArriba: { titulo: "Tu pauta, hecha para ti", detalle: "La arma Constanza" },
     notaAbajoTitulo: "Vamos juntas",
     notaAbajoSinFechas: "Tres meses, en grupo",
-    leyendaTelefono: "Vista ilustrativa de la app",
+    leyendaTelefono: "Nutrico, la app del programa",
   },
 
   cta: {
@@ -209,16 +232,16 @@ export const PORTADA = {
   },
 
   franja: [
-    { numero: "03", texto: "meses de acompañamiento" },
-    { numero: "06", texto: "ajustes de tu pauta" },
+    { numero: "03", texto: "meses de programa, en grupo" },
+    { numero: "06", texto: "pautas hechas para ti" },
     { numero: "01", texto: "decisión: empezar por ti" },
   ],
 
   problema: {
     eyebrow: "¿TE SUENA FAMILIAR?",
     grande: "Guardas recetas. Empiezas el lunes. El jueves vuelves a improvisar.",
-    cuerpo: "Nutrico te dice qué comer, qué comprar y cómo seguir.",
-    enlace: "Así se ve en tu día a día",
+    cuerpo: "En Prepara tu Verano sabes qué comer, qué comprar y cómo seguir, durante tres meses.",
+    enlace: "Así funciona el programa por dentro",
     nota: "¿Y hoy qué comemos?",
     // 15-sep: la foto anterior mostraba a una mujer de más de 50. Esta es de una
     // mujer de 30 a 45 en su cocina (crédito en public/v2/fotos/CREDITOS.md).
@@ -231,14 +254,15 @@ export const PORTADA = {
   },
 
   app: {
-    eyebrow: "TU PLAN, EN EL BOLSILLO",
-    cuerpo: "Tu pauta, tus recetas, tu lista de compras y tus ajustes, en una app que llevas contigo.",
-    etiquetaDemo: "ASÍ SE VE NUTRICO",
+    eyebrow: "EL PROGRAMA, EN TU BOLSILLO",
+    cuerpo:
+      "Durante los tres meses, tu pauta, tus recetas, tu lista de compras y tus controles van contigo en Nutrico, la app del programa.",
+    etiquetaDemo: "ASÍ SE VE EL PROGRAMA EN NUTRICO",
     etiquetaCaptura: "Pantallas de la app con una paciente de ejemplo",
     // Las seis pantallas salen de los componentes reales de la app con datos de
     // ejemplo (tarea B3 del 15-sep, `landing-aprobacion/mockups-2026-09-15/`).
     // Cada texto describe solo lo que esa pantalla hace hoy: la app no tiene
-    // gráfico de síntomas (los síntomas se registran en el check-in) y el
+    // gráfico de síntomas (los síntomas se registran en el control) y el
     // gráfico de energía muestra las dos últimas semanas.
     // El recetario es la captura anterior con fotos reales de las recetas, con
     // la cabecera de la paciente de ejemplo: la nueva mostraba las recetas sin
@@ -247,10 +271,10 @@ export const PORTADA = {
       {
         id: "inicio",
         titulo: "Tu día, de un vistazo",
-        detalle: "Tu racha, cómo va tu energía y un mensaje de Constanza. Cuando te toca el check-in, te avisa.",
+        detalle: "Tu racha, cómo va tu energía y un mensaje de Constanza. Cuando te toca el control, te avisa.",
         imagen: {
           src: "/mockups/app-inicio.webp",
-          alt: "Inicio de Nutrico: racha de 12 días, energía de la semana, un mensaje de Constanza y el aviso del check-in",
+          alt: "Inicio de Nutrico: racha de 12 días, energía de la semana, un mensaje de Constanza y el aviso del control",
           width: 640,
           height: 1306,
         },
@@ -258,7 +282,7 @@ export const PORTADA = {
       {
         id: "pauta",
         titulo: "Tu pauta, clara",
-        detalle: "Qué comer en cada comida y con qué opciones, según la pauta que aprobó Constanza.",
+        detalle: "Qué comer en cada comida y con qué opciones, según la pauta que te armó Constanza.",
         imagen: {
           src: "/mockups/app-pauta.webp",
           alt: "Mi pauta en Nutrico: el desayuno de la fase inicial con sus opciones y recordatorios",
@@ -279,8 +303,8 @@ export const PORTADA = {
       },
       {
         id: "lista",
-        titulo: "La lista de compras, hecha",
-        detalle: "Los ingredientes de tus recetas de la semana, ordenados por sección. Vas marcando lo que compraste.",
+        titulo: "Tu lista de compras",
+        detalle: "Se arma con las recetas que eliges para tu semana, ordenada por sección. Vas marcando lo que compraste.",
         imagen: {
           src: "/mockups/app-lista.webp",
           alt: "Lista de compras de Nutrico: frutas y verduras con la receta de origen de cada ingrediente",
@@ -290,11 +314,12 @@ export const PORTADA = {
       },
       {
         id: "checkin",
-        titulo: "Check-in cada 15 días",
-        detalle: "Cuentas cómo has estado con la hinchazón, la fatiga y la digestión. Con eso se ajusta tu pauta.",
+        titulo: "Control cada 15 días",
+        detalle:
+          "Cuentas cómo has estado con la hinchazón, la fatiga y la digestión. Con eso Constanza te arma tu pauta nueva.",
         imagen: {
           src: "/mockups/app-checkin.webp",
-          alt: "Check-in quincenal de Nutrico, paso 1 de 6: hinchazón, fatiga y dolor digestivo",
+          alt: "Control quincenal de Nutrico, paso 1 de 6: hinchazón, fatiga y dolor digestivo",
           width: 640,
           height: 1306,
         },
@@ -316,10 +341,10 @@ export const PORTADA = {
   recorrido: {
     eyebrow: "UN COMIENZO. UN CAMINO. UN GRUPO.",
     juntas: "Todas empezamos y avanzamos juntas.",
-    // 15-sep: "más detalle del cómo en cada paso". Siete pasos con lo que de
-    // verdad pasa, agrupados en tres momentos con su foto. Las fechas no se
-    // escriben acá: `fecha` dice cuál mostrar y el componente la lee de la
-    // cohorte (sin cohorte, el paso va sin fecha).
+    // 15-sep: "más detalle del cómo en cada paso". Ocho pasos con lo que de
+    // verdad pasa (el mes de mantención suma uno), agrupados en tres momentos
+    // con su foto. Las fechas no se escriben acá: `fecha` dice cuál mostrar y
+    // el componente la lee de la cohorte (sin cohorte, el paso va sin fecha).
     momentos: [
       {
         momento: "AL COMENZAR",
@@ -332,7 +357,7 @@ export const PORTADA = {
         pasos: [
           {
             titulo: "Te inscribes y pagas",
-            detalle: "Te llega un correo con tu acceso a Nutrico.",
+            detalle: "Te llega un correo con tu acceso al programa.",
             fecha: "cierre",
           },
           {
@@ -340,8 +365,8 @@ export const PORTADA = {
             detalle: "11 variables sobre tu rutina, tus gustos y tus objetivos. Toma unos 10 minutos.",
           },
           {
-            titulo: "Constanza aprueba tu pauta",
-            detalle: "La revisa antes de que parta el grupo.",
+            titulo: "Constanza arma tu pauta",
+            detalle: "La tienes antes de que parta el grupo, para que prepares tus compras.",
           },
         ],
       },
@@ -355,13 +380,13 @@ export const PORTADA = {
         } satisfies FotoPortada,
         pasos: [
           {
-            titulo: "Parte el grupo",
-            detalle: "Tu pauta de la semana, el recetario y la lista de compras quedan listos en la app.",
+            titulo: "Parte el programa",
+            detalle: "Tu pauta de la quincena, el recetario y la lista de compras, listos desde el primer día.",
             fecha: "inicio",
           },
           {
-            titulo: "Check-in y ajuste cada 15 días",
-            detalle: "Cuentas cómo vas y tu pauta se ajusta. Son 6 ajustes en total.",
+            titulo: "Control y pauta nueva cada 15 días",
+            detalle: "Cuentas cómo vas y Constanza te arma la pauta siguiente. Son 6 pautas diferentes.",
           },
         ],
       },
@@ -383,6 +408,10 @@ export const PORTADA = {
             detalle: "Una sesión en vivo al mes con Constanza y el grupo de WhatsApp todo el programa.",
           },
           {
+            titulo: "El tercer mes, a mantener",
+            detalle: "Tu pauta pasa a cuidar lo que lograste, para que no vuelvas atrás.",
+          },
+          {
             titulo: "Cierre a los 3 meses",
             detalle: "Todas terminan juntas, el mismo día.",
             fecha: "fin",
@@ -395,11 +424,11 @@ export const PORTADA = {
 
   constanza: {
     eyebrow: "LA PERSONA DETRÁS DE TU PAUTA",
-    bajada: "Tu pauta y cada ajuste pasan por su revisión.",
+    bajada: "Ella arma tu pauta y cada pauta nueva.",
     // La revisión del 14-sep notó que se hablaba de Constanza sin contar su
     // trayectoria. Los números salen de la landing del Reto publicada
     // (origin/main:lib/constants.ts, TRUST_BAR y PRODUCT_DEMO.credentials).
-    // Confirmar con Constanza (15-sep)
+    // Confirmado por Constanza en la reunión del 15-sep.
     trayectoria: {
       numero: "+2.500",
       numeroTexto: "pacientes en 10 años de consulta",
@@ -416,7 +445,7 @@ export const PORTADA = {
     // no no pasa nada, nos seguimos viendo por acá"
     // (60-clientes/activos/constanza-nutricion/outputs/contenido/reel-4-urgencia-hf/whisper-takes/IMG_2130.json).
     // Reemplaza la cita anterior sobre la IA (decisión de Oscar del 15-sep).
-    // PENDIENTE: la confirma Constanza.
+    // Confirmado por Constanza en la reunión del 15-sep.
     cita: ["“Si quieres venir conmigo", "a este viaje, te espero.”"],
     firma: "CONSTANZA JIMÉNEZ PASCHOLD",
     fotoAlt: "Constanza Jiménez Paschold en su consulta",
@@ -455,19 +484,18 @@ export const PORTADA = {
     // La preferencia de la app va con installments: 1 y sin medios excluidos.
     mediosPago: "Crédito, débito o saldo de Mercado Pago. Un solo pago, sin cuotas.",
     incluyeTitulo: "Incluye",
-    // PENDIENTE confirmar con Constanza: 289 pagos aprobados del Reto
-    // Antiinflamatorio en Mercado Pago (pendientes de la reunión del 15-sep).
+    // Confirmado por Constanza en la reunión del 15-sep.
     reto: { numero: "+280", texto: "personas hicieron su Reto Antiinflamatorio" },
     dudasCompra: [
       { q: "¿Tiene cuotas?", a: "No, es un solo pago." },
       { q: "¿Incluye consulta individual?", a: "No, el acompañamiento es grupal." },
-      { q: "¿Y si me rechazan la tarjeta?", a: "Usa tu saldo de Mercado Pago." },
+      { q: "¿Y si me rechazan la tarjeta?", a: "Usa tu saldo de Mercado Pago o paga por transferencia." },
     ],
     despuesTitulo: "DESPUÉS DE PAGAR",
     despues: [
-      { titulo: "Te llega tu acceso", detalle: "Un correo con cómo entrar a Nutrico." },
+      { titulo: "Te llega tu acceso", detalle: "Un correo con cómo entrar al programa." },
       { titulo: "Respondes tu cuestionario", detalle: "Unos 10 minutos, desde tu celular." },
-      { titulo: "Constanza aprueba tu pauta", detalle: "Y parte el grupo." },
+      { titulo: "Constanza arma tu pauta", detalle: "Te agrega al grupo de WhatsApp y parte el programa." },
     ],
     noIncluye: "No incluye consulta individual.",
     cerroEnVivo: "Las inscripciones de este grupo acaban de cerrar.",
@@ -483,6 +511,9 @@ export const PORTADA = {
     h2em: "aquí.",
     nombre: "Tu nombre",
     email: "Tu correo",
+    telefono: "Tu WhatsApp",
+    telefonoAyuda: "Para que Constanza te agregue al grupo del programa. No te vamos a llamar.",
+    errorTelefono: "Revisa tu número: un celular de 9 dígitos, como 9 1234 5678.",
     rut: "RUT para tu boleta (opcional)",
     rutAyuda:
       "Lo necesitas para el reembolso de tu isapre. Si no lo tienes a mano, te lo pedimos después.",
@@ -503,7 +534,7 @@ export const PORTADA = {
   pagoRechazado: {
     titulo: "Tu pago no se completó.",
     cuerpo:
-      "Casi nunca es por falta de fondos: el antifraude de Mercado Pago a veces rechaza tarjetas con montos altos. Prueba con tu saldo de Mercado Pago o con otra tarjeta.",
+      "Casi nunca es por falta de fondos: el antifraude de Mercado Pago a veces rechaza tarjetas con montos altos. Prueba con tu saldo de Mercado Pago o con otra tarjeta. Si igual no resulta, puedes pagar por transferencia.",
     boton: "Intentar de nuevo",
     sinVenta: "Las inscripciones ya cerraron. Escríbenos y lo resolvemos contigo.",
   },
@@ -572,11 +603,11 @@ export function preguntasPortada(venta: EstadoVenta): { q: string; a: string }[]
   const preguntas: { q: string; a: string }[] = [
     {
       q: "¿Tengo que saber comer “perfecto”?",
-      a: "No necesitas llegar con todo resuelto. Completas el cuestionario inicial y tu pauta se construye a partir de tu rutina, preferencias y objetivos. Los check-ins ayudan a revisar cómo vas.",
+      a: "No necesitas llegar con todo resuelto. Completas el cuestionario inicial y Constanza arma tu pauta a partir de tu rutina, tus preferencias y tus objetivos. Los controles cada quince días ayudan a revisar cómo vas y a armar tu pauta siguiente.",
     },
     {
       q: "¿Qué pasa después de inscribirme?",
-      a: `Una vez aprobado tu pago, recibes las instrucciones de acceso a Nutrico. Completas el cuestionario inicial para que Constanza revise tu pauta.${
+      a: `Una vez aprobado tu pago, te llega un correo con tu acceso. Completas el cuestionario inicial, Constanza arma tu pauta y te agrega al grupo de WhatsApp.${
         inicio ? ` El programa empieza el ${inicio}.` : ""
       }`,
     },
@@ -588,7 +619,7 @@ export function preguntasPortada(venta: EstadoVenta): { q: string; a: string }[]
     },
     {
       q: "¿Incluye una consulta individual?",
-      a: "No. Incluye tu pauta personalizada, ajustes cada quince días, la app, el grupo de WhatsApp y tres sesiones grupales en vivo con Constanza. La consulta individual es un servicio aparte.",
+      a: "No. Incluye tu pauta personalizada, una pauta nueva cada quince días, la app, el grupo de WhatsApp y tres sesiones grupales en vivo con Constanza. La consulta individual es un servicio aparte.",
     },
     {
       q: "¿Cuándo son las sesiones en vivo?",
@@ -600,7 +631,9 @@ export function preguntasPortada(venta: EstadoVenta): { q: string; a: string }[]
     },
     {
       q: "¿Y si me rechazan la tarjeta?",
-      a: "Puede pasar aunque tengas fondos: el antifraude de Mercado Pago a veces es duro con los montos altos. Lo más rápido es pagar con saldo de Mercado Pago en vez de tarjeta. Y si igual no resulta, escríbenos y lo resolvemos contigo.",
+      a: `Puede pasar aunque tengas fondos: el antifraude de Mercado Pago a veces es duro con los montos altos. Lo más rápido es pagar con saldo de Mercado Pago en vez de tarjeta. Si igual no resulta, puedes pagar por transferencia${
+        cohorte ? ` de ${formatCLP(cohorte.precio)}` : ""
+      } a ${datosTransferenciaEnLinea()}. ${TRANSFERENCIA.instruccion}`,
     },
     {
       q:
@@ -613,7 +646,7 @@ export function preguntasPortada(venta: EstadoVenta): { q: string; a: string }[]
       a: cohorte
         ? `Las inscripciones de este grupo cierran el ${ultimoDiaDeVenta(cohorte.venta_cierra)} porque todas empiezan juntas el ${diaYMes(cohorte.fecha_inicio)} y hacen la misma quincena al mismo tiempo. ${
             venta.estado === "abierta"
-              ? `Si no alcanzas, escríbenos a ${SITE_CONFIG.email} y te avisamos cuando abra el siguiente grupo.`
+              ? `Si no alcanzas, desde el día siguiente al cierre puedes dejar tu correo en esta página y te avisamos cuando abra el siguiente grupo. También puedes escribirnos a ${SITE_CONFIG.email}.`
               : "Si no alcanzas, déjanos tu correo en la inscripción y te avisamos cuando abra el siguiente grupo."
           }`
         : `No. Todas avanzan juntas y hacen la misma quincena al mismo tiempo, así que se entra al inicio de cada grupo. Escríbenos a ${SITE_CONFIG.email} y te avisamos cuando abra el siguiente.`,
@@ -624,7 +657,7 @@ export function preguntasPortada(venta: EstadoVenta): { q: string; a: string }[]
     },
     {
       q: "¿Cuánto tiempo me va a tomar?",
-      a: "El cuestionario del principio toma unos diez minutos. Después, un check-in cada quince días y cocinar con las recetas y la lista de compras de tu pauta. No hay clases que seguir ni horarios, salvo las tres sesiones en vivo.",
+      a: PROGRAMA.faq[5].a,
     },
   ]
   return preguntas

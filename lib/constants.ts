@@ -11,7 +11,7 @@ export const SITE_CONFIG = {
   whatsappNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "56900000000",
   whatsappMessage: "Hola Constanza, tengo una pregunta sobre Nutrico",
   instagram: "@constanza.nutricion",
-  email: "hola@constanzanutricion.cl",
+  email: "contacto@constanzanutricion.cl",
   googleBusinessUrl: "https://share.google/fju7lUoVFux9PmfCA",
   consultaWeb: "https://www.constanzanutricion.cl",
   brand: {

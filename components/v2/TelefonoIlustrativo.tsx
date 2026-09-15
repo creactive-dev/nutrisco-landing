@@ -62,7 +62,7 @@ export function TelefonoIlustrativo({ semanaDesde }: { semanaDesde: string }) {
           <Image src={SITE_CONFIG.brand.constanzaThumb} alt="" width={34} height={34} sizes="34px" />
           <div>
             <b>Constanza te acompaña</b>
-            <p>En cada check-in, revisamos cómo vas.</p>
+            <p>En cada control, Constanza te arma tu pauta nueva.</p>
           </div>
         </div>
         <div className="app-bottom" aria-hidden="true">

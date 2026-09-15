@@ -11,9 +11,9 @@ import { Revelar } from "@/components/v2/Revelar"
 type ClaveFecha = "cierre" | "inicio" | "fin"
 
 /**
- * "Tres meses. Contigo, de principio a fin." El cómo del programa en siete
+ * "Tres meses. Contigo, de principio a fin." El cómo del programa en ocho
  * pasos, agrupados en tres momentos con su foto (15-sep: más detalle del cómo
- * en cada paso).
+ * en cada paso, con el mes de mantención como paso propio).
  *
  * Las fechas de los pasos (cierre de inscripciones, inicio y último día) salen
  * de la cohorte; sin cohorte, los pasos van sin fecha. Las sesiones en vivo se
