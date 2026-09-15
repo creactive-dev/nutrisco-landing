@@ -2883,3 +2883,178 @@ dialog .espera-form {
     width: 52px;
   }
 }
+
+/* ────────────────────────────────────────────────────────────────────────
+ * TRAYECTORIA Y TESTIMONIOS (ajustes del 14-sep)
+ * Cifras y rasgos de Constanza; videos de pacientes y reseñas de Google.
+ * ──────────────────────────────────────────────────────────────────────── */
+.founder-copy > p:not(.eyebrow):not(.founder-signature) {
+  font-size: 15px;
+  color: var(--ink);
+  max-width: 420px;
+  margin-bottom: 0;
+}
+.trayectoria {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px 44px;
+  margin: 28px 0 20px;
+}
+.trayectoria p {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+}
+.trayectoria b {
+  font-size: 46px;
+  font-weight: 550;
+  letter-spacing: -2px;
+  line-height: 1;
+}
+.trayectoria span {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 8px;
+  max-width: 170px;
+}
+.trayectoria-rasgos {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-width: 470px;
+}
+.trayectoria-rasgos li {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+  background: #fff;
+  border-radius: 30px;
+  padding: 8px 14px 8px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.3;
+}
+.trayectoria-rasgos li::before {
+  content: "✓";
+  color: var(--cascara);
+  font-weight: 700;
+}
+.founder-copy blockquote {
+  margin-top: 30px;
+}
+.testimonials .video-grid {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  max-width: 880px;
+  margin-inline: auto;
+}
+.video-card video {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 9 / 16;
+  border-radius: 14px;
+  background: var(--celeste-suave);
+}
+.video-card h3 {
+  font-size: 17px;
+  margin-bottom: 4px;
+}
+.video-card span {
+  font-size: 12px;
+}
+.resenas {
+  margin-top: 76px;
+}
+.resenas-cabecera {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  margin-bottom: 24px;
+}
+.resenas-promedio {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.resenas-promedio b {
+  font-size: 40px;
+  font-weight: 550;
+  letter-spacing: -1.5px;
+  line-height: 1;
+}
+.estrellas {
+  color: var(--sandia);
+  font-size: 18px;
+  letter-spacing: 2px;
+}
+.resenas-cabecera > p:not(.resenas-promedio) {
+  font-size: 15px;
+  color: var(--muted);
+}
+.resenas-cabecera .text-link {
+  margin: 0 0 0 auto;
+}
+.testimonials .quote-grid {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+.testimonials .quote-card {
+  padding: 24px 24px 20px;
+}
+.testimonials .quote-card blockquote {
+  margin: 0 0 20px;
+  font-size: 18px;
+  line-height: 1.5;
+}
+.testimonials .quote-card:nth-child(3n + 2) {
+  transition-delay: 0.08s;
+}
+.testimonials .quote-card:nth-child(3n) {
+  transition-delay: 0.16s;
+}
+@media (max-width: 1100px) {
+  .testimonials .quote-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 760px) {
+  .founder-copy > p:not(.eyebrow):not(.founder-signature) {
+    font-size: 15px;
+  }
+  .trayectoria b {
+    font-size: 40px;
+  }
+  .testimonials .video-grid {
+    display: flex;
+    margin-inline: -20px;
+    padding: 0 20px 14px;
+    scroll-padding-inline: 20px;
+    gap: 14px;
+  }
+  .testimonials .video-card {
+    flex: 0 0 64%;
+  }
+  .video-card video {
+    height: auto;
+  }
+  .resenas {
+    margin-top: 52px;
+  }
+  .resenas-cabecera .text-link {
+    margin-left: 0;
+    flex-basis: 100%;
+    width: max-content;
+    max-width: max-content;
+  }
+  .testimonials .quote-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .testimonials .quote-card blockquote {
+    font-size: 17px;
+  }
+}

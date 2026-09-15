@@ -1,9 +1,16 @@
 import Image from "next/image"
 import { PORTADA } from "@/lib/constants-programa"
 import { SITE_CONFIG } from "@/lib/constants"
+import { RESENAS_GOOGLE } from "@/lib/resenas-google"
 import { Revelar } from "@/components/v2/Revelar"
 
+/**
+ * Constanza: quién es y su trayectoria, en cifras y rasgos cortos en vez de
+ * dos párrafos. Los números vienen de `PORTADA.constanza.trayectoria` (ver la
+ * nota para confirmarlos con ella) y de las reseñas de Google.
+ */
 export function Constanza() {
+  const { trayectoria } = PORTADA.constanza
   return (
     <section className="founder-section" id="constanza">
       <div className="wrap founder-grid">
@@ -30,9 +37,26 @@ export function Constanza() {
             <br />
             <em>Constanza lo hace tuyo.</em>
           </h2>
-          {PORTADA.constanza.parrafos.map((p) => (
-            <p key={p}>{p}</p>
-          ))}
+          <p>{PORTADA.constanza.bajada}</p>
+
+          <div className="trayectoria">
+            <p>
+              <b>{trayectoria.numero}</b>
+              <span>{trayectoria.numeroTexto}</span>
+            </p>
+            <p>
+              <b>{RESENAS_GOOGLE.promedio}</b>
+              <span>
+                {RESENAS_GOOGLE.total} {PORTADA.testimonios.resenas}
+              </span>
+            </p>
+          </div>
+          <ul className="trayectoria-rasgos">
+            {trayectoria.rasgos.map((r) => (
+              <li key={r}>{r}</li>
+            ))}
+          </ul>
+
           <blockquote>
             {PORTADA.constanza.cita[0]}
             <br />

@@ -295,10 +295,21 @@ export const PORTADA = {
 
   constanza: {
     eyebrow: "LA PERSONA DETRÁS DE TU PAUTA",
-    parrafos: [
-      "Nutrico nace de una pregunta que Constanza escucha en consulta: cómo llevar un plan de alimentación a la vida de todos los días.",
-      "Por eso tu pauta y tus ajustes pasan por su revisión. La app organiza el día a día; su criterio profesional acompaña tu proceso.",
-    ],
+    bajada: "Tu pauta y cada ajuste pasan por su revisión.",
+    // La revisión del 14-sep notó que se hablaba de Constanza sin contar su
+    // trayectoria. Los números salen de la landing del Reto publicada
+    // (origin/main:lib/constants.ts, TRUST_BAR y PRODUCT_DEMO.credentials).
+    // Confirmar con Constanza (15-sep)
+    trayectoria: {
+      numero: "+2.500",
+      numeroTexto: "pacientes en 10 años de consulta",
+      rasgos: [
+        "Nutricionista clínica",
+        "Enfoque antiinflamatorio",
+        "La Serena y online",
+        "Creadora del Reto Antiinflamatorio",
+      ],
+    },
     cita: ["“La IA asiste,", "yo decido.”"],
     firma: "CONSTANZA JIMÉNEZ PASCHOLD",
     fotoAlt: "Constanza Jiménez Paschold en su consulta",
@@ -306,9 +317,14 @@ export const PORTADA = {
 
   testimonios: {
     eyebrow: "HISTORIAS REALES, EN SU PROPIA VOZ",
-    bajada: "Lo que cuentan pacientes de Constanza.",
+    bajada: "Pacientes de Constanza, en video y en Google.",
+    // "Paciente de Constanza" y no "Paciente del Reto": en los videos hablan de
+    // su consulta con ella.
     rotulo: "Paciente de Constanza",
-    nota: "Mensajes reales de pacientes de Constanza, publicados con su autorización. Los resultados de cada persona pueden ser diferentes.",
+    resenas: "reseñas en Google",
+    rotuloResena: "Reseña en Google",
+    verEnGoogle: "Ver en Google",
+    nota: "Videos de pacientes de Constanza y reseñas públicas de su perfil de Google. Los resultados de cada persona pueden variar.",
   },
 
   oferta: {
@@ -395,26 +411,22 @@ export const PORTADA = {
 } as const
 
 /**
- * Los testimonios que se muestran en la portada del programa. Si queda vacío,
- * la sección no aparece.
+ * Los testimonios de la portada (decisión de Oscar del 14-sep, brief §4):
+ * - los tres videos de `TESTIMONIOS_MIXTO.videos` (Norma, Jorge y Paulina),
+ *   con el rótulo "Paciente de Constanza". Se leen de ese objeto por id para
+ *   no tener una segunda copia de rutas y nombres;
+ * - las reseñas de Google de `lib/resenas-google.ts`.
+ * Salen las dos tarjetas escritas que quedaban ("Camila A." y "Valentina M."):
+ * no se les encontró fuente.
  *
- * Los tres videos de `TESTIMONIOS_MIXTO.videos` NO van: transcritos el
- * 14-sep-2026, los tres hablan de kilos bajados (30, 10 y 10) y describen
- * consultas individuales, que este programa no incluye. Constanza pidió no
- * vender con peso, y Meta revisa la página de destino de los anuncios: una
- * promesa de baja de peso ahí hace rechazar la campaña.
- *
- * De las seis tarjetas escritas quedan dos, las únicas que no nombran peso,
- * talla ni consulta. El texto es el de `TESTIMONIOS_MIXTO.cards`, sin editar:
- * se referencian por id para que no exista una segunda copia que se desalinee.
- * Fuera: c2 ("reduje talla"), c3 ("89 kilos... 83"), c4 ("casi 2 kilos"),
- * c5 ("bajé 4 kilos").
- *
- * PENDIENTE: reemplazar por testimonios del programa cuando existan, y que
- * Constanza confirme estas dos ("cambió mi metabolismo" y "más liviana" son
- * las frases a mirar con el criterio de Meta).
+ * OJO: la versión anterior dejaba fuera los videos porque, transcritos el
+ * 14-sep, hablan de kilos bajados (30, 10 y 10) y de consultas individuales, y
+ * Meta revisa la página de destino de los anuncios. El brief los vuelve a
+ * poner: "los anuncios siguen sin peso; esto aplica solo a la landing". Las
+ * reseñas citadas sí se filtraron por peso. Si Meta rechaza la campaña por la
+ * página de destino, esto es lo primero que hay que mirar.
  */
-export const TESTIMONIOS_PROGRAMA: readonly string[] = ["c6", "c1"]
+export const VIDEOS_PORTADA: readonly string[] = ["v1", "v2", "v3"]
 
 /**
  * Las dudas de la portada. Son función porque varias respuestas llevan la
