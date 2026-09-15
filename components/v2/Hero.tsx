@@ -10,6 +10,7 @@ import {
 } from "@/lib/programa"
 import { BotonPrograma } from "@/components/v2/BotonPrograma"
 import { TelefonoIlustrativo } from "@/components/v2/TelefonoIlustrativo"
+import { Sandia } from "@/components/v2/Sandia"
 
 export function Hero({ venta, ahora }: { venta: EstadoVenta; ahora: string }) {
   const cohorte = venta.estado === "abierta" || venta.estado === "proxima" ? venta.cohorte : null
@@ -44,9 +45,7 @@ export function Hero({ venta, ahora }: { venta: EstadoVenta; ahora: string }) {
           empieza
           <br />
           por <em>ti.</em>
-          <svg className="hero-spark" viewBox="0 0 80 80" aria-hidden="true">
-            <path d="M40 3v74M3 40h74M14 14l52 52M14 66l52-52" />
-          </svg>
+          <Sandia className="hero-spark" />
         </h1>
         <p className="hero-description">{PORTADA.hero.descripcion}</p>
         <BotonPrograma className="button primary hero-cta" />
@@ -78,7 +77,9 @@ export function Hero({ venta, ahora }: { venta: EstadoVenta; ahora: string }) {
         </div>
         <TelefonoIlustrativo semanaDesde={cohorte?.fecha_inicio ?? ahora} />
         <div className="floating-note note-bottom">
-          <span className="note-icon sun">✳</span>
+          <span className="note-icon sun">
+            <Sandia />
+          </span>
           <div>
             {PORTADA.hero.notaAbajoTitulo}
             <small>

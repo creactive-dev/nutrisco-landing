@@ -5,6 +5,7 @@ import { useRef, useState } from "react"
 import { PORTADA } from "@/lib/constants-programa"
 import { SITE_CONFIG } from "@/lib/constants"
 import { Revelar } from "@/components/v2/Revelar"
+import { Sandia } from "@/components/v2/Sandia"
 
 type Id = (typeof PORTADA.app.pestanas)[number]["id"]
 
@@ -91,9 +92,7 @@ function PanelApp({ activa }: { activa: Id }) {
       <div role="tabpanel" id="app-panel" aria-labelledby={`tab-${activa}`} tabIndex={0} className="app-panel">
       <span className="demo-label">{PORTADA.app.etiquetaDemo}</span>
       <div className="demo-plan" hidden={activa !== "plan"}>
-        <span className="demo-symbol" aria-hidden="true">
-          ✳
-        </span>
+        <Sandia className="demo-symbol" />
         <p className="eyebrow">EL INICIO DE TU PROGRAMA</p>
         <h3>
           Primero,

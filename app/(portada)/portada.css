@@ -214,11 +214,12 @@ p {
   font-weight: 720;
   line-height: 1;
 }
-.logo-flower {
-  font-size: 31px;
-  color: var(--sandia);
-  margin-left: 3px;
+.logo-sandia {
+  width: 0.74em;
+  height: auto;
+  margin-left: 0.08em;
   align-self: flex-start;
+  transform: translateY(-0.02em) rotate(-8deg);
 }
 .header nav {
   display: flex;
@@ -312,13 +313,12 @@ h1 em {
   font-size: 1.15em;
 }
 .hero-spark {
-  width: 61px;
+  width: 72px;
+  height: auto;
   position: absolute;
-  left: 285px;
-  bottom: 10px;
-  transform: rotate(14deg);
-  stroke: var(--sandia);
-  stroke-width: 3;
+  left: 240px;
+  bottom: 22px;
+  transform: rotate(-14deg);
 }
 .hero-description {
   font-size: 14px;
@@ -438,8 +438,14 @@ h1 em {
   font-weight: 750;
   letter-spacing: -1px;
 }
-.app-brand > span {
-  color: var(--sandia);
+.app-brand {
+  display: inline-flex;
+  align-items: flex-start;
+}
+.app-brand svg {
+  width: 17px;
+  height: auto;
+  margin: 1px 0 0 2px;
 }
 .app-avatar {
   display: grid;
@@ -620,8 +626,10 @@ h1 em {
 }
 .sun {
   background: var(--sandia-suave);
-  color: var(--sandia);
-  font-size: 21px;
+}
+.sun svg {
+  width: 19px;
+  height: auto;
 }
 .round-seal {
   position: absolute;
@@ -680,8 +688,9 @@ h1 em {
   vertical-align: middle;
 }
 .program-strip .strip-star {
-  font-size: 27px;
-  color: var(--sandia);
+  width: 38px;
+  height: auto;
+  flex-shrink: 0;
 }
 .intro {
   display: grid;
@@ -804,8 +813,8 @@ h1 em {
   margin-top: 30px;
 }
 .demo-symbol {
-  font-size: 51px;
-  color: var(--sandia);
+  width: 64px;
+  height: auto;
   display: block;
   margin-bottom: 16px;
 }
@@ -1274,9 +1283,9 @@ details p {
   padding: 58px 0 90px;
   border-top: 1px solid var(--line);
 }
-.final-cta > span {
-  font-size: 45px;
-  color: var(--sandia);
+.final-sandia {
+  width: 76px;
+  height: auto;
   display: inline-block;
   margin-bottom: 22px;
 }
@@ -1472,8 +1481,8 @@ dialog .dialog-note {
     height: 560px;
   }
   .hero-spark {
-    left: 240px;
-    width: 48px;
+    left: 205px;
+    width: 58px;
   }
   .round-seal {
     right: -10px;
@@ -1544,9 +1553,6 @@ dialog .dialog-note {
   .header .logo {
     font-size: 30px;
   }
-  .logo-flower {
-    font-size: 27px;
-  }
   .header nav {
     display: none;
   }
@@ -1588,10 +1594,9 @@ dialog .dialog-note {
     padding-left: 5px;
   }
   .hero-spark {
-    width: 42px;
+    width: 48px;
     left: 275px;
     bottom: 16px;
-    stroke-width: 3;
   }
   .hero-description {
     font-size: 13px;
@@ -1702,8 +1707,7 @@ dialog .dialog-note {
     margin: 0 0 3px;
   }
   .program-strip .strip-star {
-    font-size: 19px;
-    flex: 0;
+    width: 24px;
     align-self: center;
   }
   .intro {
@@ -2023,8 +2027,8 @@ dialog .dialog-note {
     font-size: 60px;
   }
   .hero-spark {
-    left: 240px;
-    width: 35px;
+    left: 150px;
+    width: 40px;
   }
   .hero-copy .eyebrow {
     font-size: 6px;
@@ -2099,8 +2103,8 @@ dialog .dialog-note {
     display: initial;
   }
   .hero-spark {
-    left: 228px;
-    bottom: 12px;
+    left: 172px;
+    bottom: 16px;
   }
   .hero-copy {
     min-width: 0;
@@ -2112,7 +2116,7 @@ dialog .dialog-note {
     letter-spacing: -3.2px;
   }
   .hero-spark {
-    left: 204px;
+    left: 150px;
   }
 }
 /* Reading sizes and touch targets for a mobile audience. */

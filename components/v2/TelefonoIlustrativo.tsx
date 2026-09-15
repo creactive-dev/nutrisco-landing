@@ -1,6 +1,7 @@
 import Image from "next/image"
 import { SITE_CONFIG } from "@/lib/constants"
 import { semanaDe } from "@/lib/programa"
+import { Sandia } from "@/components/v2/Sandia"
 
 /**
  * El teléfono del hero. Es HTML y no una captura: una vista ilustrativa armada
@@ -21,7 +22,8 @@ export function TelefonoIlustrativo({ semanaDesde }: { semanaDesde: string }) {
       <div className="phone-content">
         <div className="app-top">
           <span className="app-brand">
-            nutrico<span>✳</span>
+            nutrico
+            <Sandia />
           </span>
           <span className="app-avatar">TÚ</span>
         </div>
