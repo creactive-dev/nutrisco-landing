@@ -2552,20 +2552,69 @@ dialog .espera-form {
 }
 
 /* ────────────────────────────────────────────────────────────────────────
- * RECORRIDO DE LA APP CON SCROLL (ajustes del 14-sep)
+ * RECORRIDO DE LA APP CON SCROLL (14-sep; seis pantallas desde el 15-sep)
  * Escritorio: la sección mide varias pantallas y su contenido queda fijo;
  * el paso activo sale del avance del scroll (--avance, 0 a 1, lo pone
- * RecorridoApp). Celular o pantalla baja: los tres pasos apilados. La consulta
- * es la misma constante ESCRITORIO del componente.
+ * RecorridoApp) y muestra su detalle. Celular o pantalla baja: los seis pasos
+ * apilados, pantalla y texto lado a lado. La consulta es la misma constante
+ * ESCRITORIO del componente.
  * ──────────────────────────────────────────────────────────────────────── */
-.recorrido-pasos {
+.recorrido-pasos,
+.recorrido-paso-nota {
   display: none;
+}
+.feature-tabs button > span.tab-texto {
+  color: var(--ink);
+}
+.tab-detalle {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.45s var(--ease);
+}
+.tab-detalle > span {
+  min-height: 0;
+  overflow: hidden;
+  display: block;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+.feature-tabs button[aria-selected="true"] .tab-detalle {
+  grid-template-rows: 1fr;
+}
+.feature-tabs button[aria-selected="true"] .tab-detalle > span {
+  padding-top: 6px;
+}
+.recorrido-pie {
+  position: absolute;
+  left: 28px;
+  right: 28px;
+  bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+.recorrido-contador {
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: var(--muted-tinte);
+  font-variant-numeric: tabular-nums;
+}
+.recorrido-contador b {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--sandia-cta);
+}
+.recorrido-pie .screenshot-label {
+  margin: 0;
+  font-size: 10px;
 }
 @media (min-width: 900px) and (min-height: 620px) {
   .app-section.recorrido {
     padding: 0;
-    /* Una pantalla fija más ~62vh de scroll por paso. */
-    height: calc(100vh + var(--pasos, 3) * 62vh);
+    /* Una pantalla fija más ~42vh de scroll por pantalla de la app. */
+    height: calc(100vh + var(--pasos, 6) * 42vh);
   }
   .recorrido-fijo {
     position: sticky;
@@ -2574,13 +2623,40 @@ dialog .espera-form {
     display: flex;
     align-items: center;
   }
+  .recorrido .app-layout {
+    grid-template-columns: 1fr 0.9fr;
+    gap: 80px;
+  }
   .recorrido .app-explainer h2 {
-    margin: 16px 0 18px;
+    margin: 16px 0 16px;
+  }
+  .recorrido .app-explainer .reveal > p:not(.eyebrow) {
+    font-size: 15px;
+    max-width: 420px;
   }
   .recorrido .feature-tabs {
     position: relative;
-    margin-top: 30px;
+    margin-top: 26px;
     padding-left: 18px;
+    gap: 4px;
+  }
+  .recorrido .feature-tabs button {
+    align-items: flex-start;
+    padding: 11px 16px;
+    gap: 14px;
+  }
+  .recorrido .feature-tabs b {
+    font-size: 15px;
+    letter-spacing: -0.2px;
+  }
+  .recorrido .tab-number {
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 20px;
+    min-width: 18px;
+  }
+  .recorrido .feature-tabs button[aria-selected="true"] {
+    box-shadow: 0 10px 30px rgba(201, 53, 69, 0.08);
   }
   .recorrido-riel {
     position: absolute;
@@ -2601,19 +2677,20 @@ dialog .espera-form {
     transform: scaleY(var(--avance, 0));
   }
   .recorrido-demo {
-    height: min(560px, calc(100vh - 110px));
+    height: min(600px, calc(100vh - 90px));
     min-height: 0;
     padding: 0;
+    background: linear-gradient(180deg, var(--celeste-suave) 0%, #fff 100%);
   }
   .recorrido-panel {
     position: absolute;
-    inset: 58px 34px 20px;
+    inset: 56px 30px 44px;
     display: flex;
     align-items: center;
     justify-content: center;
     opacity: 0;
     visibility: hidden;
-    transform: translateY(18px);
+    transform: translateY(18px) scale(0.98);
     transition:
       opacity 0.5s var(--ease),
       transform 0.5s var(--ease),
@@ -2631,37 +2708,26 @@ dialog .espera-form {
   .paused-motion .recorrido-panel {
     transition: none !important;
   }
-  .recorrido-panel .demo-plan {
-    margin-top: 0;
-  }
-  .recorrido-panel .screenshot-panel {
-    height: 100%;
-  }
-  .recorrido-panel .screenshot-panel img {
-    height: min(432px, calc(100vh - 230px));
+  .recorrido-panel img {
+    position: relative;
+    height: min(490px, calc(100vh - 210px));
+    width: auto;
+    filter: drop-shadow(14px 18px 18px rgba(26, 26, 26, 0.14));
   }
 }
-@media (min-width: 900px) and (min-height: 620px) and (max-height: 780px) {
+@media (min-width: 900px) and (min-height: 620px) and (max-height: 800px) {
   .recorrido .app-explainer h2 {
     font-size: 40px;
+    margin: 10px 0 12px;
+  }
+  .recorrido .app-explainer .reveal > p:not(.eyebrow) {
+    font-size: 14px;
+  }
+  .recorrido .feature-tabs {
+    margin-top: 16px;
   }
   .recorrido .feature-tabs button {
-    padding-block: 12px;
-  }
-  .recorrido-panel .demo-symbol {
-    width: 46px;
-    margin-bottom: 8px;
-  }
-  .recorrido-panel .demo-plan h3 {
-    font-size: 32px;
-    margin: 8px 0 10px;
-  }
-  .recorrido-panel .question-example {
-    margin-top: 14px;
-    padding: 16px;
-  }
-  .recorrido-panel .approval {
-    margin-top: 14px;
+    padding-block: 8px;
   }
 }
 @media (max-width: 899px), (max-height: 619px) {
@@ -2674,52 +2740,74 @@ dialog .espera-form {
   }
   .recorrido-pasos {
     display: grid;
-    gap: 40px;
+    gap: 14px;
     list-style: none;
     padding: 0;
-    margin-top: 34px;
+    margin-top: 30px;
     margin-bottom: 0;
   }
+  .recorrido-paso {
+    display: grid;
+    grid-template-columns: minmax(0, 42%) minmax(0, 1fr);
+    align-items: center;
+    gap: 18px;
+    padding: 14px 18px 0 14px;
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(233, 69, 85, 0.12);
+    border-radius: 20px;
+    overflow: hidden;
+  }
+  .recorrido-paso:nth-child(even) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 42%);
+    padding: 14px 14px 0 18px;
+  }
+  .recorrido-paso:nth-child(even) .recorrido-paso-pantalla {
+    order: 2;
+  }
+  .recorrido-paso-pantalla {
+    position: relative;
+    align-self: end;
+    /* Se ve la parte de arriba del teléfono: la pantalla sale del borde de la
+       tarjeta, como si se asomara. */
+    aspect-ratio: 5 / 7;
+    overflow: hidden;
+    border-radius: 999px 999px 0 0;
+    background: var(--celeste-suave);
+    padding: 16px 10px 0;
+  }
+  .recorrido-paso-pantalla img {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(6px 8px 8px rgba(26, 26, 26, 0.12));
+  }
   .recorrido-paso-texto {
-    display: flex;
-    gap: 14px;
-    align-items: baseline;
-    margin-bottom: 16px;
+    padding-block: 4px 18px;
   }
   .recorrido-paso-texto .tab-number {
+    display: block;
     font-size: 13px;
     font-weight: 600;
     color: var(--sandia-cta);
-  }
-  .recorrido-paso-texto p {
-    line-height: 1.4;
+    margin-bottom: 6px;
   }
   .recorrido-paso-texto b {
     display: block;
     font-size: 18px;
     font-weight: 600;
-    letter-spacing: -0.3px;
+    letter-spacing: -0.4px;
+    line-height: 1.25;
   }
-  .recorrido-paso-texto small {
-    display: block;
+  .recorrido-paso-texto p {
     font-size: 14px;
+    line-height: 1.55;
     color: var(--muted);
-    margin-top: 4px;
-  }
-  .app-demo.recorrido-paso-pantalla {
-    min-height: 0;
-    height: 480px;
-    padding: 52px 26px 18px;
-    max-width: 440px;
-  }
-  .recorrido-paso-pantalla .demo-plan {
     margin-top: 6px;
   }
-  .recorrido-paso-pantalla .screenshot-panel {
-    height: 100%;
-  }
-  .recorrido-paso-pantalla .screenshot-panel img {
-    height: 360px;
+  .recorrido-paso-nota {
+    display: block;
+    font-size: 11px;
+    color: var(--muted-tinte);
+    margin-top: 14px;
   }
 }
 

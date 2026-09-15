@@ -226,24 +226,83 @@ export const PORTADA = {
 
   app: {
     eyebrow: "TU PLAN, EN EL BOLSILLO",
-    cuerpo: "Tu pauta, tus recetas y tus ajustes, en un mismo lugar.",
-    etiquetaDemo: "ASÍ FUNCIONA NUTRICO",
-    etiquetaCaptura: "Mockup de referencia · cuenta de demostración",
-    pestanas: [
+    cuerpo: "Tu pauta, tus recetas, tu lista de compras y tus ajustes, en una app que llevas contigo.",
+    etiquetaDemo: "ASÍ SE VE NUTRICO",
+    etiquetaCaptura: "Pantallas de la app con una paciente de ejemplo",
+    // Las seis pantallas salen de los componentes reales de la app con datos de
+    // ejemplo (tarea B3 del 15-sep, `landing-aprobacion/mockups-2026-09-15/`).
+    // Cada texto describe solo lo que esa pantalla hace hoy: la app no tiene
+    // gráfico de síntomas (los síntomas se registran en el check-in) y el
+    // gráfico de energía muestra las dos últimas semanas.
+    // El recetario es la captura anterior con fotos reales de las recetas, con
+    // la cabecera de la paciente de ejemplo: la nueva mostraba las recetas sin
+    // foto porque las fotos viven en la base.
+    pantallas: [
       {
-        id: "plan",
-        titulo: "Un plan que parte de ti",
-        detalle: "Tu cuestionario es el punto de partida.",
+        id: "inicio",
+        titulo: "Tu día, de un vistazo",
+        detalle: "Tu racha, cómo va tu energía y un mensaje de Constanza. Cuando te toca el check-in, te avisa.",
+        imagen: {
+          src: "/mockups/app-inicio.webp",
+          alt: "Inicio de Nutrico: racha de 12 días, energía de la semana, un mensaje de Constanza y el aviso del check-in",
+          width: 640,
+          height: 1306,
+        },
+      },
+      {
+        id: "pauta",
+        titulo: "Tu pauta, clara",
+        detalle: "Qué comer en cada comida y con qué opciones, según la pauta que aprobó Constanza.",
+        imagen: {
+          src: "/mockups/app-pauta.webp",
+          alt: "Mi pauta en Nutrico: el desayuno de la fase inicial con sus opciones y recordatorios",
+          width: 640,
+          height: 1306,
+        },
       },
       {
         id: "recetas",
-        titulo: "La pregunta del día, resuelta",
-        detalle: "Recetas, lista de compras y agenda.",
+        titulo: "Recetas para tu pauta",
+        detalle: "Un recetario chileno filtrado para tu pauta. Buscas por ingrediente o por tipo de comida.",
+        imagen: {
+          src: "/mockups/app-recetas.webp",
+          alt: "Recetario de Nutrico con buscador, filtros por tipo de comida y recetas con foto",
+          width: 640,
+          height: 1318,
+        },
+      },
+      {
+        id: "lista",
+        titulo: "La lista de compras, hecha",
+        detalle: "Los ingredientes de tus recetas de la semana, ordenados por sección. Vas marcando lo que compraste.",
+        imagen: {
+          src: "/mockups/app-lista.webp",
+          alt: "Lista de compras de Nutrico: frutas y verduras con la receta de origen de cada ingrediente",
+          width: 640,
+          height: 1306,
+        },
+      },
+      {
+        id: "checkin",
+        titulo: "Check-in cada 15 días",
+        detalle: "Cuentas cómo has estado con la hinchazón, la fatiga y la digestión. Con eso se ajusta tu pauta.",
+        imagen: {
+          src: "/mockups/app-checkin.webp",
+          alt: "Check-in quincenal de Nutrico, paso 1 de 6: hinchazón, fatiga y dolor digestivo",
+          width: 640,
+          height: 1306,
+        },
       },
       {
         id: "progreso",
-        titulo: "Un plan que sigue contigo",
-        detalle: "Check-in y ajuste cada quince días.",
+        titulo: "Mira cómo vas",
+        detalle: "Tu energía de las últimas dos semanas, tu adherencia y tus días acumulados.",
+        imagen: {
+          src: "/mockups/app-progreso.webp",
+          alt: "Progreso en Nutrico: tendencia de energía de dos semanas, días acumulados y adherencia de 80%",
+          width: 640,
+          height: 1306,
+        },
       },
     ],
   },

@@ -3,39 +3,38 @@
 import Image from "next/image"
 import { useEffect, useRef, useState, type CSSProperties } from "react"
 import { PORTADA } from "@/lib/constants-programa"
-import { SITE_CONFIG } from "@/lib/constants"
 import { Revelar } from "@/components/v2/Revelar"
-import { Sandia } from "@/components/v2/Sandia"
 import { FondoDecorativo } from "@/components/v2/FondoDecorativo"
 
-type Id = (typeof PORTADA.app.pestanas)[number]["id"]
-
-const PESTANAS = PORTADA.app.pestanas
-const PASOS = PESTANAS.length
+const PANTALLAS = PORTADA.app.pantallas
+const PASOS = PANTALLAS.length
 
 /**
  * Cuándo el recorrido va fijo y avanza con el scroll. Debajo de 900 px de
- * ancho (o con una pantalla muy baja, donde la sección fija no cabe) los tres
- * pasos van apilados, cada uno con su pantalla. El CSS usa la misma consulta.
+ * ancho (o con una pantalla muy baja, donde la sección fija no cabe) los pasos
+ * van apilados, cada uno con su pantalla. El CSS usa la misma consulta.
  */
 const ESCRITORIO = "(min-width: 900px) and (min-height: 620px)"
 
 /**
- * "Tu plan, en el bolsillo": el recorrido de la app en tres pasos.
+ * "Tu plan, en el bolsillo": seis pantallas reales de la app, cada una con un
+ * título corto y lo que hace (15-sep: más información y más pantallas).
  *
  * En escritorio la sección mide varias pantallas de alto y su contenido queda
  * fijo (sticky) mientras se baja: el paso activo sale del avance del scroll
- * dentro de la sección (01, 02, 03), sin depender de un clic. Las pestañas
- * siguen siendo pestañas: clic, flechas, Inicio y Fin cambian el paso y llevan
- * el scroll hasta él, para que la página y el paso no se contradigan.
+ * dentro de la sección, sin depender de un clic (decisión de Oscar del
+ * 14-sep). El paso activo muestra su detalle; los demás, solo el título. Las
+ * pestañas siguen siendo pestañas: clic, flechas, Inicio y Fin cambian el paso
+ * y llevan el scroll hasta él, para que la página y el paso no se contradigan.
  *
  * Mientras ese scroll viaja pasa por los pasos intermedios. `destino` los
- * ignora hasta llegar, para que la pestaña no parpadee 01, 02, 03.
+ * ignora hasta llegar, para que la pestaña no parpadee.
  *
- * En celular no hay pestañas: los tres pasos apilados con su pantalla. Sin
- * librerías: un listener de scroll pasivo que mide una vez por cuadro con
- * requestAnimationFrame. Con `prefers-reduced-motion` o el movimiento pausado,
- * el cambio de pantalla no se anima y el scroll salta en vez de deslizarse.
+ * En celular no hay pestañas: los seis pasos apilados, cada uno con su pantalla
+ * y su texto al lado. Sin librerías: un listener de scroll pasivo que mide una
+ * vez por cuadro con requestAnimationFrame. Con `prefers-reduced-motion` o el
+ * movimiento pausado, el cambio de pantalla no se anima y el scroll salta en
+ * vez de deslizarse.
  */
 export function RecorridoApp() {
   const [activa, setActiva] = useState(0)
@@ -105,7 +104,7 @@ export function RecorridoApp() {
     })
   }
 
-  const idActiva: Id = PESTANAS[activa].id
+  const numero = (i: number) => String(i + 1).padStart(2, "0")
 
   return (
     <section
@@ -133,11 +132,11 @@ export function RecorridoApp() {
             <div
               className="feature-tabs"
               role="tablist"
-              aria-label="Explorar Nutrico"
+              aria-label="Pantallas de Nutrico"
               aria-orientation="vertical"
             >
               <span className="recorrido-riel" aria-hidden="true" />
-              {PESTANAS.map((p, i) => (
+              {PANTALLAS.map((p, i) => (
                 <button
                   key={p.id}
                   ref={(el) => {
@@ -161,20 +160,21 @@ export function RecorridoApp() {
                     irAlPaso(siguiente, true)
                   }}
                 >
-                  <span className="tab-number">{String(i + 1).padStart(2, "0")}</span>
-                  <span>
+                  <span className="tab-number">{numero(i)}</span>
+                  <span className="tab-texto">
                     <b>{p.titulo}</b>
-                    <small>{p.detalle}</small>
+                    <span className="tab-detalle">
+                      <span>{p.detalle}</span>
+                    </span>
                   </span>
-                  <span aria-hidden="true">↗</span>
                 </button>
               ))}
             </div>
           </div>
 
-          <div className="app-demo recorrido-demo" data-paso={idActiva}>
+          <div className="app-demo recorrido-demo">
             <span className="demo-label">{PORTADA.app.etiquetaDemo}</span>
-            {PESTANAS.map((p, i) => (
+            {PANTALLAS.map((p, i) => (
               <div
                 key={p.id}
                 role="tabpanel"
@@ -184,91 +184,48 @@ export function RecorridoApp() {
                 className="recorrido-panel"
                 data-activo={activa === i}
               >
-                <Pantalla id={p.id} />
+                <Image
+                  src={p.imagen.src}
+                  alt={p.imagen.alt}
+                  width={p.imagen.width}
+                  height={p.imagen.height}
+                  sizes="270px"
+                  loading="lazy"
+                />
               </div>
             ))}
+            <div className="recorrido-pie" aria-hidden="true">
+              <span className="recorrido-contador">
+                <b>{numero(activa)}</b> / {numero(PASOS - 1)}
+              </span>
+              <span className="screenshot-label">{PORTADA.app.etiquetaCaptura}</span>
+            </div>
           </div>
         </div>
       </div>
 
       <ol className="wrap recorrido-pasos">
-        {PESTANAS.map((p, i) => (
+        {PANTALLAS.map((p, i) => (
           <li key={p.id} className="recorrido-paso">
-            <div className="recorrido-paso-texto">
-              <span className="tab-number">{String(i + 1).padStart(2, "0")}</span>
-              <p>
-                <b>{p.titulo}</b>
-                <small>{p.detalle}</small>
-              </p>
+            <div className="recorrido-paso-pantalla">
+              <Image
+                src={p.imagen.src}
+                alt={p.imagen.alt}
+                width={p.imagen.width}
+                height={p.imagen.height}
+                sizes="(max-width: 520px) 44vw, 220px"
+                loading="lazy"
+              />
             </div>
-            <div className="app-demo recorrido-paso-pantalla">
-              <span className="demo-label">{PORTADA.app.etiquetaDemo}</span>
-              <Pantalla id={p.id} />
+            <div className="recorrido-paso-texto">
+              <span className="tab-number">{numero(i)}</span>
+              <b>{p.titulo}</b>
+              <p>{p.detalle}</p>
             </div>
           </li>
         ))}
       </ol>
+      <p className="wrap recorrido-paso-nota">{PORTADA.app.etiquetaCaptura}</p>
     </section>
-  )
-}
-
-/**
- * Lo que muestra la pantalla de cada paso. El primero es HTML (el cuestionario
- * y la aprobación de Constanza); los otros dos son los mockups existentes de
- * la app, rotulados como tales. Van con `loading="lazy"`: en escritorio se
- * descargan cuando la sección se acerca y en celular cuando cada paso lo hace.
- */
-function Pantalla({ id }: { id: Id }) {
-  if (id === "plan") {
-    return (
-      <div className="demo-plan">
-        <Sandia className="demo-symbol" />
-        <p className="eyebrow">EL INICIO DE TU PROGRAMA</p>
-        <h3>
-          Primero,
-          <br />
-          te conocemos.
-        </h3>
-        <p>Tu rutina, tus gustos y tus objetivos son la base de tu pauta.</p>
-        <div className="question-example">
-          <span>Tu cuestionario inicial</span>
-          <b>
-            11 variables sobre ti <span aria-hidden="true">↗</span>
-          </b>
-          <div className="steps" aria-hidden="true">
-            {Array.from({ length: 11 }).map((_, i) => (
-              <i key={i} />
-            ))}
-          </div>
-          <small>Aproximadamente 10 minutos</small>
-        </div>
-        <div className="approval">
-          <Image src={SITE_CONFIG.brand.constanzaThumb} width={42} height={42} sizes="42px" alt="" />
-          <span>
-            Tu pauta es revisada y
-            <br />
-            <b>aprobada por Constanza.</b>
-          </span>
-        </div>
-      </div>
-    )
-  }
-
-  const captura =
-    id === "recetas"
-      ? {
-          src: "/mockups/m-recetas.png",
-          alt: "Mockup existente del recetario de Nutrico: recetas y lista de compras",
-        }
-      : {
-          src: "/mockups/m-progreso-full.png",
-          alt: "Mockup existente de seguimiento de progreso en Nutrico",
-        }
-
-  return (
-    <div className="screenshot-panel">
-      <Image src={captura.src} alt={captura.alt} width={701} height={1444} sizes="220px" loading="lazy" />
-      <span className="screenshot-label">{PORTADA.app.etiquetaCaptura}</span>
-    </div>
   )
 }
