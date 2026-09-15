@@ -9,9 +9,14 @@ Todas bajo la **Licencia de Unsplash** (https://unsplash.com/license): uso gratu
 sin pedir permiso. No son fotos Unsplash+ (se verificó `premium: false` y `plus: false` en cada una el
 14-sep-2026). La atribución no es obligatoria, pero queda anotada acá.
 
+`cocina-tablet.jpg` (15-sep-2026) reemplaza a `cocina-pensando.jpg` (Simon Abel), que mostraba a una mujer
+de más de 50. Se verificó que es de descarga libre: su enlace de descarga
+(`https://unsplash.com/photos/hWkdYpZuWYE/download`) redirige a la imagen, cosa que las fotos Unsplash+
+no hacen (responden 403). Recorte cuadrado de 1400 px desde el original.
+
 | Archivo | Dónde va | Autor | URL |
 |---|---|---|---|
-| `cocina-pensando.jpg` | ¿Te suena familiar? | Simon Abel (@fenraer) | https://unsplash.com/photos/PSyNdmXcpjI |
+| `cocina-tablet.jpg` | ¿Te suena familiar? (desde el 15-sep) | Rashmi Kalburgie | https://unsplash.com/photos/hWkdYpZuWYE |
 | `telefono-cocina.jpg` | Paso 01, al comenzar | Vitaly Gariev (@silverkblack) | https://unsplash.com/photos/a96i1vtuwsk |
 | `cocinando-casa.jpg` | Paso 02, cada quincena | Vitor Monthay (@vitormonthay) | https://unsplash.com/photos/Mdw9A3FQ3gs |
 | `mesa-riendo.jpg` | Oferta | Bruno Dias (@onurbdias) | https://unsplash.com/photos/7Hb-ZbR04Hc |

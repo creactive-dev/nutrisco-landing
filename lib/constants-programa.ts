@@ -214,11 +214,13 @@ export const PORTADA = {
     cuerpo: "Nutrico te dice qué comer, qué comprar y cómo seguir.",
     enlace: "Así se ve en tu día a día",
     nota: "¿Y hoy qué comemos?",
+    // 15-sep: la foto anterior mostraba a una mujer de más de 50. Esta es de una
+    // mujer de 30 a 45 en su cocina (crédito en public/v2/fotos/CREDITOS.md).
     foto: {
-      src: "/v2/fotos/cocina-pensando.jpg",
-      alt: "Una mujer sentada en la cocina, pensando",
-      width: 1600,
-      height: 1066,
+      src: "/v2/fotos/cocina-tablet.jpg",
+      alt: "Una mujer mira una tableta apoyada en el mesón de su cocina",
+      width: 1400,
+      height: 1400,
     } satisfies FotoPortada,
   },
 
