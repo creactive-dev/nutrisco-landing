@@ -1,6 +1,6 @@
 "use client"
 
-import { PORTADA } from "@/lib/constants-programa"
+import { PORTADA, TRANSFERENCIA, datosTransferenciaEnLinea } from "@/lib/constants-programa"
 import { canalDeContacto } from "@/lib/contacto"
 import { useVenta } from "@/components/v2/VentaProvider"
 
@@ -9,13 +9,18 @@ import { useVenta } from "@/components/v2/VentaProvider"
  *
  * Casi la mitad de las tarjetas se rechazan por antifraude, y la persona cree
  * que el problema es suyo. Esta franja le dice que casi nunca es por fondos, le
- * da la vía que funciona (saldo de Mercado Pago) y le reabre el checkout con su
- * correo ya puesto. No dispara eventos de Meta: ya contó su InitiateCheckout la
- * primera vez, y otro evento acá inflaría el embudo.
+ * da la vía que funciona (saldo de Mercado Pago), la transferencia como salida
+ * final y le reabre el checkout con su correo ya puesto. No dispara eventos de
+ * Meta: ya contó su InitiateCheckout la primera vez, y otro evento acá
+ * inflaría el embudo.
  */
 export function AvisoPagoRechazado() {
   const { estado, abrirCheckout } = useVenta()
   const contacto = canalDeContacto("Hola, mi pago de Prepara tu Verano no se completó")
+
+  // La instrucción trae el correo como texto plano: se parte en dos para que
+  // el correo salga como `mailto:` sin reescribir la frase acá también.
+  const [antesCorreo, despuesCorreo] = TRANSFERENCIA.instruccion.split(TRANSFERENCIA.correo)
 
   return (
     <div className="pago-rechazado" role="alert">
@@ -26,6 +31,15 @@ export function AvisoPagoRechazado() {
             {estado === "abierta" ? PORTADA.pagoRechazado.cuerpo : PORTADA.pagoRechazado.sinVenta}
             {estado !== "abierta" && contacto.detalle ? ` ${contacto.detalle}` : ""}
           </p>
+          {estado === "abierta" && (
+            <p className="pago-rechazado-transferencia">
+              <b>{datosTransferenciaEnLinea()}</b>
+              <br />
+              {antesCorreo}
+              <a href={`mailto:${TRANSFERENCIA.correo}`}>{TRANSFERENCIA.correo}</a>
+              {despuesCorreo}
+            </p>
+          )}
         </div>
         {estado === "abierta" ? (
           <button type="button" className="button primary small" onClick={abrirCheckout}>
