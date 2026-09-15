@@ -163,13 +163,26 @@ export const PROGRAMA = {
 //   rechazos en 49 intentos). La v2 decía "contacta al equipo antes de volver a
 //   intentarlo", que frena justo a quien ya decidió pagar.
 // - Sin guiones largos: el brief los prohíbe como puntuación.
+//
+// Ajustes del 14-sep (`BRIEF-ajustes-landing-v2-2026-09-14.md`): menos texto y
+// más imagen en toda la página. Si un párrafo pasaba de dos líneas se cortó o
+// se reemplazó por una foto. Las fotos son de Constanza (su foto de consulta y
+// cuadros de sus reels) o de stock con licencia libre; autor y licencia de
+// cada una en `public/v2/fotos/CREDITOS.md`.
 // ============================================================
+
+/** Una foto de la portada, con sus medidas reales para `next/image`. */
+export interface FotoPortada {
+  src: string
+  alt: string
+  width: number
+  height: number
+}
 
 export const PORTADA = {
   hero: {
     eyebrow: "PREPARA TU VERANO · CON CONSTANZA JIMÉNEZ",
-    descripcion:
-      "Deja de improvisar qué comer. Construye una rutina que puedas sostener, con un plan hecho para ti y una nutricionista que te acompaña.",
+    descripcion: "Deja de improvisar qué comer. Un plan hecho para ti y una nutricionista que te acompaña.",
     persona: "Con Constanza Jiménez Paschold",
     rol: "Nutricionista clínica · creadora de Nutrico",
     notaArriba: { titulo: "Tu pauta, hecha para ti", detalle: "Revisada por Constanza" },
@@ -196,11 +209,16 @@ export const PORTADA = {
 
   problema: {
     eyebrow: "¿TE SUENA FAMILIAR?",
-    grande:
-      "Guardas recetas. Empiezas el lunes. Llega el jueves y vuelves a resolver la comida con lo que hay.",
-    cuerpo:
-      "Nutrico te ayuda a pasar de la intención al día a día: qué comer, qué comprar y cómo seguir. Con un plan que se adapta a ti y acompañamiento durante tres meses.",
+    grande: "Guardas recetas. Empiezas el lunes. El jueves vuelves a improvisar.",
+    cuerpo: "Nutrico te dice qué comer, qué comprar y cómo seguir.",
     enlace: "Así se ve en tu día a día",
+    nota: "¿Y hoy qué comemos?",
+    foto: {
+      src: "/v2/fotos/cocina-pensando.jpg",
+      alt: "Una mujer sentada en la cocina, pensando",
+      width: 1600,
+      height: 1066,
+    } satisfies FotoPortada,
   },
 
   app: {
@@ -230,30 +248,46 @@ export const PORTADA = {
   recorrido: {
     eyebrow: "UN COMIENZO. UN CAMINO. UN GRUPO.",
     juntas: "Todas empezamos y avanzamos juntas.",
+    // Una foto por paso y una sola línea de texto más la etiqueta.
     tarjetas: [
       {
         indice: "01",
         momento: "AL COMENZAR",
-        titulo: ["Un punto de partida", "que es tuyo."],
-        cuerpo:
-          "Completas el cuestionario. Constanza revisa tu pauta y tienes una dirección clara para empezar.",
+        titulo: "Un punto de partida que es tuyo.",
+        linea: "Llenas el cuestionario y Constanza revisa tu pauta.",
         pildora: "Pauta personalizada",
+        foto: {
+          src: "/v2/fotos/cuestionario-telefono.jpg",
+          alt: "Una mujer revisa su teléfono mientras prepara una ensalada en su cocina",
+          width: 960,
+          height: 1200,
+        } satisfies FotoPortada,
       },
       {
         indice: "02",
         momento: "CADA QUINCENA",
-        titulo: ["Nos cuentas cómo vas.", "Tu plan se ajusta."],
-        cuerpo:
-          "Haces tu check-in y revisamos tu pauta. Seis ajustes en tres meses para acompañar tu proceso.",
+        titulo: "Nos cuentas cómo vas. Tu plan se ajusta.",
+        linea: "Seis ajustes en tres meses.",
         pildora: "Seguimiento cada 15 días",
+        foto: {
+          src: "/v2/fotos/ensalada-casera.jpg",
+          alt: "Manos que preparan una ensalada casera en un bol",
+          width: 960,
+          height: 1200,
+        } satisfies FotoPortada,
       },
       {
         indice: "03",
         momento: "DURANTE EL PROGRAMA",
-        titulo: ["Hay un grupo", "del otro lado."],
-        cuerpo:
-          "WhatsApp exclusivo y tres sesiones grupales en vivo con Constanza. Una por mes para preguntar y aprender.",
+        titulo: "Hay un grupo del otro lado.",
+        linea: "WhatsApp y una sesión en vivo al mes con Constanza.",
         pildora: "Acompañamiento real",
+        foto: {
+          src: "/v2/fotos/constanza-sesion.jpg",
+          alt: "Constanza Jiménez Paschold hablando a la cámara",
+          width: 960,
+          height: 1200,
+        } satisfies FotoPortada,
       },
     ],
     sesionesTitulo: "Sesiones en vivo con Constanza",
@@ -280,9 +314,14 @@ export const PORTADA = {
   oferta: {
     h2: ["El próximo paso", "puede ser"],
     h2em: "para ti.",
-    cuerpo: "Haz un espacio para cuidarte en tu día a día.",
+    cuerpo: "Haz un espacio para cuidarte.",
+    foto: {
+      src: "/v2/fotos/mujer-cocina-sonrie.jpg",
+      alt: "Una mujer sonríe apoyada en el mesón de su cocina",
+      width: 1200,
+      height: 1800,
+    } satisfies FotoPortada,
     cierranEn: "Las inscripciones cierran en",
-    porQueFecha: "El grupo empieza junto; por eso hay una fecha de cierre.",
     tarjetaEyebrow: "TU PROGRAMA COMPLETO",
     tarjetaPildora: "3 meses",
     unSoloPago: "Un solo pago. Sin cobros mensuales.",
@@ -336,6 +375,18 @@ export const PORTADA = {
     antes: "No necesitas tenerlo todo resuelto.",
     h2: "Solo dar",
     h2em: "el primer paso.",
+    foto: {
+      src: "/v2/fotos/sandia-tabla.jpg",
+      alt: "Tajadas de sandía sobre una tabla de madera",
+      width: 1200,
+      height: 1800,
+    } satisfies FotoPortada,
+    fotoConstanza: {
+      src: "/v2/fotos/constanza-sonrisa.jpg",
+      alt: "Constanza Jiménez Paschold sonriendo",
+      width: 640,
+      height: 640,
+    } satisfies FotoPortada,
   },
 
   pie: {

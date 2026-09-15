@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { useEffect, useRef } from "react"
 import { PORTADA, PROGRAMA } from "@/lib/constants-programa"
 import {
@@ -29,6 +30,10 @@ import { FormListaEspera } from "@/components/v2/FormListaEspera"
  *   formulario ahí fallaría siempre: se ofrece escribir.
  *
  * El ViewContent se dispara acá, una vez, cuando la sección entra en pantalla.
+ *
+ * Desde el 14-sep lleva una foto junto a la cuenta regresiva y la razón de la
+ * fecha de cierre ya no se repite acá: la explica la pregunta "¿Puedo entrar
+ * después del...?" de las dudas.
  */
 export function Oferta() {
   const { estado, cohorte, venta, abrirCheckout, registrarVistaOferta } = useVenta()
@@ -84,31 +89,38 @@ export function Oferta() {
             <br />
             <em>{PORTADA.oferta.h2em}</em>
           </h2>
-          <p>{cuerpo}</p>
-
-          {estado === "abierta" && cohorte && (
-            <div className="closing">
-              <CuentaAtras hasta={cohorte.venta_cierra} titulo={PORTADA.oferta.cierranEn} />
-              <p>
-                Cierre: {ultimoDiaDeVenta(cohorte.venta_cierra)} a las {horaDe(cohorte.venta_cierra)},
-                hora de Chile.
-                <br />
-                {PORTADA.oferta.porQueFecha}
-              </p>
+          <div className="oferta-cuerpo">
+            <div className="oferta-foto">
+              <Image
+                src={PORTADA.oferta.foto.src}
+                alt={PORTADA.oferta.foto.alt}
+                width={PORTADA.oferta.foto.width}
+                height={PORTADA.oferta.foto.height}
+                sizes="(max-width: 760px) calc(100vw - 40px), 220px"
+              />
             </div>
-          )}
+            <div>
+              <p className="oferta-texto">{cuerpo}</p>
 
-          {estado === "proxima" && venta.estado === "proxima" && (
-            <div className="closing">
-              <span>Las inscripciones abren el</span>
-              <p className="apertura">{diaSemanaYFecha(venta.cohorte.venta_abre)}</p>
-              <p>
-                Y cierran el {ultimoDiaDeVenta(venta.cohorte.venta_cierra)}.
-                <br />
-                {PORTADA.oferta.porQueFecha}
-              </p>
+              {estado === "abierta" && cohorte && (
+                <div className="closing">
+                  <CuentaAtras hasta={cohorte.venta_cierra} titulo={PORTADA.oferta.cierranEn} />
+                  <p>
+                    Cierre: {ultimoDiaDeVenta(cohorte.venta_cierra)} a las{" "}
+                    {horaDe(cohorte.venta_cierra)}, hora de Chile.
+                  </p>
+                </div>
+              )}
+
+              {estado === "proxima" && venta.estado === "proxima" && (
+                <div className="closing">
+                  <span>Las inscripciones abren el</span>
+                  <p className="apertura">{diaSemanaYFecha(venta.cohorte.venta_abre)}</p>
+                  <p>Y cierran el {ultimoDiaDeVenta(venta.cohorte.venta_cierra)}.</p>
+                </div>
+              )}
             </div>
-          )}
+          </div>
         </Revelar>
 
         <Revelar className="price-card" id="oferta-tarjeta">

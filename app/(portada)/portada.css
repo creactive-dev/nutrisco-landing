@@ -704,11 +704,11 @@ h1 em {
 .intro h2 {
   font-size: 46px;
 }
-.intro-details p {
+.intro-cuerpo {
   font-size: 14px;
   color: var(--muted);
 }
-.intro-details .large-copy {
+.intro .large-copy {
   font-size: 20px;
   line-height: 1.6;
   color: var(--ink);
@@ -922,35 +922,51 @@ h1 em {
   gap: 24px;
 }
 .journey-card {
-  padding: 27px 0;
-  border-top: 1px solid var(--line);
   position: relative;
 }
-.journey-index {
-  font-size: 39px;
-  font-weight: 400;
-  letter-spacing: -2px;
-  color: var(--sandia);
-  display: flex;
-  gap: 20px;
-  align-items: center;
+.journey-foto {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--celeste-suave);
 }
-.journey-index small {
-  font-size: 8px;
-  letter-spacing: 1.3px;
-  color: var(--muted);
+.journey-foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.journey-index {
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  background: #fff;
+  color: var(--sandia-cta);
+  border-radius: 30px;
+  padding: 6px 12px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+  line-height: 1.2;
+}
+.journey-card .journey-momento {
+  font-size: 10px;
+  letter-spacing: 1.4px;
+  font-weight: 650;
+  color: var(--sandia-cta);
+  margin-top: 20px;
+  line-height: 1.5;
 }
 .journey-card h3 {
   font-size: 21px;
   letter-spacing: -0.65px;
-  line-height: 1.35;
-  margin: 30px 0 15px;
+  line-height: 1.3;
+  margin: 6px 0 6px;
 }
-.journey-card p {
-  font-size: 12px;
+.journey-card p:not(.journey-momento) {
+  font-size: 13px;
   color: var(--muted);
-  max-width: 310px;
-  min-height: 83px;
+  line-height: 1.55;
 }
 .mini-pill {
   display: inline-block;
@@ -961,7 +977,7 @@ h1 em {
   line-height: 1.4;
 }
 .journey-card .mini-pill {
-  margin-top: 20px;
+  margin-top: 14px;
 }
 .section-footnote {
   font-size: 10px;
@@ -1100,7 +1116,7 @@ h1 em {
 .enrollment-copy h2 em {
   color: var(--sandia-cta);
 }
-.enrollment-copy > p:not(.eyebrow) {
+.oferta-texto {
   font-size: 13px;
   max-width: 330px;
   color: var(--muted);
@@ -1279,24 +1295,27 @@ details p {
   line-height: 1.85;
 }
 .final-cta {
-  text-align: center;
-  padding: 58px 0 90px;
+  display: grid;
+  grid-template-columns: 0.85fr 1fr;
+  gap: 90px;
+  align-items: center;
+  padding: 80px 0 100px;
   border-top: 1px solid var(--line);
 }
 .final-sandia {
-  width: 76px;
+  width: 62px;
   height: auto;
-  display: inline-block;
-  margin-bottom: 22px;
+  display: block;
+  margin-bottom: 20px;
 }
-.final-cta > p {
+.final-texto > p {
   font-size: 13px;
   margin-bottom: 13px;
   color: var(--muted);
 }
 .final-cta h2 {
-  font-size: 45px;
-  margin-bottom: 29px;
+  font-size: 52px;
+  margin-bottom: 30px;
 }
 .footer {
   border-top: 1px solid var(--line);
@@ -1728,11 +1747,11 @@ dialog .dialog-note {
   .intro .eyebrow {
     margin-bottom: 17px;
   }
-  .intro-details .large-copy {
+  .intro .large-copy {
     font-size: 18px;
     line-height: 1.65;
   }
-  .intro-details p {
+  .intro-cuerpo {
     font-size: 12px;
   }
   .text-link {
@@ -1799,27 +1818,23 @@ dialog .dialog-note {
     font-size: 8px;
     letter-spacing: 1.2px;
   }
+  /* En celular los tres pasos se deslizan de lado: tres fotos 4:5 apiladas
+     alargaban la página casi dos pantallas. */
   .journey-grid {
-    grid-template-columns: 1fr;
-    gap: 0;
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    margin-inline: -20px;
+    padding: 0 20px 14px;
+    scroll-padding-inline: 20px;
   }
   .journey-card {
-    padding: 25px 0 28px;
-  }
-  .journey-index {
-    font-size: 33px;
+    flex: 0 0 78%;
+    scroll-snap-align: start;
   }
   .journey-card h3 {
-    font-size: 22px;
-    margin: 21px 0 13px;
-  }
-  .journey-card p {
-    font-size: 12px;
-    min-height: 0;
-    max-width: 100%;
-  }
-  .journey-card .mini-pill {
-    margin-top: 17px;
+    font-size: 20px;
   }
   .section-footnote {
     font-size: 9px;
@@ -1890,7 +1905,7 @@ dialog .dialog-note {
     letter-spacing: -3px;
     margin: 21px 0;
   }
-  .enrollment-copy > p:not(.eyebrow) {
+  .oferta-texto {
     font-size: 12px;
   }
   .closing {
@@ -1931,13 +1946,16 @@ dialog .dialog-note {
     font-size: 12px;
   }
   .final-cta {
-    padding: 44px 0 56px;
+    grid-template-columns: 1fr;
+    gap: 44px;
+    padding: 50px 0 60px;
+    text-align: center;
   }
-  .final-cta > p {
+  .final-texto > p {
     font-size: 11px;
   }
   .final-cta h2 {
-    font-size: 34px;
+    font-size: 38px;
     letter-spacing: -1.7px;
     max-width: 310px;
     margin-inline: auto;
@@ -1945,7 +1963,7 @@ dialog .dialog-note {
   .final-cta h2 em {
     display: block;
   }
-  .final-cta > .button {
+  .final-texto > .button {
     font-size: 11px;
     gap: 22px;
   }
@@ -2121,11 +2139,11 @@ dialog .dialog-note {
 }
 /* Reading sizes and touch targets for a mobile audience. */
 @media (max-width: 760px) {
-  .intro-details p,
+  .intro-cuerpo,
   .app-explainer .reveal > p:not(.eyebrow),
-  .journey-card p,
+  .journey-card p:not(.journey-momento),
   .founder-copy > p:not(.eyebrow):not(.founder-signature),
-  .enrollment-copy > p:not(.eyebrow),
+  .oferta-texto,
   .faq details p {
     font-size: 14px;
   }
@@ -2718,5 +2736,150 @@ dialog .espera-form {
   }
   .recorrido-paso-pantalla .screenshot-panel img {
     height: 360px;
+  }
+}
+
+/* ────────────────────────────────────────────────────────────────────────
+ * MENOS TEXTO, MÁS IMAGEN (ajustes del 14-sep)
+ * Fotos de Constanza y de stock en el problema, los tres pasos, la oferta y
+ * el cierre. Los arcos repiten la forma del arte del hero.
+ * ──────────────────────────────────────────────────────────────────────── */
+@media (min-width: 761px) {
+  .intro {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.intro .large-copy {
+  margin: 30px 0 8px;
+  max-width: 440px;
+}
+.intro-foto {
+  position: relative;
+}
+.intro-foto img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  object-position: 36% center;
+  border-radius: 999px 999px 14px 14px;
+}
+.intro-nota {
+  position: absolute;
+  left: -26px;
+  bottom: 48px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  background: #fff;
+  border-radius: 12px;
+  padding: 14px 18px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  line-height: 1.3;
+  box-shadow: 0 14px 38px rgba(26, 26, 26, 0.1);
+  transform: rotate(-3deg);
+}
+.intro-nota svg {
+  width: 30px;
+  height: auto;
+}
+.oferta-cuerpo {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 32px;
+  align-items: start;
+}
+.oferta-foto img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: 999px 999px 12px 12px;
+}
+.oferta-texto {
+  font-size: 15px;
+  color: var(--ink);
+  font-weight: 500;
+  margin-top: 6px;
+}
+.enrollment-copy .closing {
+  margin-top: 22px;
+}
+.final-fotos {
+  position: relative;
+  width: 100%;
+  max-width: 360px;
+  justify-self: center;
+}
+.final-foto-sandia img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: 999px 999px 14px 14px;
+}
+.final-foto-constanza {
+  position: absolute;
+  right: -42px;
+  bottom: -30px;
+  width: 150px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 6px solid var(--crema);
+  box-shadow: 0 14px 38px rgba(26, 26, 26, 0.12);
+}
+.final-foto-constanza img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.final-texto > p {
+  font-size: 15px;
+}
+@media (max-width: 1100px) {
+  .final-cta {
+    gap: 60px;
+  }
+  .oferta-cuerpo {
+    grid-template-columns: 150px 1fr;
+    gap: 24px;
+  }
+}
+@media (max-width: 760px) {
+  .intro-foto img {
+    aspect-ratio: 5 / 4;
+    border-radius: 999px 999px 12px 12px;
+  }
+  .intro-nota {
+    left: 12px;
+    bottom: 14px;
+    font-size: 14px;
+    padding: 11px 14px;
+  }
+  .intro-nota svg {
+    width: 24px;
+  }
+  .oferta-cuerpo {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+  .oferta-foto img {
+    aspect-ratio: 16 / 10;
+    object-position: center 22%;
+    border-radius: 14px;
+  }
+  .final-fotos {
+    max-width: 250px;
+  }
+  .final-foto-constanza {
+    width: 108px;
+    right: -26px;
+    bottom: -18px;
+    border-width: 5px;
+  }
+  .final-sandia {
+    margin-inline: auto;
+    width: 52px;
   }
 }

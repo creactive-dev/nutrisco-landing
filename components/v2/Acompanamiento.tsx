@@ -1,3 +1,4 @@
+import Image from "next/image"
 import { PORTADA, PROGRAMA } from "@/lib/constants-programa"
 import {
   diaYMes,
@@ -12,6 +13,9 @@ import { Revelar } from "@/components/v2/Revelar"
  * la cohorte. Las sesiones en vivo se listan solo si la fila las trae: si no,
  * se dice que se confirman. Una fecha inventada acá es una promesa que alguien
  * compra.
+ *
+ * Cada paso es una foto, una línea y su etiqueta: la v2 tenía un párrafo por
+ * tarjeta y la revisión del 14-sep pidió menos texto.
  */
 export function Acompanamiento({ venta }: { venta: EstadoVenta }) {
   const cohorte = venta.estado === "abierta" || venta.estado === "proxima" ? venta.cohorte : null
@@ -43,15 +47,19 @@ export function Acompanamiento({ venta }: { venta: EstadoVenta }) {
       <div className="journey-grid">
         {PORTADA.recorrido.tarjetas.map((t) => (
           <Revelar as="article" className="journey-card" key={t.indice}>
-            <span className="journey-index">
-              {t.indice} <small>{t.momento}</small>
-            </span>
-            <h3>
-              {t.titulo[0]}
-              <br />
-              {t.titulo[1]}
-            </h3>
-            <p>{t.cuerpo}</p>
+            <div className="journey-foto">
+              <Image
+                src={t.foto.src}
+                alt={t.foto.alt}
+                width={t.foto.width}
+                height={t.foto.height}
+                sizes="(max-width: 760px) calc(100vw - 40px), 380px"
+              />
+              <span className="journey-index">{t.indice}</span>
+            </div>
+            <p className="journey-momento">{t.momento}</p>
+            <h3>{t.titulo}</h3>
+            <p>{t.linea}</p>
             <span className="mini-pill">{t.pildora}</span>
           </Revelar>
         ))}
