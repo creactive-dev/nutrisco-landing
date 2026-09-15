@@ -91,7 +91,7 @@ export function Oferta() {
           <p className="eyebrow">
             {estado === "abierta" && <span className="live-dot" />} {eyebrow}
           </p>
-          <h2>
+          <h2 id="oferta-titulo">
             {PORTADA.oferta.h2[0]}
             <br />
             {PORTADA.oferta.h2[1]}

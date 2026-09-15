@@ -1,29 +1,52 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { PORTADA } from "@/lib/constants-programa"
 import { diaMesCorto, formatCLP } from "@/lib/programa"
 import { useVenta } from "@/components/v2/VentaProvider"
 import { BotonPrograma } from "@/components/v2/BotonPrograma"
 
 /**
- * CTA fijo abajo en móvil (el CSS lo esconde en escritorio). Se retira cuando
- * la tarjeta de la oferta está en pantalla, para no tapar el botón de verdad
- * con una copia de sí mismo.
+ * CTA fijo abajo en celular (el CSS lo esconde en escritorio).
+ *
+ * Se retira desde que el titular de la oferta entra en pantalla hasta que el
+ * botón de verdad (o el formulario, si la venta no está abierta) sale por
+ * arriba (15-sep):
+ * - así no tapa el titular de la oferta mientras se lee;
+ * - no duplica el botón cuando el botón real está a la vista;
+ * - y vuelve apenas ese botón queda atrás, para que siempre haya uno visible
+ *   mientras se leen la prueba social y las dudas.
+ * Un listener de scroll pasivo que mide una vez por cuadro.
  */
 export function CtaMovil() {
   const { estado, cohorte, venta } = useVenta()
   const [oculto, setOculto] = useState(false)
 
   useEffect(() => {
-    const tarjeta = document.getElementById("oferta-tarjeta")
-    if (!tarjeta || !("IntersectionObserver" in window)) return
-    const obs = new IntersectionObserver((entradas) => {
-      for (const e of entradas) setOculto(e.isIntersecting)
-    })
-    obs.observe(tarjeta)
-    return () => obs.disconnect()
-  }, [])
+    let cuadro = 0
+    const medir = () => {
+      cuadro = 0
+      const titulo = document.getElementById("oferta-titulo")
+      const boton =
+        document.getElementById("enroll-button") ?? document.getElementById("oferta-tarjeta")
+      if (!titulo || !boton) return
+      const alto = window.innerHeight
+      const tituloEntro = titulo.getBoundingClientRect().top < alto - 90
+      const botonSigue = boton.getBoundingClientRect().bottom > 0
+      setOculto(tituloEntro && botonSigue)
+    }
+    const pedir = () => {
+      if (!cuadro) cuadro = window.requestAnimationFrame(medir)
+    }
+    medir()
+    window.addEventListener("scroll", pedir, { passive: true })
+    window.addEventListener("resize", pedir)
+    return () => {
+      window.removeEventListener("scroll", pedir)
+      window.removeEventListener("resize", pedir)
+      if (cuadro) window.cancelAnimationFrame(cuadro)
+    }
+    // El botón real cambia de elemento cuando la venta cierra en vivo.
+  }, [estado])
 
   let principal: string
   let secundario: string

@@ -3978,3 +3978,52 @@ dialog .espera-form {
     grid-template-columns: 1fr;
   }
 }
+
+/* ────────────────────────────────────────────────────────────────────────
+ * ARREGLOS DE MAQUETA (15-sep)
+ * - Celular: el botón de pausa vive dentro de la barra fija, a la izquierda
+ *   del precio. Flotando a la derecha tapaba el "+" de las dudas y titulares.
+ *   Cuando la barra se retira, se retira con ella.
+ * - Tableta: más chico y pegado al borde, fuera del texto.
+ * - Los saltos a #precio dejan aire arriba del titular.
+ * ──────────────────────────────────────────────────────────────────────── */
+#precio {
+  scroll-margin-top: 12px;
+}
+@media (min-width: 761px) and (max-width: 1100px) {
+  .motion-toggle {
+    left: 4px;
+    bottom: 12px;
+    width: 26px;
+    height: 26px;
+    font-size: 9px;
+  }
+}
+@media (max-width: 760px) {
+  .mobile-cta {
+    padding-left: 70px;
+  }
+  .motion-toggle {
+    left: 14px;
+    right: auto;
+    bottom: calc(12px + env(safe-area-inset-bottom));
+    width: 44px;
+    height: 44px;
+    z-index: 6;
+    transition:
+      transform 0.3s,
+      visibility 0.3s;
+  }
+  body:has(.mobile-cta.is-hidden) .motion-toggle {
+    transform: translateY(160%);
+    visibility: hidden;
+  }
+}
+@media (max-width: 360px) {
+  .mobile-cta {
+    padding-left: 64px;
+  }
+  .motion-toggle {
+    left: 10px;
+  }
+}
