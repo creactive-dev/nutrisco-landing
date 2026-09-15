@@ -205,7 +205,7 @@ export const PORTADA = {
 
   app: {
     eyebrow: "TU PLAN, EN EL BOLSILLO",
-    cuerpo: "Todo conectado en un mismo lugar. Toca y descubre cómo Nutrico te acompaña.",
+    cuerpo: "Tu pauta, tus recetas y tus ajustes, en un mismo lugar.",
     etiquetaDemo: "ASÍ FUNCIONA NUTRICO",
     etiquetaCaptura: "Mockup de referencia · cuenta de demostración",
     pestanas: [
