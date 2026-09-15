@@ -3644,3 +3644,337 @@ dialog .espera-form {
     padding-bottom: 16px;
   }
 }
+
+/* ────────────────────────────────────────────────────────────────────────
+ * ZONA DE PRECIO CON PRUEBA SOCIAL (15-sep)
+ * Botón bajo el precio y, pegados a él, pago seguro con Mercado Pago,
+ * calificación de Google y tres dudas de compra. Al lado (debajo en celular):
+ * citas cortas, cifras de Constanza y qué pasa después de pagar.
+ * ──────────────────────────────────────────────────────────────────────── */
+.enrollment-grid {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.86fr);
+  grid-template-areas:
+    "copy card"
+    "prueba card";
+  grid-template-rows: auto 1fr;
+  align-items: start;
+  column-gap: 80px;
+  row-gap: 44px;
+}
+.enrollment-copy {
+  grid-area: copy;
+}
+.enrollment-grid > .price-card {
+  grid-area: card;
+}
+.enrollment-prueba {
+  grid-area: prueba;
+}
+.enrollment-copy h2 {
+  font-size: 58px;
+  margin: 22px 0 26px;
+}
+.oferta-cuerpo {
+  grid-template-columns: 170px minmax(0, 1fr);
+  grid-template-areas:
+    "foto texto"
+    "foto closing";
+  grid-template-rows: auto 1fr;
+  column-gap: 30px;
+  align-items: start;
+}
+.oferta-foto {
+  grid-area: foto;
+}
+.oferta-cuerpo .oferta-texto {
+  grid-area: texto;
+  margin-top: 0;
+}
+.oferta-cuerpo .closing {
+  grid-area: closing;
+  margin-top: 18px;
+}
+.price-card > .button {
+  margin-top: 22px;
+}
+.pago-seguro {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 14px;
+  padding: 11px 14px;
+  border-radius: 12px;
+  background: var(--celeste-suave);
+}
+.pago-seguro img {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+}
+.pago-seguro p {
+  line-height: 1.4;
+}
+.pago-seguro b {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+}
+.pago-seguro span {
+  display: block;
+  font-size: 12px;
+  color: var(--muted-tinte);
+}
+.calificacion-google {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.calificacion-google > img {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+}
+.calificacion-google p {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px 8px;
+  line-height: 1.3;
+}
+.calificacion-google b {
+  font-size: 15px;
+  font-weight: 650;
+}
+.calificacion-total {
+  font-size: 12px;
+  color: var(--muted-tinte);
+}
+.calificacion-google .avatares-pila > * {
+  border-width: 2px;
+}
+.incluye-titulo {
+  margin-top: 26px;
+  font-size: 10px;
+  letter-spacing: 1.6px;
+  font-weight: 650;
+  text-transform: uppercase;
+}
+.price-card .included-list {
+  margin: 14px 0 0;
+}
+.dudas-compra {
+  margin: 12px 0 0;
+  padding: 2px 4px;
+  display: grid;
+  gap: 5px;
+}
+.dudas-compra > div {
+  font-size: 12.5px;
+  line-height: 1.45;
+}
+.dudas-compra dt,
+.dudas-compra dd {
+  display: inline;
+  margin: 0;
+}
+.dudas-compra dt {
+  font-weight: 600;
+}
+.dudas-compra dd {
+  color: var(--muted-tinte);
+}
+.dudas-compra dd::before {
+  content: " ";
+}
+.price-card .included-list {
+  font-size: 13px;
+}
+.price-card .included-list li small {
+  font-size: 12px;
+}
+
+.prueba-compra {
+  display: grid;
+  gap: 18px;
+}
+.prueba-citas {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+.prueba-citas li {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px 18px 16px;
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid rgba(233, 69, 85, 0.12);
+}
+.prueba-citas blockquote {
+  flex: 1;
+  margin: 0;
+  font-family: theme("fontFamily.v2-serif");
+  font-size: 17px;
+  line-height: 1.4;
+  letter-spacing: -0.2px;
+}
+.prueba-autora {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.prueba-autora .avatar-inicial {
+  font-size: 13px;
+}
+.prueba-autora small {
+  display: block;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--muted);
+}
+.prueba-cifras {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+.prueba-cifras p {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 18px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.65);
+  line-height: 1.3;
+}
+.prueba-cifras b {
+  font-size: 38px;
+  font-weight: 550;
+  letter-spacing: -1.6px;
+  line-height: 1;
+  color: var(--sandia-cta);
+}
+.prueba-cifras span {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--muted-tinte);
+}
+.despues-pago {
+  padding: 18px;
+  border-radius: 14px;
+  border: 1px dashed rgba(201, 53, 69, 0.35);
+}
+.despues-pago ol {
+  list-style: none;
+  padding: 0;
+  margin: 14px 0 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+.despues-pago li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.despues-num {
+  flex: 0 0 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--sandia-cta);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 650;
+}
+.despues-pago b {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.despues-pago small {
+  display: block;
+  margin-top: 3px;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--muted-tinte);
+}
+@media (max-width: 1100px) {
+  .enrollment-grid {
+    column-gap: 44px;
+  }
+  .enrollment-copy h2 {
+    font-size: 48px;
+  }
+  .oferta-cuerpo {
+    grid-template-columns: 130px minmax(0, 1fr);
+  }
+  .despues-pago ol {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 760px) {
+  .enrollment-grid {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "copy"
+      "card"
+      "prueba";
+    grid-template-rows: auto;
+    row-gap: 28px;
+  }
+  .enrollment-copy h2 {
+    font-size: 44px;
+    letter-spacing: -2.4px;
+    margin: 16px 0 20px;
+  }
+  .oferta-cuerpo {
+    grid-template-columns: 92px minmax(0, 1fr);
+    grid-template-areas:
+      "foto texto"
+      "closing closing";
+    grid-template-rows: auto auto;
+    column-gap: 16px;
+    row-gap: 0;
+    align-items: center;
+  }
+  .oferta-foto img {
+    aspect-ratio: 3 / 4;
+    object-position: center 30%;
+    border-radius: 999px 999px 10px 10px;
+  }
+  .oferta-cuerpo .oferta-texto {
+    font-size: 15px;
+  }
+  .oferta-cuerpo .closing {
+    margin-top: 20px;
+  }
+  .price-card .incluye-titulo {
+    margin-top: 22px;
+  }
+  .prueba-citas {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+  .prueba-citas blockquote {
+    font-size: 16px;
+  }
+  .prueba-cifras b {
+    font-size: 32px;
+  }
+  .despues-pago ol {
+    grid-template-columns: 1fr;
+  }
+}

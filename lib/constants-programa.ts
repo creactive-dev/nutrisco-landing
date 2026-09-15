@@ -439,6 +439,26 @@ export const PORTADA = {
     tarjetaPildora: "3 meses",
     unSoloPago: "Un solo pago. Sin cobros mensuales.",
     pagoCon: "Pago único con Mercado Pago",
+    // Zona de precio (15-sep): prueba social y confianza junto al botón. Solo
+    // datos que existen: nada de cupos, garantía ni descuentos.
+    pagoSeguro: "Pago seguro con Mercado Pago",
+    // La preferencia de la app va con installments: 1 y sin medios excluidos.
+    mediosPago: "Crédito, débito o saldo de Mercado Pago. Un solo pago, sin cuotas.",
+    incluyeTitulo: "Incluye",
+    // PENDIENTE confirmar con Constanza: 289 pagos aprobados del Reto
+    // Antiinflamatorio en Mercado Pago (pendientes de la reunión del 15-sep).
+    reto: { numero: "+280", texto: "personas hicieron su Reto Antiinflamatorio" },
+    dudasCompra: [
+      { q: "¿Tiene cuotas?", a: "No, es un solo pago." },
+      { q: "¿Incluye consulta individual?", a: "No, es la app con acompañamiento grupal." },
+      { q: "¿Y si me rechazan la tarjeta?", a: "Usa tu saldo de Mercado Pago." },
+    ],
+    despuesTitulo: "DESPUÉS DE PAGAR",
+    despues: [
+      { titulo: "Te llega tu acceso", detalle: "Un correo con cómo entrar a Nutrico." },
+      { titulo: "Respondes tu cuestionario", detalle: "Unos 10 minutos, desde tu celular." },
+      { titulo: "Constanza aprueba tu pauta", detalle: "Y parte el grupo." },
+    ],
     noIncluye: "No incluye consulta individual.",
     cerroEnVivo: "Las inscripciones de este grupo acaban de cerrar.",
     ninguna:
