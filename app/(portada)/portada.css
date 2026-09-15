@@ -2429,12 +2429,6 @@ dialog .espera-form {
 .quote-card:nth-child(2) {
   transition-delay: 0.08s;
 }
-.quote-mark {
-  display: block;
-  height: 28px;
-  font: italic 64px/0.9 Georgia, serif;
-  color: var(--sandia);
-}
 .quote-card blockquote {
   flex: 1;
   margin: 16px 0 24px;
@@ -2450,16 +2444,6 @@ dialog .espera-form {
   align-items: center;
   border-top: 1px solid var(--line);
   padding-top: 18px;
-}
-.quote-initial {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background: var(--celeste-suave);
-  display: grid;
-  place-items: center;
-  font-weight: 600;
-  color: var(--ink);
 }
 .quote-author p {
   font-size: 13px;
@@ -3056,5 +3040,193 @@ dialog .espera-form {
   }
   .testimonials .quote-card blockquote {
     font-size: 17px;
+  }
+}
+
+/* ────────────────────────────────────────────────────────────────────────
+ * TESTIMONIOS CON AUTOPLAY Y RESEÑAS CON FOTO (15-sep)
+ * Videos que parten solos y en silencio, con sonido y pausa por video.
+ * Reseñas con el logo de Google, avatares reales o inicial estilo Google.
+ * ──────────────────────────────────────────────────────────────────────── */
+.video-marco {
+  position: relative;
+  aspect-ratio: 9 / 16;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--celeste-suave);
+  box-shadow: 0 18px 40px rgba(26, 26, 26, 0.1);
+}
+.video-card .video-marco video {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+  border-radius: 0;
+  object-fit: cover;
+}
+.video-controles {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.video-sonido,
+.video-pausa {
+  border: 0;
+  color: #fff;
+  background: rgba(26, 26, 26, 0.68);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  transition: background 0.2s;
+}
+.video-sonido {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 38px;
+  padding: 8px 14px 8px 11px;
+  border-radius: 40px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+.video-card .video-sonido {
+  color: #fff;
+  font-size: 12px;
+}
+.video-sonido[aria-pressed="true"] {
+  background: var(--sandia-cta);
+}
+.video-pausa {
+  flex: 0 0 38px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+}
+.video-sonido:hover,
+.video-pausa:hover {
+  background: rgba(26, 26, 26, 0.85);
+}
+.video-sonido[aria-pressed="true"]:hover {
+  background: var(--sandia-hover);
+}
+.video-play-grande {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 66px;
+  height: 66px;
+  border: 0;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  padding-left: 4px;
+  background: rgba(250, 250, 248, 0.95);
+  color: var(--sandia-cta);
+  box-shadow: 0 10px 30px rgba(26, 26, 26, 0.25);
+}
+.video-card > .video-marco {
+  padding-top: 0;
+}
+.video-card > div:not(.video-marco) {
+  padding-top: 16px;
+}
+.resenas-cabecera .estrellas {
+  color: #f4b400;
+}
+
+.resenas-cabecera {
+  gap: 14px 22px;
+  padding: 18px 22px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+.resenas-marca {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+}
+.logo-google {
+  width: 30px;
+  height: 30px;
+}
+.resenas-cabecera .resenas-total {
+  font-size: 15px;
+  color: var(--muted);
+}
+.avatares-pila {
+  display: flex;
+  padding-left: 8px;
+}
+.avatares-pila > * {
+  margin-left: -8px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  object-fit: cover;
+}
+.avatar-resena {
+  flex-shrink: 0;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.avatar-inicial {
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 1;
+}
+.quote-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.estrellas-mini {
+  color: #f5b400;
+  font-size: 14px;
+  letter-spacing: 1.5px;
+}
+.quote-top img {
+  width: 16px;
+  height: 16px;
+}
+.resenas-mas {
+  display: none;
+}
+@media (max-width: 760px) {
+  .resenas-cabecera {
+    padding: 16px;
+  }
+  .avatares-pila {
+    order: 3;
+  }
+  .js-motion .quote-grid:not(.todas) > :nth-child(n + 5) {
+    display: none;
+  }
+  .js-motion .quote-grid:not(.todas) + .resenas-mas {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin-top: 12px;
+    min-height: 48px;
+    align-items: center;
+    border: 1px solid rgba(26, 26, 26, 0.2);
+    border-radius: 10px;
+    background: #fff;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .video-sonido {
+    font-size: 11px;
+    padding-inline: 10px 12px;
   }
 }
