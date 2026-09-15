@@ -178,6 +178,12 @@ export interface FotoPortada {
   alt: string
   width: number
   height: number
+  /**
+   * `object-position` para cuando el recuadro es más ancho que la foto
+   * (recuadro horizontal, foto vertical) y el recorte por defecto (centro)
+   * corta la cara. Ej. `"center 18%"`.
+   */
+  posicion?: string
 }
 
 export const PORTADA = {
@@ -366,6 +372,10 @@ export const PORTADA = {
           alt: "Constanza Jiménez Paschold hablando a la cámara",
           width: 960,
           height: 1200,
+          // La foto es vertical (960×1200) en un recuadro horizontal: el
+          // centro por defecto corta entre la frente y la nariz. 18% deja la
+          // cara completa a 390 y a 1440 (verificado con captura, 15-sep).
+          posicion: "center 18%",
         } satisfies FotoPortada,
         pasos: [
           {

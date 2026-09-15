@@ -3634,9 +3634,6 @@ dialog .espera-form {
   .journey .journey-foto {
     aspect-ratio: 16 / 9;
   }
-  .journey .journey-card:nth-child(3) .journey-foto img {
-    object-position: center 18%;
-  }
   .journey-pasos {
     margin-top: 18px;
   }

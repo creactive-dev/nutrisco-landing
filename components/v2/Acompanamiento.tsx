@@ -1,5 +1,5 @@
 import Image from "next/image"
-import { PORTADA, PROGRAMA } from "@/lib/constants-programa"
+import { PORTADA, PROGRAMA, type FotoPortada } from "@/lib/constants-programa"
 import {
   diaYMes,
   sesionesLegibles,
@@ -65,6 +65,11 @@ export function Acompanamiento({ venta }: { venta: EstadoVenta }) {
                 width={m.foto.width}
                 height={m.foto.height}
                 sizes="(max-width: 760px) calc(100vw - 40px), 380px"
+                style={
+                  (m.foto as FotoPortada).posicion
+                    ? { objectPosition: (m.foto as FotoPortada).posicion }
+                    : undefined
+                }
               />
               <span className="journey-index">{m.momento}</span>
             </div>
