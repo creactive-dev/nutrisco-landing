@@ -3523,3 +3523,124 @@ dialog .espera-form {
     width: 110%;
   }
 }
+
+/* ────────────────────────────────────────────────────────────────────────
+ * UN COMIENZO, UN CAMINO, UN GRUPO: SIETE PASOS (15-sep)
+ * Tres momentos con su foto y, debajo, los pasos numerados en una línea de
+ * tiempo. En celular van apilados (ya no se deslizan de lado): es un orden
+ * que se lee de arriba abajo.
+ * ──────────────────────────────────────────────────────────────────────── */
+.journey .journey-grid {
+  gap: 28px;
+  align-items: start;
+}
+.journey .journey-foto {
+  aspect-ratio: 16 / 11;
+}
+.journey .journey-foto img {
+  object-position: center 30%;
+}
+.journey .journey-index {
+  font-size: 10px;
+  letter-spacing: 1.4px;
+  font-weight: 650;
+  padding: 7px 12px;
+}
+.journey-pasos {
+  list-style: none;
+  padding: 0;
+  margin: 22px 0 0;
+  display: grid;
+  gap: 0;
+}
+.journey-pasos li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  gap: 14px;
+  padding-bottom: 20px;
+}
+.journey-pasos li::before {
+  content: "";
+  position: absolute;
+  left: 16px;
+  top: 34px;
+  bottom: 2px;
+  width: 1px;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(233, 69, 85, 0.45) 0 4px,
+    transparent 4px 8px
+  );
+}
+.journey-pasos li:last-child::before {
+  display: none;
+}
+.journey-num {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--sandia-suave);
+  color: var(--sandia-cta);
+  font-size: 12px;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+}
+.journey .journey-card h3 {
+  font-size: 17px;
+  line-height: 1.3;
+  letter-spacing: -0.3px;
+  margin: 6px 0 4px;
+}
+.journey .journey-card .journey-pasos p {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+.journey-fecha {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  padding: 5px 10px;
+  border-radius: 30px;
+  background: var(--celeste-suave);
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.journey-fecha::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--celeste);
+}
+@media (max-width: 760px) {
+  .journey .journey-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 26px;
+    overflow: visible;
+    margin-inline: 0;
+    padding: 0;
+  }
+  .journey .journey-card {
+    flex: none;
+  }
+  .journey .journey-foto {
+    aspect-ratio: 16 / 9;
+  }
+  .journey .journey-card:nth-child(3) .journey-foto img {
+    object-position: center 18%;
+  }
+  .journey-pasos {
+    margin-top: 18px;
+  }
+  .journey-pasos li {
+    padding-bottom: 16px;
+  }
+}

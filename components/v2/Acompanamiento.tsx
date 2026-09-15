@@ -8,18 +8,29 @@ import {
 } from "@/lib/programa"
 import { Revelar } from "@/components/v2/Revelar"
 
+type ClaveFecha = "cierre" | "inicio" | "fin"
+
 /**
- * "Tres meses. Contigo, de principio a fin." Las fechas del programa salen de
- * la cohorte. Las sesiones en vivo se listan solo si la fila las trae: si no,
- * se dice que se confirman. Una fecha inventada acá es una promesa que alguien
- * compra.
+ * "Tres meses. Contigo, de principio a fin." El cómo del programa en siete
+ * pasos, agrupados en tres momentos con su foto (15-sep: más detalle del cómo
+ * en cada paso).
  *
- * Cada paso es una foto, una línea y su etiqueta: la v2 tenía un párrafo por
- * tarjeta y la revisión del 14-sep pidió menos texto.
+ * Las fechas de los pasos (cierre de inscripciones, inicio y último día) salen
+ * de la cohorte; sin cohorte, los pasos van sin fecha. Las sesiones en vivo se
+ * listan solo si la fila las trae: si no, se dice que se confirman. Una fecha
+ * inventada acá es una promesa que alguien compra.
  */
 export function Acompanamiento({ venta }: { venta: EstadoVenta }) {
   const cohorte = venta.estado === "abierta" || venta.estado === "proxima" ? venta.cohorte : null
   const sesiones = cohorte ? sesionesLegibles(cohorte.sesiones) : null
+
+  const fechas: Record<ClaveFecha, string | null> = {
+    cierre: cohorte ? `Hasta el ${diaYMes(cohorte.venta_cierra)}` : null,
+    inicio: cohorte ? diaYMes(cohorte.fecha_inicio) : null,
+    fin: cohorte ? ultimoDiaDelPrograma(cohorte.fecha_fin, { mes: "long" }) : null,
+  }
+
+  let numero = 0
 
   return (
     <section className="section wrap journey">
@@ -45,22 +56,36 @@ export function Acompanamiento({ venta }: { venta: EstadoVenta }) {
       </Revelar>
 
       <div className="journey-grid">
-        {PORTADA.recorrido.tarjetas.map((t) => (
-          <Revelar as="article" className="journey-card" key={t.indice}>
+        {PORTADA.recorrido.momentos.map((m) => (
+          <Revelar as="article" className="journey-card" key={m.momento}>
             <div className="journey-foto">
               <Image
-                src={t.foto.src}
-                alt={t.foto.alt}
-                width={t.foto.width}
-                height={t.foto.height}
+                src={m.foto.src}
+                alt={m.foto.alt}
+                width={m.foto.width}
+                height={m.foto.height}
                 sizes="(max-width: 760px) calc(100vw - 40px), 380px"
               />
-              <span className="journey-index">{t.indice}</span>
+              <span className="journey-index">{m.momento}</span>
             </div>
-            <p className="journey-momento">{t.momento}</p>
-            <h3>{t.titulo}</h3>
-            <p>{t.linea}</p>
-            <span className="mini-pill">{t.pildora}</span>
+            <ol className="journey-pasos">
+              {m.pasos.map((p) => {
+                numero += 1
+                const fecha = "fecha" in p ? fechas[p.fecha as ClaveFecha] : null
+                return (
+                  <li key={p.titulo}>
+                    <span className="journey-num" aria-hidden="true">
+                      {String(numero).padStart(2, "0")}
+                    </span>
+                    <div>
+                      <h3>{p.titulo}</h3>
+                      <p>{p.detalle}</p>
+                      {fecha && <span className="journey-fecha">{fecha}</span>}
+                    </div>
+                  </li>
+                )
+              })}
+            </ol>
           </Revelar>
         ))}
       </div>

@@ -310,46 +310,74 @@ export const PORTADA = {
   recorrido: {
     eyebrow: "UN COMIENZO. UN CAMINO. UN GRUPO.",
     juntas: "Todas empezamos y avanzamos juntas.",
-    // Una foto por paso y una sola línea de texto más la etiqueta.
-    tarjetas: [
+    // 15-sep: "más detalle del cómo en cada paso". Siete pasos con lo que de
+    // verdad pasa, agrupados en tres momentos con su foto. Las fechas no se
+    // escriben acá: `fecha` dice cuál mostrar y el componente la lee de la
+    // cohorte (sin cohorte, el paso va sin fecha).
+    momentos: [
       {
-        indice: "01",
         momento: "AL COMENZAR",
-        titulo: "Un punto de partida que es tuyo.",
-        linea: "Llenas el cuestionario y Constanza revisa tu pauta.",
-        pildora: "Pauta personalizada",
         foto: {
           src: "/v2/fotos/telefono-cocina.jpg",
           alt: "Una mujer mira su teléfono sentada a la mesa de su cocina",
           width: 960,
           height: 1200,
         } satisfies FotoPortada,
+        pasos: [
+          {
+            titulo: "Te inscribes y pagas",
+            detalle: "Te llega un correo con tu acceso a Nutrico.",
+            fecha: "cierre",
+          },
+          {
+            titulo: "Respondes tu cuestionario",
+            detalle: "11 variables sobre tu rutina, tus gustos y tus objetivos. Toma unos 10 minutos.",
+          },
+          {
+            titulo: "Constanza aprueba tu pauta",
+            detalle: "La revisa antes de que parta el grupo.",
+          },
+        ],
       },
       {
-        indice: "02",
         momento: "CADA QUINCENA",
-        titulo: "Nos cuentas cómo vas. Tu plan se ajusta.",
-        linea: "Seis ajustes en tres meses.",
-        pildora: "Seguimiento cada 15 días",
         foto: {
           src: "/v2/fotos/cocinando-casa.jpg",
           alt: "Una mujer cocina en la cocina de su casa",
           width: 960,
           height: 1200,
         } satisfies FotoPortada,
+        pasos: [
+          {
+            titulo: "Parte el grupo",
+            detalle: "Tu pauta de la semana, el recetario y la lista de compras quedan listos en la app.",
+            fecha: "inicio",
+          },
+          {
+            titulo: "Check-in y ajuste cada 15 días",
+            detalle: "Cuentas cómo vas y tu pauta se ajusta. Son 6 ajustes en total.",
+          },
+        ],
       },
       {
-        indice: "03",
         momento: "DURANTE EL PROGRAMA",
-        titulo: "Hay un grupo del otro lado.",
-        linea: "WhatsApp y una sesión en vivo al mes con Constanza.",
-        pildora: "Acompañamiento real",
         foto: {
           src: "/v2/fotos/constanza-sesion.jpg",
           alt: "Constanza Jiménez Paschold hablando a la cámara",
           width: 960,
           height: 1200,
         } satisfies FotoPortada,
+        pasos: [
+          {
+            titulo: "En vivo y en grupo",
+            detalle: "Una sesión en vivo al mes con Constanza y el grupo de WhatsApp todo el programa.",
+          },
+          {
+            titulo: "Cierre a los 3 meses",
+            detalle: "Todas terminan juntas, el mismo día.",
+            fecha: "fin",
+          },
+        ],
       },
     ],
     sesionesTitulo: "Sesiones en vivo con Constanza",
