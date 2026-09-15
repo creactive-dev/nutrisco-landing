@@ -27,20 +27,31 @@ const config: Config = {
           600: "#3D94BF",
           700: "#2A6F92",
         },
-        // Landing v2 "Este verano, empieza por ti" (portada). Salen de
-        // `styles.css` de la iteración aprobada por Oscar el 14-sep-2026. La
-        // hoja de la portada los lee con theme(), así que este es su único hogar.
+        // Portada "Este verano, empieza por ti". Paleta de la app
+        // (nutrisco/app/tailwind.config.ts), que calza con el logo de Constanza:
+        // sandía roja con cáscara verde y texto celeste. Aprobada por Oscar el
+        // 14-sep-2026 (BRIEF-ajustes-landing-v2). La hoja de la portada los lee
+        // con theme(), así que este es su único hogar.
         v2: {
-          wine: "#4b1729",
-          ink: "#3e1d2a",
-          coral: "#ea5265",
-          pink: "#f4bec5",
-          paper: "#fffdfb",
-          muted: "#75636a",
-          line: "#e9dfe1",
-          peach: "#fce8e3",
-          plum: "#b9425c",
-          focus: "#3985a6",
+          crema: "#FAFAF8",
+          ink: "#1A1A1A",
+          muted: "#6B7280",
+          // #6B7280 da 4,4:1 sobre los fondos suaves. Para texto chico en esas
+          // secciones se usa el tono siguiente de la misma escala de grises.
+          mutedTinte: "#4B5563",
+          sandia: "#E94555",
+          // El botón con texto blanco: #E94555 da 3,86:1 y no llega a AA. Este
+          // tono de la misma sandía da 5,15:1 con blanco y 4,68:1 como texto
+          // chico sobre el fondo celeste suave, el más exigente de la página.
+          sandiaCta: "#C93545",
+          sandiaHover: "#B02D3B",
+          celeste: "#73C3E4",
+          sandiaSuave: "#FFF2F3",
+          celesteSuave: "#EAF6FB",
+          verde: "#7BAE83",
+          cascara: "#2E7D43",
+          line: "#E8E8E6",
+          focus: "#3985A6",
         },
         crema: "#FAFAF8",
         "text-dark": "#1A1A1A",
