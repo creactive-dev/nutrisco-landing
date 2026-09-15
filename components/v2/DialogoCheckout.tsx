@@ -12,6 +12,7 @@ import {
 import { iniciarCheckout } from "@/lib/pixel"
 import { armarTracking, nuevoEventId } from "@/lib/tracking"
 import { formatearRut } from "@/lib/rut"
+import { validarTelefono } from "@/lib/telefono"
 import { canalDeContacto } from "@/lib/contacto"
 import { CLAVE_DATOS, useVenta } from "@/components/v2/VentaProvider"
 import { FormListaEspera } from "@/components/v2/FormListaEspera"
@@ -19,7 +20,7 @@ import { FormListaEspera } from "@/components/v2/FormListaEspera"
 const LEGAL_CONSENT_STORAGE_KEY = "nutrico_legal_consent"
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
-type Errores = Partial<Record<"nombre" | "email" | "rut" | "consentimiento", string>>
+type Errores = Partial<Record<"nombre" | "email" | "telefono" | "rut" | "consentimiento", string>>
 
 /**
  * El formulario que cobra. Modal, como la v2: en móvil evita un scroll largo
@@ -52,6 +53,7 @@ export function DialogoCheckout() {
   const dialogo = useRef<HTMLDialogElement>(null)
   const campoNombre = useRef<HTMLInputElement>(null)
   const [nombre, setNombre] = useState("")
+  const [telefono, setTelefono] = useState("")
   const [rut, setRut] = useState("")
   const [acepta, setAcepta] = useState(false)
   const [tiembla, setTiembla] = useState(false)
@@ -62,13 +64,14 @@ export function DialogoCheckout() {
 
   const contacto = canalDeContacto("Hola, tengo una duda con mi inscripción a Prepara tu Verano")
 
-  // Nombre guardado de un intento anterior (vuelta de un pago rechazado).
+  // Nombre y WhatsApp guardados de un intento anterior (vuelta de un pago rechazado).
   useEffect(() => {
     try {
       const guardado = window.localStorage.getItem(CLAVE_DATOS)
       if (!guardado) return
-      const datos = JSON.parse(guardado) as { nombre?: string }
+      const datos = JSON.parse(guardado) as { nombre?: string; telefono?: string }
       if (typeof datos.nombre === "string") setNombre((actual) => actual || datos.nombre || "")
+      if (typeof datos.telefono === "string") setTelefono((actual) => actual || datos.telefono || "")
     } catch {
       /* sin almacenamiento */
     }
@@ -121,6 +124,7 @@ export function DialogoCheckout() {
     const nuevos: Errores = {}
     if (!nombre.trim()) nuevos.nombre = PORTADA.checkout.errorNombre
     if (!EMAIL_REGEX.test(email.trim())) nuevos.email = PORTADA.checkout.errorEmail
+    if (!validarTelefono(telefono).valido) nuevos.telefono = PORTADA.checkout.errorTelefono
     let rutFormateado: string | null = null
     if (rut.trim()) {
       rutFormateado = formatearRut(rut)
@@ -143,10 +147,13 @@ export function DialogoCheckout() {
         setTiembla(true)
         window.setTimeout(() => setTiembla(false), 600)
       }
-      const primero = (["nombre", "email", "rut", "consentimiento"] as const).find((c) => nuevos[c])
+      const primero = (["nombre", "email", "telefono", "rut", "consentimiento"] as const).find(
+        (c) => nuevos[c]
+      )
       const ids = {
         nombre: "checkout-nombre",
         email: "checkout-email",
+        telefono: "checkout-telefono",
         rut: "checkout-rut",
         consentimiento: "checkout-consentimiento",
       }
@@ -167,7 +174,10 @@ export function DialogoCheckout() {
       )
       // Para ofrecer "intentar de nuevo" sin volver a escribir si Mercado Pago
       // rechaza. El RUT no se guarda: es un dato de identidad y es opcional.
-      window.localStorage.setItem(CLAVE_DATOS, JSON.stringify({ nombre: nombre.trim(), email: limpio }))
+      window.localStorage.setItem(
+        CLAVE_DATOS,
+        JSON.stringify({ nombre: nombre.trim(), email: limpio, telefono: telefono.trim() })
+      )
     } catch {
       /* almacenamiento no disponible: la aceptación queda por el click */
     }
@@ -181,6 +191,7 @@ export function DialogoCheckout() {
         body: JSON.stringify({
           email: limpio,
           nombre: nombre.trim(),
+          telefono: validarTelefono(telefono).formateado,
           rut: rutFormateado,
           tracking: armarTracking(eventId),
         }),
@@ -322,6 +333,33 @@ export function DialogoCheckout() {
                 {errores.email && (
                   <p id="checkout-email-error" className="campo-error">
                     {errores.email}
+                  </p>
+                )}
+              </div>
+
+              <div className="campo">
+                <label htmlFor="checkout-telefono">{PORTADA.checkout.telefono}</label>
+                <input
+                  id="checkout-telefono"
+                  name="telefono"
+                  type="tel"
+                  inputMode="tel"
+                  autoComplete="tel"
+                  placeholder="9 1234 5678"
+                  value={telefono}
+                  onChange={(e) => {
+                    setTelefono(e.target.value)
+                    if (errores.telefono) setErrores((x) => ({ ...x, telefono: undefined }))
+                  }}
+                  aria-invalid={Boolean(errores.telefono)}
+                  aria-describedby={`checkout-telefono-ayuda${errores.telefono ? " checkout-telefono-error" : ""}`}
+                />
+                <p id="checkout-telefono-ayuda" className="campo-ayuda">
+                  {PORTADA.checkout.telefonoAyuda}
+                </p>
+                {errores.telefono && (
+                  <p id="checkout-telefono-error" className="campo-error">
+                    {errores.telefono}
                   </p>
                 )}
               </div>
