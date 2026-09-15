@@ -22,7 +22,7 @@ const inter = localFont({
 const TITULO = "Prepara tu Verano · Programa de 3 meses con Constanza Jiménez"
 const TITULO_SOCIAL = "Este verano, empieza por ti · Prepara tu Verano"
 const DESCRIPCION =
-  "Tres meses con tu pauta antiinflamatoria personalizada, ajustada cada quince días por Constanza. Un grupo con fecha de inicio y de término. Un solo pago, boleta exenta para tu isapre."
+  "Un programa de tres meses con tu pauta antiinflamatoria hecha por Constanza y una pauta nueva cada quince días. Un grupo con fecha de inicio y de término. Un solo pago, boleta exenta para tu isapre."
 const OG = {
   url: "/og-prepara-tu-verano.jpg",
   width: 1200,
