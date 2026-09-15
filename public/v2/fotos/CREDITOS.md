@@ -12,13 +12,15 @@ sin pedir permiso. No son fotos Unsplash+ (se verificó `premium: false` y `plus
 | Archivo | Dónde va | Autor | URL |
 |---|---|---|---|
 | `cocina-pensando.jpg` | ¿Te suena familiar? | Simon Abel (@fenraer) | https://unsplash.com/photos/PSyNdmXcpjI |
-| `cuestionario-telefono.jpg` | Paso 01, al comenzar | Vitaly Gariev (@silverkblack) | https://unsplash.com/photos/W9Vu-Cy2vtg |
-| `ensalada-casera.jpg` | Paso 02, cada quincena | Benoit Lamarche (@thirdcoastdad) | https://unsplash.com/photos/RqXzceHt71k |
-| `mujer-cocina-sonrie.jpg` | Oferta | Rodrigo Rodrigues, WOLF ART (@wolfart32) | https://unsplash.com/photos/9dDz1NcmZLU |
+| `telefono-cocina.jpg` | Paso 01, al comenzar | Vitaly Gariev (@silverkblack) | https://unsplash.com/photos/a96i1vtuwsk |
+| `cocinando-casa.jpg` | Paso 02, cada quincena | Vitor Monthay (@vitormonthay) | https://unsplash.com/photos/Mdw9A3FQ3gs |
+| `mesa-riendo.jpg` | Oferta | Bruno Dias (@onurbdias) | https://unsplash.com/photos/7Hb-ZbR04Hc |
 | `sandia-tabla.jpg` | Cierre | Cody Chan (@cceee) | https://unsplash.com/photos/802n4MChUYk |
 
-Criterio de selección (brief del 14-sep): comida casera, cocina y mujeres de 30 a 60 en situaciones
-cotidianas. Nada de básculas, cintas de medir, cuerpos ni "antes y después".
+Criterio de selección: comida casera, cocina y mujeres en situaciones cotidianas, sin básculas, cintas
+de medir, cuerpos ni "antes y después" (brief del 14-sep). Las personas de las fotos se ven de 30 a 45
+años, porque el público del programa tiene entre 28 y 50 (corrección del 14-sep, que sacó tres fotos
+con mujeres de 60 o más).
 
 ## Constanza
 
