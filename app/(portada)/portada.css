@@ -291,7 +291,7 @@ p {
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 9px;
+  font-size: 15px;
   letter-spacing: 1.15px;
 }
 .short-line {
@@ -331,9 +331,9 @@ h1 em {
   min-width: 302px;
 }
 .price-note {
-  font-size: 11px;
+  font-size: 15px;
   margin-top: 12px;
-  color: var(--muted);
+  color: var(--muted-tinte);
 }
 .price-note strong {
   color: var(--ink);
@@ -352,14 +352,14 @@ h1 em {
   object-fit: cover;
 }
 .hero-person p {
-  font-size: 10px;
+  font-size: 15px;
   font-weight: 650;
   line-height: 1.6;
 }
 .hero-person span {
   display: block;
-  color: var(--muted);
-  font-size: 9px;
+  color: var(--muted-tinte);
+  font-size: 15px;
   font-weight: 400;
 }
 .hero-art {
@@ -593,14 +593,14 @@ h1 em {
   z-index: 2;
   box-shadow: 0 12px 35px rgba(26, 26, 26, 0.08);
   animation: note-float 7s ease-in-out infinite;
-  font-size: 10px;
+  font-size: 15px;
   font-weight: 650;
 }
 .floating-note small {
   display: block;
-  font-size: 8px;
+  font-size: 15px;
   font-weight: 400;
-  color: var(--muted);
+  color: var(--muted-tinte);
   margin-top: 5px;
 }
 .note-top {
@@ -659,7 +659,7 @@ h1 em {
   letter-spacing: -1px;
 }
 .mockup-caption {
-  font-size: 7px;
+  font-size: 15px;
   color: var(--muted-tinte);
   position: absolute;
   bottom: 10px;
@@ -1511,12 +1511,12 @@ dialog .dialog-note {
   .note-top {
     right: -12px;
     top: 158px;
-    font-size: 8px;
+    font-size: 15px;
     padding: 12px;
   }
   .note-bottom {
     left: -12px;
-    font-size: 8px;
+    font-size: 15px;
     padding: 12px;
   }
   .app-layout,
@@ -1544,10 +1544,10 @@ dialog .dialog-note {
     font-size: 10px;
   }
   .hero-person span {
-    font-size: 8px;
+    font-size: 15px;
   }
   .hero-copy .eyebrow {
-    font-size: 8px;
+    font-size: 15px;
   }
 }
 @media (max-width: 760px) {
@@ -1592,7 +1592,7 @@ dialog .dialog-note {
     padding: 0;
   }
   .hero-copy .eyebrow {
-    font-size: 7px;
+    font-size: 14px;
     letter-spacing: 0.9px;
     gap: 8px;
   }
@@ -1631,7 +1631,7 @@ dialog .dialog-note {
   }
   .price-note {
     text-align: center;
-    font-size: 10px;
+    font-size: 14px;
     margin-top: 10px;
   }
   .hero-person {
@@ -1639,10 +1639,10 @@ dialog .dialog-note {
     justify-content: center;
   }
   .hero-person p {
-    font-size: 9px;
+    font-size: 14px;
   }
   .hero-person span {
-    font-size: 8px;
+    font-size: 14px;
   }
   .hero-person img {
     width: 33px;
@@ -1670,12 +1670,12 @@ dialog .dialog-note {
   .note-top {
     top: 134px;
     right: -10px;
-    font-size: 8px;
+    font-size: 14px;
     padding: 11px 12px;
     gap: 7px;
   }
   .floating-note small {
-    font-size: 7px;
+    font-size: 14px;
   }
   .note-icon {
     width: 23px;
@@ -1685,7 +1685,7 @@ dialog .dialog-note {
   .note-bottom {
     left: -10px;
     bottom: 47px;
-    font-size: 8px;
+    font-size: 14px;
     padding: 11px 12px;
     gap: 7px;
   }
@@ -1704,7 +1704,7 @@ dialog .dialog-note {
     font-size: 23px;
   }
   .mockup-caption {
-    font-size: 6px;
+    font-size: 14px;
     bottom: 10px;
   }
   .program-strip {
@@ -2048,15 +2048,11 @@ dialog .dialog-note {
     left: 150px;
     width: 40px;
   }
-  .hero-copy .eyebrow {
-    font-size: 6px;
-  }
   .hero-art {
     height: 446px;
   }
   .note-top {
     right: -15px;
-    font-size: 7px;
     padding: 9px;
   }
   .hero-phone {
@@ -2068,9 +2064,6 @@ dialog .dialog-note {
   }
   .round-seal b {
     font-size: 21px;
-  }
-  .hero-person p {
-    font-size: 8px;
   }
   .price {
     font-size: 58px;
@@ -2479,6 +2472,17 @@ dialog .espera-form {
   font-size: 13px;
   line-height: 1.6;
   max-width: 660px;
+}
+.pago-rechazado p.pago-rechazado-transferencia {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(233, 69, 85, 0.25);
+  font-size: 13px;
+  line-height: 1.6;
+}
+.pago-rechazado-transferencia a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 .pago-rechazado .button {
   flex-shrink: 0;
@@ -3525,7 +3529,7 @@ dialog .espera-form {
 }
 
 /* ────────────────────────────────────────────────────────────────────────
- * UN COMIENZO, UN CAMINO, UN GRUPO: SIETE PASOS (15-sep)
+ * UN COMIENZO, UN CAMINO, UN GRUPO: OCHO PASOS (15-sep)
  * Tres momentos con su foto y, debajo, los pasos numerados en una línea de
  * tiempo. En celular van apilados (ya no se deslizan de lado): es un orden
  * que se lee de arriba abajo.
