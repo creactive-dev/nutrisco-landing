@@ -32,7 +32,10 @@ export interface ResenaGoogle {
   cita: string
   /** Foto de perfil real de Google. Sin foto, la tarjeta muestra la inicial. */
   foto?: string
-  /** Cita corta que también se usa junto al botón de compra. */
+  /**
+   * Cita corta para la zona de precio. Va solo ahí y no en la grilla de
+   * testimonios, para que la misma frase no aparezca dos veces en la página.
+   */
   corta?: boolean
 }
 
@@ -86,6 +89,18 @@ export const RESENAS_GOOGLE = {
       id: "johana",
       nombre: "Johana M.",
       cita: "Acompaña en todo momento el proceso de cambios de hábitos. Cercana y preocupada por sus pacientes.",
+    },
+    {
+      id: "soledad",
+      nombre: "Soledad H.",
+      cita: "Encontrar a Cony en mi camino de auto sanacion física y mental ha sido una experiencia más que gratificante.",
+      foto: "/v2/resenas/r-soledad-hinojosa-luna.webp",
+    },
+    {
+      id: "marigen",
+      nombre: "Marigen K.",
+      cita: "Excelente atención, la simpatía y profesionalismo de Constanza…",
+      foto: "/v2/resenas/r-marigen-kuchen.webp",
     },
     {
       id: "gloria",

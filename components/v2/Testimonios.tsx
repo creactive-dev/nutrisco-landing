@@ -23,6 +23,8 @@ export function Testimonios() {
     return v ? [{ id: v.id, name: v.name, src: v.src, poster: v.poster }] : []
   })
   const conFoto = RESENAS_GOOGLE.citas.filter((r) => r.foto).slice(0, 4)
+  // Las citas cortas van junto al botón de compra (PruebaSocialCompra).
+  const grilla = RESENAS_GOOGLE.citas.filter((r) => !r.corta)
 
   return (
     <section className="section wrap testimonials" id="testimonios">
@@ -76,8 +78,8 @@ export function Testimonios() {
           </a>
         </Revelar>
 
-        <MasResenas total={RESENAS_GOOGLE.citas.length}>
-          {RESENAS_GOOGLE.citas.map((r) => (
+        <MasResenas total={grilla.length}>
+          {grilla.map((r) => (
             <Revelar as="article" className="quote-card" key={r.id}>
               <div className="quote-top">
                 <span className="estrellas-mini" role="img" aria-label="5 estrellas">

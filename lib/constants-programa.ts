@@ -450,7 +450,7 @@ export const PORTADA = {
     reto: { numero: "+280", texto: "personas hicieron su Reto Antiinflamatorio" },
     dudasCompra: [
       { q: "¿Tiene cuotas?", a: "No, es un solo pago." },
-      { q: "¿Incluye consulta individual?", a: "No, es la app con acompañamiento grupal." },
+      { q: "¿Incluye consulta individual?", a: "No, el acompañamiento es grupal." },
       { q: "¿Y si me rechazan la tarjeta?", a: "Usa tu saldo de Mercado Pago." },
     ],
     despuesTitulo: "DESPUÉS DE PAGAR",
