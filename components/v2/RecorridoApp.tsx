@@ -6,6 +6,7 @@ import { PORTADA } from "@/lib/constants-programa"
 import { SITE_CONFIG } from "@/lib/constants"
 import { Revelar } from "@/components/v2/Revelar"
 import { Sandia } from "@/components/v2/Sandia"
+import { FondoDecorativo } from "@/components/v2/FondoDecorativo"
 
 type Id = (typeof PORTADA.app.pestanas)[number]["id"]
 
@@ -108,11 +109,12 @@ export function RecorridoApp() {
 
   return (
     <section
-      className="app-section recorrido"
+      className="app-section recorrido con-fondo"
       id="tu-app"
       ref={seccion}
       style={{ "--pasos": PASOS } as CSSProperties}
     >
+      <FondoDecorativo variante="bolsillo" />
       <div className="recorrido-fijo">
         <div className="wrap app-layout">
           <div className="app-explainer">

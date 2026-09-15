@@ -3230,3 +3230,208 @@ dialog .espera-form {
     padding-inline: 10px 12px;
   }
 }
+
+/* ────────────────────────────────────────────────────────────────────────
+ * FONDO DECORATIVO (15-sep)
+ * Tajada, cáscara, pepas y líneas de la marca a opacidad 0,06 a 0,12, detrás
+ * del contenido. Cada pieza con su lugar y tamaño; deriva lenta que se apaga
+ * con prefers-reduced-motion (regla global) y con el botón de pausa.
+ * ──────────────────────────────────────────────────────────────────────── */
+.con-fondo {
+  position: relative;
+  isolation: isolate;
+}
+/* Sin especificidad (:where), para no pisar el position: sticky del recorrido. */
+:where(.con-fondo) > :where(:not(.fondo-decorativo)) {
+  position: relative;
+  z-index: 1;
+}
+.fondo-decorativo {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.fd {
+  position: absolute;
+  display: block;
+  height: auto;
+  animation: fd-deriva 19s ease-in-out infinite alternate;
+}
+.fd:nth-child(2n) {
+  animation-duration: 23s;
+  animation-delay: -7s;
+}
+.fd:nth-child(3n) {
+  animation-duration: 27s;
+  animation-delay: -13s;
+}
+.fd-tajada-a,
+.fd-tajada-b {
+  opacity: 0.1;
+}
+.fd-cascara-a,
+.fd-cascara-b {
+  opacity: 0.08;
+}
+.fd-pepas-a,
+.fd-pepas-b {
+  opacity: 0.07;
+}
+.fd-linea-a,
+.fd-linea-b {
+  opacity: 0.12;
+  height: 120px;
+}
+@keyframes fd-deriva {
+  from {
+    translate: 0 0;
+  }
+  to {
+    translate: 10px -14px;
+  }
+}
+
+/* ¿Te suena familiar? */
+.fondo-familiar .fd-tajada-a {
+  top: 7%;
+  left: -70px;
+  width: 300px;
+  rotate: -14deg;
+}
+.fondo-familiar .fd-tajada-b {
+  bottom: 9%;
+  left: 43%;
+  width: 150px;
+  rotate: 16deg;
+}
+.fondo-familiar .fd-cascara-a {
+  top: -40px;
+  right: -110px;
+  width: 560px;
+  rotate: 180deg;
+}
+.fondo-familiar .fd-pepas-a {
+  top: 50%;
+  left: 36%;
+  width: 120px;
+}
+.fondo-familiar .fd-pepas-b {
+  top: 10%;
+  right: 4%;
+  width: 96px;
+}
+.fondo-familiar .fd-linea-a {
+  bottom: 4%;
+  left: -3%;
+  width: 58%;
+}
+.fondo-familiar .fd-cascara-b,
+.fondo-familiar .fd-linea-b {
+  display: none;
+}
+
+/* Tu plan, en el bolsillo */
+.fondo-bolsillo .fd-cascara-a {
+  top: 2%;
+  left: -150px;
+  width: 560px;
+  rotate: -8deg;
+}
+.fondo-bolsillo .fd-cascara-b {
+  bottom: 2%;
+  right: -170px;
+  width: 640px;
+  rotate: 172deg;
+}
+.fondo-bolsillo .fd-tajada-a {
+  top: 27%;
+  right: 3%;
+  width: 230px;
+  rotate: 14deg;
+}
+.fondo-bolsillo .fd-tajada-b {
+  top: 63%;
+  left: 2%;
+  width: 190px;
+  rotate: -20deg;
+}
+.fondo-bolsillo .fd-pepas-a {
+  top: 11%;
+  left: 45%;
+  width: 120px;
+}
+.fondo-bolsillo .fd-pepas-b {
+  top: 82%;
+  left: 38%;
+  width: 150px;
+}
+.fondo-bolsillo .fd-linea-a {
+  top: 44%;
+  left: -4%;
+  width: 55%;
+}
+.fondo-bolsillo .fd-linea-b {
+  top: 18%;
+  right: -6%;
+  width: 46%;
+}
+@media (max-width: 760px) {
+  .fondo-familiar .fd-tajada-a {
+    top: 2%;
+    left: auto;
+    right: -60px;
+    width: 190px;
+  }
+  .fondo-familiar .fd-cascara-a {
+    top: auto;
+    bottom: 22%;
+    right: -160px;
+    width: 380px;
+  }
+  .fondo-familiar .fd-tajada-b {
+    bottom: 3%;
+    left: auto;
+    right: 8%;
+    width: 110px;
+  }
+  .fondo-familiar .fd-pepas-a {
+    top: 31%;
+    left: 80%;
+    width: 80px;
+  }
+  .fondo-familiar .fd-pepas-b {
+    top: auto;
+    bottom: 38%;
+    right: auto;
+    left: 4%;
+    width: 80px;
+  }
+  .fondo-familiar .fd-linea-a {
+    bottom: 42%;
+    width: 110%;
+  }
+  .fondo-bolsillo .fd-cascara-a {
+    width: 360px;
+    left: -140px;
+  }
+  .fondo-bolsillo .fd-cascara-b {
+    width: 400px;
+    right: -180px;
+  }
+  .fondo-bolsillo .fd-tajada-a {
+    width: 150px;
+    right: -30px;
+    top: 16%;
+  }
+  .fondo-bolsillo .fd-tajada-b {
+    width: 130px;
+    left: -30px;
+    top: 58%;
+  }
+  .fondo-bolsillo .fd-linea-a,
+  .fondo-bolsillo .fd-linea-b {
+    width: 110%;
+  }
+}
