@@ -56,7 +56,7 @@ Material propio de Constanza Jiménez Paschold. Solo ella, sin pacientes ni terc
 
 | Archivo | Dónde va | Fuente |
 |---|---|---|
-| `constanza-sesion.jpg` | Paso 03, durante el programa | Cuadro en 1,4 s de `IMG_2967.MOV` |
+| `constanza-computador.jpg` | Paso 03, durante el programa (desde el 16-sep) | Foto que mandó Constanza por WhatsApp el 16-sep (1166 × 1600) llevada a 960 × 1317. Reemplaza a `constanza-sesion.jpg` (cuadro en 1,4 s de `IMG_2967.MOV`) |
 | `constanza-sonrisa.jpg` | Cierre | Cuadro en 9,5 s de `IMG_2979.MOV` |
 | `constanza-oferta.jpg` | Oferta (desde el 15-sep) | Cuadro cerca de 4,7 s de `IMG_3028.MOV`, look D: polar crema con cierre dorado y coleta. Recorte 3:4 de 972 × 1296 (desde x = 108, y = 0) llevado a 960 × 1280 |
 

@@ -393,14 +393,15 @@ export const PORTADA = {
       {
         momento: "DURANTE EL PROGRAMA",
         foto: {
-          src: "/v2/fotos/constanza-sesion.jpg",
-          alt: "Constanza Jiménez Paschold hablando a la cámara",
+          // 16-sep: la mandó Constanza para este paso después de aprobar la
+          // página. Reemplaza el cuadro de su video.
+          src: "/v2/fotos/constanza-computador.jpg",
+          alt: "Constanza Jiménez Paschold sonríe frente a su computador",
           width: 960,
-          height: 1200,
-          // La foto es vertical (960×1200) en un recuadro horizontal: el
-          // centro por defecto corta entre la frente y la nariz. 18% deja la
-          // cara completa a 390 y a 1440 (verificado con captura, 15-sep).
-          posicion: "center 18%",
+          height: 1317,
+          // Vertical en un recuadro horizontal: 20% deja la cabeza completa
+          // y centrada a 390, 800 y 1440 (verificado con captura, 16-sep).
+          posicion: "center 20%",
         } satisfies FotoPortada,
         pasos: [
           {
