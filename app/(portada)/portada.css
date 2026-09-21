@@ -4034,3 +4034,58 @@ dialog .espera-form {
     left: 10px;
   }
 }
+
+/* ------------------------------------------------------------------------
+ * CONFIRMACIÓN · /lista-espera (20-sep-2026)
+ *
+ * Aterrizaje del trigger link de los correos. Reusa el verde y el círculo del
+ * "✓" de .espera-listo, que es la misma confirmación en la portada, para que
+ * quien vio uno reconozca el otro. Centrada y corta a propósito: la página no
+ * tiene nada que pedir ni nada que vender.
+ * ------------------------------------------------------------------------ */
+.confirma {
+  min-height: min(62vh, 560px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-block: 60px 96px;
+}
+.confirma-marca {
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  background: var(--cascara);
+  color: #fff;
+  border-radius: 50%;
+  font-size: 26px;
+  margin-bottom: 26px;
+}
+.confirma h1 {
+  font-size: clamp(30px, 5vw, 44px);
+  letter-spacing: -1.5px;
+  margin: 0;
+}
+.confirma-texto {
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--muted-tinte);
+  max-width: 44ch;
+  margin: 18px 0 0;
+}
+.confirma-nota {
+  font-size: 13px;
+  color: var(--muted);
+  margin: 14px 0 0;
+}
+.confirma .text-link {
+  gap: 10px;
+}
+@media (max-width: 640px) {
+  .confirma {
+    min-height: 0;
+    padding-block: 40px 72px;
+  }
+}
