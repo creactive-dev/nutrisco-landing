@@ -484,13 +484,13 @@ export const PORTADA = {
     // Zona de precio (15-sep): prueba social y confianza junto al botón. Solo
     // datos que existen: nada de cupos, garantía ni descuentos.
     pagoSeguro: "Pago seguro con Mercado Pago",
-    // La preferencia de la app va con installments: 1 y sin medios excluidos.
-    mediosPago: "Crédito, débito o saldo de Mercado Pago. Un solo pago, sin cuotas.",
+    // La preferencia de la app va con installments: 3 y sin medios excluidos.
+    mediosPago: "Crédito hasta en 3 cuotas, débito o saldo de Mercado Pago.",
     incluyeTitulo: "Incluye",
     // Confirmado por Constanza en la reunión del 15-sep.
     reto: { numero: "+280", texto: "personas hicieron su Reto Antiinflamatorio" },
     dudasCompra: [
-      { q: "¿Tiene cuotas?", a: "No, es un solo pago." },
+      { q: "¿Tiene cuotas?", a: "Sí, con tarjeta de crédito puedes pagarlo hasta en 3 cuotas en Mercado Pago." },
       { q: "¿Incluye consulta individual?", a: "No, el acompañamiento es grupal." },
       { q: "¿Y si me rechazan la tarjeta?", a: "Usa tu saldo de Mercado Pago o paga por transferencia." },
     ],
