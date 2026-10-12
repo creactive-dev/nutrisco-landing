@@ -53,6 +53,8 @@ if (sim?.estado === "abierta") {
   assert.equal(sim.cohorte.slug, "2026-10")
   assert.equal(sim.cohorte.fecha_inicio, "2026-11-05T03:00:00.000Z")
   assert.equal(sim.cohorte.venta_cierra, "2026-10-31T02:59:59.000Z")
+  // 92 días desde el inicio, como la C1 real (21 sep -> fecha_fin 22 dic): el último día es el 4 de feb.
+  assert.equal(sim.cohorte.fecha_fin, "2027-02-05T03:00:00.000Z")
   assert.deepEqual(sim.cohorte.sesiones?.map((s) => s.fecha.slice(0, 10)), ["2026-11-15", "2026-12-10", "2027-01-14"])
 }
 // En producción el simulador no existe.

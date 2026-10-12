@@ -158,7 +158,7 @@ export function estadoSimulado(
         precio: 59990,
         venta_cierra: instanteChile(inicioFijo - 6 * DIA, "23:59:59"),
         fecha_inicio: instanteChile(inicioFijo, "00:00:00"),
-        fecha_fin: instanteChile(inicioFijo + 93 * DIA, "00:00:00"),
+        fecha_fin: instanteChile(inicioFijo + 92 * DIA, "00:00:00"),
         sesiones,
       }
     }
