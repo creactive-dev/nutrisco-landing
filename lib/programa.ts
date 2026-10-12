@@ -348,26 +348,6 @@ export function horaDe(iso: string): string {
 }
 
 /**
- * La semana (lunes a domingo) en que cae un instante, en el calendario
- * chileno. La usa el teléfono ilustrativo del hero para que su tira de días
- * sea la semana en que arranca el grupo y no una semana escrita a mano.
- */
-export function semanaDe(iso: string): { inicial: string; dia: number; esElDia: boolean }[] {
-  const civil = fechaCivilChile(iso)
-  if (!civil) return []
-  const iniciales = ["L", "M", "M", "J", "V", "S", "D"]
-  // getUTCDay: domingo 0. Se corre para que el lunes sea 0.
-  const indice = (civil.getUTCDay() + 6) % 7
-  const lunes = new Date(civil)
-  lunes.setUTCDate(civil.getUTCDate() - indice)
-  return iniciales.map((inicial, i) => {
-    const dia = new Date(lunes)
-    dia.setUTCDate(lunes.getUTCDate() + i)
-    return { inicial, dia: dia.getUTCDate(), esElDia: i === indice }
-  })
-}
-
-/**
  * El último día en que todavía se alcanza a entrar. `venta_cierra` es el
  * instante del corte (23:59:59 del domingo), así que el día que hay que
  * mostrarle a la gente es el de ese mismo instante, no el siguiente.

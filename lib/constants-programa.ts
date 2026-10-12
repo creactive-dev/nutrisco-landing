@@ -11,6 +11,7 @@
 // ============================================================
 
 import { SITE_CONFIG } from "@/lib/constants"
+import { RESENAS_GOOGLE } from "@/lib/resenas-google"
 import {
   diaSemanaYFecha,
   diaYMes,
@@ -210,15 +211,32 @@ export interface FotoPortada {
 
 export const PORTADA = {
   hero: {
-    eyebrow: "PREPARA TU VERANO · PROGRAMA DE 3 MESES",
+    // PENDIENTE (Constanza, mar 13): el titular lo aprueba ella (diseño §11.3).
+    // Si no responde, queda este (plan maestro, D3). Borrador de la auditoría
+    // §3.1. Variante B, solo si ella acepta nombrar el peso en la landing (en
+    // anuncios nunca): lineas ["Baja de peso", "sin pasar hambre,", "con una
+    // nutricionista que"], em "te controla cada 15 días."
+    eyebrow: "PROGRAMA DE 3 MESES CON CONSTANZA JIMÉNEZ, NUTRICIONISTA",
+    h1: { lineas: ["Llega al verano", "sin dietas de hambre,", "y sin hacerlo"], em: "sola." },
+    // PENDIENTE (Constanza, mar 13): la mención de los diagnósticos.
+    // PENDIENTE (Constanza, mar 13): el programa no incluye una consulta
+    // individual cada 15 días; ella confirma cómo se dice el control.
     descripcion:
-      "Un programa de 3 meses para dejar de improvisar qué comer: tu pauta hecha para ti y una nutricionista que te acompaña.",
+      "Si ya probaste dietas, bajaste y te estancaste, o tienes resistencia a la insulina o hipotiroidismo y sientes que te cuesta el doble: Constanza te arma tu pauta y, después de cada control, una nueva, durante 3 meses.",
     persona: "Con Constanza Jiménez Paschold",
     rol: "Nutricionista clínica · creadora de Nutrico",
-    notaArriba: { titulo: "Tu pauta, hecha para ti", detalle: "La arma Constanza" },
-    notaAbajoTitulo: "Vamos juntas",
-    notaAbajoSinFechas: "Tres meses, en grupo",
-    leyendaTelefono: "Nutrico, la app del programa",
+    // PENDIENTE (Constanza, mar 13): misma frase del control que la bajada.
+    notaFoto: { titulo: "Ella arma tu pauta", detalle: "y después de cada control, una nueva" },
+    leyendaFoto: "Constanza Jiménez Paschold, en su consulta",
+    // Constanza en vez del teléfono (diseño §9.2): la clienta valora el control
+    // humano y Constanza prefiere "programa" a "app".
+    foto: {
+      src: "/brand/constanza.jpg",
+      alt: "Constanza Jiménez Paschold, nutricionista, en su consulta",
+      width: 900,
+      height: 1200,
+      posicion: "center 25%",
+    } satisfies FotoPortada,
   },
 
   cta: {
@@ -240,10 +258,11 @@ export const PORTADA = {
     sinMensualidad: "sin mensualidad",
   },
 
+  // Auditoría §3.2: "01 decisión" no era un dato.
   franja: [
-    { numero: "03", texto: "meses de programa, en grupo" },
+    { numero: "15", texto: "días entre un control y el siguiente" },
     { numero: "06", texto: "pautas hechas para ti" },
-    { numero: "01", texto: "decisión: empezar por ti" },
+    { numero: RESENAS_GOOGLE.promedio, texto: `en Google · ${RESENAS_GOOGLE.total} reseñas` },
   ],
 
   problema: {

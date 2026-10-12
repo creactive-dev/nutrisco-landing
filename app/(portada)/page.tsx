@@ -35,7 +35,6 @@ export default async function Portada({
   const venta = await leerCohorteActual()
   // Mercado Pago devuelve acá con `?pago=rechazado` cuando la tarjeta no pasa.
   const pagoRechazado = searchParams.pago === "rechazado"
-  const ahora = new Date().toISOString()
 
   return (
     <VentaProvider venta={venta} pagoRechazado={pagoRechazado}>
@@ -46,7 +45,7 @@ export default async function Portada({
       {pagoRechazado && <AvisoPagoRechazado />}
       <Cabecera />
       <main id="contenido">
-        <Hero venta={venta} ahora={ahora} />
+        <Hero venta={venta} />
         <Franja />
         <Problema />
         <RecorridoApp />
