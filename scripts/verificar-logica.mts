@@ -180,9 +180,11 @@ assert.equal(testimoniosVisibles("development", "1").length, 3) // los de prueba
 assert.ok(testimoniosVisibles("development", undefined).every((t) => !t.id.startsWith("prueba")))
 
 // Versiones legales que acepta el checkout (contrato con la app: /^v\d{1,3}\.\d{1,3}$/;
-// la política vigente es la v4.0).
+// vigentes: términos v1.1, política v4.0 y aviso de datos sensibles v1.1).
 assert.deepEqual(Object.keys(DOCUMENTOS_ACEPTADOS).sort(), ["aviso_datos_sensibles", "privacidad", "terminos"])
 assert.ok(Object.values(DOCUMENTOS_ACEPTADOS).every((v) => /^v\d{1,3}\.\d{1,3}$/.test(v)))
 assert.equal(DOCUMENTOS_ACEPTADOS.privacidad, "v4.0")
+assert.equal(DOCUMENTOS_ACEPTADOS.terminos, "v1.1")
+assert.equal(DOCUMENTOS_ACEPTADOS.aviso_datos_sensibles, "v1.1")
 
 console.log("lógica OK")
