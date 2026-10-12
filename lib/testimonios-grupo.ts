@@ -54,14 +54,17 @@ const LARGO_MAXIMO = 140
 
 /** Se publica solo con nombre, cita corta, permiso, sin cifras y sin hablar de peso. */
 export function testimonioPublicable(t: TestimonioGrupo): boolean {
+  // NFC: una cita pegada con la tilde suelta ("Baje" + tilde) se salta la guarda
+  // de peso y además cuenta dos caracteres por letra en el tope de largo.
+  const cita = t.cita.normalize("NFC").trim()
   return (
     t.nombre.trim() !== "" &&
-    t.cita.trim() !== "" &&
-    t.cita.trim().length <= LARGO_MAXIMO &&
+    cita !== "" &&
+    cita.length <= LARGO_MAXIMO &&
     /^\d{4}-\d{2}-\d{2}$/.test(t.permiso.fecha) &&
     t.permiso.archivo.trim() !== "" &&
-    !CIFRAS.test(t.cita) &&
-    !PALABRAS_DE_PESO.test(t.cita)
+    !CIFRAS.test(cita) &&
+    !PALABRAS_DE_PESO.test(cita)
   )
 }
 

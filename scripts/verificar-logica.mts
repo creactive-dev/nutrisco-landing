@@ -164,6 +164,13 @@ for (const cita of [
 assert.equal(testimonioPublicable({ id: "e", nombre: "Ana P.", cita: "Por fin sé qué cocinar cada semana y llego a la noche con ganas de comer rico.", permiso }), true)
 assert.equal(testimonioPublicable({ id: "f", nombre: "Ana P.", cita: "a".repeat(140), permiso }), true)
 assert.equal(testimonioPublicable({ id: "g", nombre: "Ana P.", cita: "a".repeat(141), permiso }), false)
+// Texto pegado desde un PDF o desde un Mac puede venir descompuesto (e + tilde
+// suelta): la guarda lo normaliza antes de revisar. "Bajé" con la é descompuesta
+// no es publicable; una cita sana de 140 caracteres con tildes descompuestas sí.
+assert.equal(testimonioPublicable({ id: "nfd", nombre: "Ana P.", cita: "Baje\u0301 mucho".normalize("NFD"), permiso }), false)
+assert.equal(testimonioPublicable({ id: "nfd2", nombre: "Ana P.", cita: "Me pese\u0301 y estoy feliz".normalize("NFD"), permiso }), false)
+assert.equal(testimonioPublicable({ id: "nfd3", nombre: "Ana P.", cita: "é".repeat(140).normalize("NFD"), permiso }), true)
+assert.equal(testimonioPublicable({ id: "nfd4", nombre: "Ana P.", cita: "é".repeat(141).normalize("NFD"), permiso }), false)
 // En producción los de prueba no existen, aunque alguien deje TESTIMONIOS_MOCK=1 (Review Focus 1).
 assert.ok(testimoniosVisibles("production", "1").every((t) => !t.id.startsWith("prueba")))
 assert.equal(testimoniosVisibles("production", "1").length, TESTIMONIOS_GRUPO.filter(testimonioPublicable).length)
