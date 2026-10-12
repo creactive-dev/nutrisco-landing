@@ -4234,13 +4234,10 @@ dialog .espera-form {
   align-items: center;
   gap: 12px;
 }
+/* El tope de alto va en el ancho del contenedor: el marco (9/16) y el video
+ * que lo llena bajan juntos. Topar solo el <video> deja una franja vacía. */
 .video-constanza {
-  width: min(100%, 360px);
-}
-.video-constanza .video-card video {
-  height: auto;
-  aspect-ratio: 9 / 16;
-  max-height: min(640px, 80svh);
+  width: min(100%, 360px, calc(80svh * 9 / 16));
 }
 .founder-video-nota {
   font-size: 13px;
@@ -4251,6 +4248,6 @@ dialog .espera-form {
     display: inline;
   }
   .video-constanza {
-    width: 100%;
+    width: min(100%, calc(80svh * 9 / 16));
   }
 }
