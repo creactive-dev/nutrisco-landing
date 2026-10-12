@@ -6,8 +6,12 @@ import assert from "node:assert/strict"
 // Los .ts de lib/ se cargan como CommonJS (el package.json no declara "type"),
 // así que Node no les ve los exports con nombre: se importa el módulo entero.
 import programa from "../lib/programa"
+import entorno from "../lib/entorno"
+import videoConstanza from "../lib/video-constanza"
 
 const { controlesDeFiestas, diaYMesCivil, estadoSimulado, fechasControles, sesionEnDiciembre, textoPorMes } = programa
+const { esProduccionPublica } = entorno
+const { videoVisible } = videoConstanza
 
 // Cuotas (tarea 3): el precio dividido en tres, redondeado al mil hacia arriba.
 assert.equal(textoPorMes(59990), "Son menos de $20.000 al mes por 3 meses de acompañamiento.")
@@ -59,5 +63,18 @@ if (sim?.estado === "abierta") {
 }
 // En producción el simulador no existe.
 assert.equal(estadoSimulado({ VERCEL_ENV: "production", COHORTE_MOCK: "abierta", COHORTE_MOCK_INICIO: "2026-11-05" }), null)
+
+// Dominio público y video de prueba (tarea 6, Review Focus 1).
+assert.equal(esProduccionPublica("production", undefined), true)
+assert.equal(esProduccionPublica("production", "1"), false) // URL de revisión
+assert.equal(esProduccionPublica("preview", undefined), false)
+assert.equal(esProduccionPublica(undefined, undefined), false) // local
+const deprueba = { src: "/video/x-prueba.mp4", poster: "/video/x.jpg", esPrueba: true, descripcion: "x" }
+const real = { ...deprueba, esPrueba: false }
+assert.equal(videoVisible(deprueba, "production", undefined), null)
+assert.equal(videoVisible(deprueba, "production", "1"), deprueba)
+assert.equal(videoVisible(deprueba, undefined, undefined), deprueba)
+assert.equal(videoVisible(real, "production", undefined), real)
+assert.equal(videoVisible(null, undefined, undefined), null)
 
 console.log("lógica OK")

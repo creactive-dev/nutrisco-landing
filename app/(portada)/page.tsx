@@ -1,4 +1,5 @@
 import { leerCohorteActual } from "@/lib/programa"
+import { videoConstanzaVisible } from "@/lib/video-constanza"
 import { VentaProvider } from "@/components/v2/VentaProvider"
 import { Anuncio } from "@/components/v2/Anuncio"
 import { AvisoPagoRechazado } from "@/components/v2/AvisoPagoRechazado"
@@ -35,6 +36,8 @@ export default async function Portada({
   const venta = await leerCohorteActual()
   // Mercado Pago devuelve acá con `?pago=rechazado` cuando la tarjeta no pasa.
   const pagoRechazado = searchParams.pago === "rechazado"
+  // El video de prueba no se muestra en el dominio (ver `lib/entorno.ts`).
+  const video = videoConstanzaVisible()
 
   return (
     <VentaProvider venta={venta} pagoRechazado={pagoRechazado}>
@@ -47,10 +50,10 @@ export default async function Portada({
       <main id="contenido">
         <Hero venta={venta} />
         <Franja />
+        <Constanza video={video} />
         <Problema />
         <RecorridoApp />
         <Acompanamiento venta={venta} />
-        <Constanza />
         <Testimonios />
         <Oferta />
         <Dudas venta={venta} />

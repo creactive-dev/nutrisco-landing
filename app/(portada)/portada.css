@@ -4219,3 +4219,38 @@ dialog .espera-form {
     padding: 8px 10px;
   }
 }
+
+/* ------------------------------------------------------------------------
+ * C2 · CONSTANZA A CÁMARA (diseño §9.3). Su video reemplaza la foto de la
+ * sección cuando existe. `.h2-linea` corta los titulares por línea en
+ * escritorio y los deja correr en celular.
+ * ------------------------------------------------------------------------ */
+.h2-linea {
+  display: block;
+}
+.founder-video {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.video-constanza {
+  width: min(100%, 360px);
+}
+.video-constanza .video-card video {
+  height: auto;
+  aspect-ratio: 9 / 16;
+  max-height: min(640px, 80svh);
+}
+.founder-video-nota {
+  font-size: 13px;
+  color: var(--muted-tinte);
+}
+@media (max-width: 760px) {
+  .h2-linea {
+    display: inline;
+  }
+  .video-constanza {
+    width: 100%;
+  }
+}

@@ -1,41 +1,52 @@
 import Image from "next/image"
 import { PORTADA } from "@/lib/constants-programa"
-import { SITE_CONFIG } from "@/lib/constants"
 import { RESENAS_GOOGLE } from "@/lib/resenas-google"
+import type { VideoConstanza as Video } from "@/lib/video-constanza"
 import { Revelar } from "@/components/v2/Revelar"
+import { VideoConstanza } from "@/components/v2/VideoConstanza"
 
 /**
- * Constanza: quién es y su trayectoria, en cifras y rasgos cortos en vez de
- * dos párrafos. Los números vienen de `PORTADA.constanza.trayectoria` (ver la
- * nota para confirmarlos con ella) y de las reseñas de Google.
+ * Constanza: quién es y su trayectoria. Desde la C2 va en la segunda pantalla
+ * y con su video a cámara en vez de la foto (diseño §9.3, auditoría §3.6): la
+ * clienta que viene de un anuncio con Constanza hablando la sigue escuchando.
+ * Sin video (o con el de prueba en el dominio) queda su foto.
  */
-export function Constanza() {
-  const { trayectoria } = PORTADA.constanza
+export function Constanza({ video }: { video: Video | null }) {
+  const { trayectoria, foto, h2 } = PORTADA.constanza
   return (
     <section className="founder-section" id="constanza">
       <div className="wrap founder-grid">
-        <Revelar className="founder-photo">
-          <Image
-            src={SITE_CONFIG.brand.constanzaPhoto}
-            alt={PORTADA.constanza.fotoAlt}
-            fill
-            sizes="(max-width: 760px) calc(100vw - 40px), (max-width: 1100px) 45vw, 520px"
-          />
-          <div className="photo-caption">
-            Tu nutricionista.
-            <br />
-            <em>También en este camino.</em>
-            <span>Constanza Jiménez Paschold</span>
-          </div>
-        </Revelar>
+        {video ? (
+          <Revelar className="founder-video">
+            <VideoConstanza video={video} />
+            <p className="founder-video-nota">{PORTADA.constanza.notaVideo}</p>
+          </Revelar>
+        ) : (
+          <Revelar className="founder-photo">
+            <Image
+              src={foto.src}
+              alt={foto.alt}
+              fill
+              sizes="(max-width: 760px) calc(100vw - 40px), (max-width: 1100px) 45vw, 520px"
+              style={{ objectPosition: foto.posicion }}
+            />
+            <div className="photo-caption">
+              Tu nutricionista.
+              <br />
+              <em>También en este camino.</em>
+              <span>Constanza Jiménez Paschold</span>
+            </div>
+          </Revelar>
+        )}
         <Revelar className="founder-copy">
           <p className="eyebrow">{PORTADA.constanza.eyebrow}</p>
           <h2>
-            La tecnología
-            <br />
-            lo hace simple.
-            <br />
-            <em>Constanza lo hace tuyo.</em>
+            {h2.lineas.map((linea) => (
+              <span className="h2-linea" key={linea}>
+                {linea}{" "}
+              </span>
+            ))}
+            <em>{h2.em}</em>
           </h2>
           <p>{PORTADA.constanza.bajada}</p>
 

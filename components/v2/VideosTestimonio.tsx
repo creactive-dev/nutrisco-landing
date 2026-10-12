@@ -48,15 +48,21 @@ export function VideosTestimonio({ videos, rotulo }: { videos: VideoPaciente[]; 
   )
 }
 
-function VideoTestimonio({
+export function VideoTestimonio({
   video,
   rotulo,
+  ariaLabel,
+  sinPie = false,
   conSonido,
   sinAutoplay,
   pedirSonido,
 }: {
   video: VideoPaciente
   rotulo: string
+  /** Descripción del video para lectores de pantalla; por defecto, la del testimonio. */
+  ariaLabel?: string
+  /** Sin el pie con nombre y rótulo (cuando la sección ya dice quién habla). */
+  sinPie?: boolean
   conSonido: boolean
   sinAutoplay: boolean
   pedirSonido: (activar: boolean) => void
@@ -173,7 +179,7 @@ function VideoTestimonio({
           playsInline
           preload={cerca ? "metadata" : "none"}
           poster={video.poster}
-          aria-label={`Testimonio de ${video.name}, ${rotulo.toLowerCase()}`}
+          aria-label={ariaLabel ?? `Testimonio de ${video.name}, ${rotulo.toLowerCase()}`}
           onPlay={() => setReproduciendo(true)}
           onPause={() => setReproduciendo(false)}
         >
@@ -219,10 +225,12 @@ function VideoTestimonio({
           </button>
         </div>
       </div>
-      <div>
-        <h3>{video.name}</h3>
-        <span>{rotulo}</span>
-      </div>
+      {!sinPie && (
+        <div>
+          <h3>{video.name}</h3>
+          <span>{rotulo}</span>
+        </div>
+      )}
     </article>
   )
 }
@@ -231,7 +239,7 @@ function VideoTestimonio({
  * Si el movimiento está pausado: por `prefers-reduced-motion` o por el botón
  * de la página (`Movimiento`, que pone la clase `paused-motion` en <html>).
  */
-function useMovimientoPausado(): boolean {
+export function useMovimientoPausado(): boolean {
   const [pausado, setPausado] = useState(false)
   useEffect(() => {
     const raiz = document.documentElement

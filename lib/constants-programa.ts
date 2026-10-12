@@ -209,6 +209,22 @@ export interface FotoPortada {
   posicion?: string
 }
 
+/**
+ * La foto de Constanza en su consulta, con sus títulos en la pared: la eligió
+ * ella el 16-sep para el paso "En vivo y en grupo" del recorrido, y es la que
+ * va en su sección cuando no hay video. Una sola constante para que las dos
+ * no se separen.
+ */
+const FOTO_CONSULTA = {
+  src: "/v2/fotos/constanza-consulta.jpg",
+  alt: "Constanza Jiménez Paschold en su consulta, con sus títulos en la pared",
+  width: 960,
+  height: 1194,
+  // Vertical en un recuadro horizontal: 12% deja la cabeza completa
+  // a 390, 800 y 1440 (verificado con captura, 16-sep).
+  posicion: "center 12%",
+} satisfies FotoPortada
+
 export const PORTADA = {
   hero: {
     // PENDIENTE (Constanza, mar 13): el titular lo aprueba ella (diseño §11.3).
@@ -420,17 +436,7 @@ export const PORTADA = {
       },
       {
         momento: "DURANTE EL PROGRAMA",
-        foto: {
-          // 16-sep: la eligió Constanza para este paso (en su consulta, con
-          // sus títulos atrás). Reemplaza a la del computador.
-          src: "/v2/fotos/constanza-consulta.jpg",
-          alt: "Constanza Jiménez Paschold en su consulta, con sus títulos en la pared",
-          width: 960,
-          height: 1194,
-          // Vertical en un recuadro horizontal: 12% deja la cabeza completa
-          // a 390, 800 y 1440 (verificado con captura, 16-sep).
-          posicion: "center 12%",
-        } satisfies FotoPortada,
+        foto: FOTO_CONSULTA,
         pasos: [
           {
             titulo: "En vivo y en grupo",
@@ -453,7 +459,15 @@ export const PORTADA = {
 
   constanza: {
     eyebrow: "LA PERSONA DETRÁS DE TU PAUTA",
-    bajada: "Ella arma tu pauta y cada pauta nueva.",
+    // Auditoría §3.6 proponía "Ella arma tu pauta, y cada 15 días la ajusta":
+    // "ajuste" referido a la pauta está prohibido.
+    h2: { lineas: ["Ella arma tu pauta,", "y cada 15 días"], em: "te arma una nueva." },
+    // PENDIENTE (Constanza, mar 13): misma frase del control que la bajada del hero.
+    bajada: "Antes de que parta el grupo te arma tu pauta, y después de cada control, una nueva.",
+    notaVideo: "Actívale el sonido para escucharla.",
+    // La foto de la consulta, que aparece si no hay video. La de `brand/` va
+    // ahora en la primera pantalla.
+    foto: FOTO_CONSULTA,
     // La revisión del 14-sep notó que se hablaba de Constanza sin contar su
     // trayectoria. Los números salen de la landing del Reto publicada
     // (origin/main:lib/constants.ts, TRUST_BAR y PRODUCT_DEMO.credentials).
@@ -477,7 +491,6 @@ export const PORTADA = {
     // Confirmado por Constanza en la reunión del 15-sep.
     cita: ["“Si quieres venir conmigo", "a este viaje, te espero.”"],
     firma: "CONSTANZA JIMÉNEZ PASCHOLD",
-    fotoAlt: "Constanza Jiménez Paschold en su consulta",
   },
 
   testimonios: {
