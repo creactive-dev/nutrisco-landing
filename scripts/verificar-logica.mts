@@ -146,10 +146,28 @@ assert.equal(testimonioPublicable({ id: "a", nombre: "Ana P.", cita: "Me siento 
 assert.equal(testimonioPublicable({ id: "b", nombre: "Ana P.", cita: "Bajé 3 kilos en el primer control.", permiso }), false)
 assert.equal(testimonioPublicable({ id: "c", nombre: "Ana P.", cita: "Bajé una talla.", permiso }), false)
 assert.equal(testimonioPublicable({ id: "d", nombre: "Ana P.", cita: "Me deshinché.", permiso: { fecha: "", archivo: "" } }), false)
+// La guarda de peso va por raíces y no deja pasar cifras ni plazos (Global: sin resultados).
+for (const cita of [
+  "Bajaste y se nota.",
+  "He bajado de a poco.",
+  "Estoy bajando sin pasar hambre.",
+  "Ahora quiero adelgazar con calma.",
+  "Perdí 4 kilitos.",
+  "Me pesé y estoy feliz.",
+  "Mi balanza dice que pesó menos.",
+  "Perdí 8% de grasa.",
+  "En 2 semanas me sentí mejor.",
+]) {
+  assert.equal(testimonioPublicable({ id: "x", nombre: "Ana P.", cita, permiso }), false, cita)
+}
+// Una cita sana, sin números, sigue pasando; una de más de 140 caracteres no (el precio queda a 27 px de la pantalla 8).
+assert.equal(testimonioPublicable({ id: "e", nombre: "Ana P.", cita: "Por fin sé qué cocinar cada semana y llego a la noche con ganas de comer rico.", permiso }), true)
+assert.equal(testimonioPublicable({ id: "f", nombre: "Ana P.", cita: "a".repeat(140), permiso }), true)
+assert.equal(testimonioPublicable({ id: "g", nombre: "Ana P.", cita: "a".repeat(141), permiso }), false)
 // En producción los de prueba no existen, aunque alguien deje TESTIMONIOS_MOCK=1 (Review Focus 1).
 assert.ok(testimoniosVisibles("production", "1").every((t) => !t.id.startsWith("prueba")))
 assert.equal(testimoniosVisibles("production", "1").length, TESTIMONIOS_GRUPO.filter(testimonioPublicable).length)
-assert.equal(testimoniosVisibles(undefined, "1").length, 3) // los de prueba, sin el que habla de peso
-assert.ok(testimoniosVisibles(undefined, undefined).every((t) => !t.id.startsWith("prueba")))
+assert.equal(testimoniosVisibles("development", "1").length, 3) // los de prueba, sin el que habla de peso
+assert.ok(testimoniosVisibles("development", undefined).every((t) => !t.id.startsWith("prueba")))
 
 console.log("lógica OK")

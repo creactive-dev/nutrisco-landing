@@ -26,18 +26,41 @@ export const TESTIMONIOS_GRUPO: TestimonioGrupo[] = []
 
 // Con `new RegExp` y no con literal: el tsconfig no declara `target` y TS rechaza
 // la bandera `u` en un literal (TS1501). El motor (Node, navegadores) la soporta.
+// Va por raíces, no por frases: la página es destino de anuncios y no habla de
+// peso en ninguna forma ("bajaste", "kilitos", "me pesé", "adelgazar", "talla").
 const PALABRAS_DE_PESO = new RegExp(
-  "(?<!\\p{L})(kilos?|kg|peso|pesaba|baj[eéó]|bajar|talla|tallas|adelgac\\p{L}*|engord\\p{L}*|gorda|gordo)(?!\\p{L})",
+  "(?<!\\p{L})(" +
+    [
+      "kil\\p{L}*",
+      "kg",
+      "peso",
+      "pesaba",
+      "pes(é|ó|aste|ando|arme)",
+      "baj(é|ó|aste|amos|ando|ado|ar|aron)",
+      "talla\\p{L}*",
+      "adelgac\\p{L}*",
+      "adelgaz\\p{L}*",
+      "engord\\p{L}*",
+      "gorda",
+      "gordo",
+    ].join("|") +
+    ")(?!\\p{L})",
   "iu"
 )
+// Sin cifras ni plazos (Global): cualquier dígito o "%" deja la cita fuera.
+const CIFRAS = /[\d%]/
+// Una cita larga empuja el precio bajo la pantalla 8 en celular (Review Focus 5).
+const LARGO_MAXIMO = 140
 
-/** Se publica solo con nombre, cita, permiso y sin hablar de peso. */
+/** Se publica solo con nombre, cita corta, permiso, sin cifras y sin hablar de peso. */
 export function testimonioPublicable(t: TestimonioGrupo): boolean {
   return (
     t.nombre.trim() !== "" &&
     t.cita.trim() !== "" &&
+    t.cita.trim().length <= LARGO_MAXIMO &&
     /^\d{4}-\d{2}-\d{2}$/.test(t.permiso.fecha) &&
     t.permiso.archivo.trim() !== "" &&
+    !CIFRAS.test(t.cita) &&
     !PALABRAS_DE_PESO.test(t.cita)
   )
 }
