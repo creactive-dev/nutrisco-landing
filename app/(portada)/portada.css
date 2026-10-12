@@ -4439,3 +4439,37 @@ dialog .espera-form {
     font-size: 17px;
   }
 }
+
+/* ------------------------------------------------------------------------
+ * C2 · FORMULARIO DE PAGO (diseño §9.7): RUT plegado y un formulario más
+ * corto en celular, para que el botón de pagar se vea sin bajar.
+ * ------------------------------------------------------------------------ */
+.rut-plegado {
+  display: block;
+  width: 100%;
+  margin: -4px 0 8px;
+  padding: 6px 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font-size: 13px;
+  text-align: left;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+@media (max-width: 760px) {
+  dialog {
+    padding: 24px 20px;
+  }
+  dialog h2 {
+    font-size: 30px;
+    margin: 12px 0;
+  }
+  dialog form {
+    margin-top: 16px;
+  }
+  dialog .campo {
+    margin-bottom: 12px;
+  }
+}

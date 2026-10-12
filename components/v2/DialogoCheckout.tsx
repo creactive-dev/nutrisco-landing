@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import { flushSync } from "react-dom"
 import { PORTADA, PROGRAMA } from "@/lib/constants-programa"
 import {
   APP_URL,
@@ -48,6 +49,7 @@ export function DialogoCheckout() {
     sinEventos,
     registrarVistaOferta,
     ventaAbreSiguiente,
+    pagoRechazado,
   } = useVenta()
 
   const dialogo = useRef<HTMLDialogElement>(null)
@@ -55,6 +57,7 @@ export function DialogoCheckout() {
   const [nombre, setNombre] = useState("")
   const [telefono, setTelefono] = useState("")
   const [rut, setRut] = useState("")
+  const [conRut, setConRut] = useState(false)
   const [acepta, setAcepta] = useState(false)
   const [tiembla, setTiembla] = useState(false)
   const [errores, setErrores] = useState<Errores>({})
@@ -364,40 +367,58 @@ export function DialogoCheckout() {
                 )}
               </div>
 
-              <div className="campo">
-                <label htmlFor="checkout-rut">{PORTADA.checkout.rut}</label>
-                <input
-                  id="checkout-rut"
-                  name="rut"
-                  type="text"
-                  inputMode="text"
-                  autoComplete="off"
-                  placeholder="12345678-9"
-                  value={rut}
-                  onChange={(e) => {
-                    setRut(e.target.value)
-                    if (errores.rut) setErrores((x) => ({ ...x, rut: undefined }))
-                  }}
-                  // Al salir del campo solo se formatea el RUT válido. El error se
-                  // muestra al enviar: si apareciera acá, la línea nueva empuja el
-                  // checkbox de abajo entre que se aprieta y se suelta el click, y
-                  // el click no marca nada (lo encontró la prueba del formulario).
-                  onBlur={() => {
-                    const formateado = rut.trim() ? formatearRut(rut) : null
-                    if (formateado) setRut(formateado)
-                  }}
-                  aria-invalid={Boolean(errores.rut)}
-                  aria-describedby={`checkout-rut-ayuda${errores.rut ? " checkout-rut-error" : ""}`}
-                />
-                <p id="checkout-rut-ayuda" className="campo-ayuda">
-                  {PORTADA.checkout.rutAyuda}
-                </p>
-                {errores.rut && (
-                  <p id="checkout-rut-error" className="campo-error">
-                    {errores.rut}
+              {/* RUT plegado (auditoría §4.2): el campo con su ayuda empujaba el
+                  botón de pagar fuera de la pantalla en celular. Lo dieron 8 de
+                  las 10 que pagaron, así que se ofrece, no se esconde. */}
+              {conRut || rut ? (
+                <div className="campo">
+                  <label htmlFor="checkout-rut">{PORTADA.checkout.rut}</label>
+                  <input
+                    id="checkout-rut"
+                    name="rut"
+                    type="text"
+                    inputMode="text"
+                    autoComplete="off"
+                    placeholder="12345678-9"
+                    value={rut}
+                    onChange={(e) => {
+                      setRut(e.target.value)
+                      if (errores.rut) setErrores((x) => ({ ...x, rut: undefined }))
+                    }}
+                    // Al salir del campo solo se formatea el RUT válido. El error se
+                    // muestra al enviar: si apareciera acá, la línea nueva empuja el
+                    // checkbox de abajo entre que se aprieta y se suelta el click, y
+                    // el click no marca nada (lo encontró la prueba del formulario).
+                    onBlur={() => {
+                      const formateado = rut.trim() ? formatearRut(rut) : null
+                      if (formateado) setRut(formateado)
+                    }}
+                    aria-invalid={Boolean(errores.rut)}
+                    aria-describedby={`checkout-rut-ayuda${errores.rut ? " checkout-rut-error" : ""}`}
+                  />
+                  <p id="checkout-rut-ayuda" className="campo-ayuda">
+                    {PORTADA.checkout.rutAyuda}
                   </p>
-                )}
-              </div>
+                  {errores.rut && (
+                    <p id="checkout-rut-error" className="campo-error">
+                      {errores.rut}
+                    </p>
+                  )}
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  className="rut-plegado"
+                  // El botón desaparece al tocarlo: el foco pasa al campo en el
+                  // mismo click, sin un instante en el <body> (lector de pantalla).
+                  onClick={() => {
+                    flushSync(() => setConRut(true))
+                    document.getElementById("checkout-rut")?.focus()
+                  }}
+                >
+                  {PORTADA.checkout.rutPlegado}
+                </button>
+              )}
 
               <label className={`consent${tiembla ? " tiembla" : ""}`}>
                 <input
@@ -462,13 +483,14 @@ export function DialogoCheckout() {
               )}
             </form>
 
-            {/* El checkout rechaza casi la mitad de las tarjetas por antifraude y
-                el saldo de Mercado Pago no rechazó ninguno de 49 intentos. Decirlo
-                ANTES del pago cuesta una línea y evita una venta perdida. */}
-            <p className="aviso-tarjeta">
-              <span aria-hidden="true">i</span>
-              {PORTADA.checkout.avisoTarjeta}
-            </p>
+            {/* Solo después de un rechazo (auditoría §4.2): antes de pagar
+                sembraba la duda, y en la C1 hubo 0 rechazos reales. */}
+            {pagoRechazado && (
+              <p className="aviso-tarjeta">
+                <span aria-hidden="true">i</span>
+                {PORTADA.checkout.avisoTarjeta}
+              </p>
+            )}
             <p className="dialog-note">{PORTADA.checkout.nota}</p>
           </>
         )

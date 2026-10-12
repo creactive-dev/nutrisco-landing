@@ -608,8 +608,8 @@ export const PORTADA = {
     telefonoAyuda: "Para que Constanza te agregue al grupo del programa. No te vamos a llamar.",
     errorTelefono: "Revisa tu número: un celular de 9 dígitos, como 9 1234 5678.",
     rut: "RUT para tu boleta (opcional)",
-    rutAyuda:
-      "Lo necesitas para el reembolso de tu isapre. Si no lo tienes a mano, te lo pedimos después.",
+    rutAyuda: "Si no lo tienes a mano, te lo pedimos después.",
+    rutPlegado: "¿Necesitas boleta para tu isapre? Agrega tu RUT",
     errorNombre: "Escribe tu nombre para la inscripción.",
     errorEmail: "Revisa tu correo, parece que falta algo.",
     errorRut: "Ese RUT no calza. Revísalo o déjalo en blanco y te lo pedimos después.",
