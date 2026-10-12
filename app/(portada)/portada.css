@@ -4603,9 +4603,16 @@ dialog form p.aviso-tarjeta {
   .fiestas-calendario li b {
     font-size: 15px;
   }
-  /* 4. La foto chica de la oferta, antes de la tarjeta. */
+  /* 4. La foto chica de la oferta, antes de la tarjeta. Sin foto, la grilla no
+     reserva su columna (92 px + el gap) y el texto ocupa todo el ancho. */
   .oferta-foto {
     display: none;
+  }
+  .oferta-cuerpo {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "texto"
+      "closing";
   }
   /* 2. Los rasgos de Constanza: su rol ya va en la firma y en la primera pantalla. */
   .founder-copy .trayectoria-rasgos {
