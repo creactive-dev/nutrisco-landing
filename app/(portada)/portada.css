@@ -4546,3 +4546,76 @@ dialog form p.aviso-tarjeta {
     margin-top: -8px;
   }
 }
+
+/* ------------------------------------------------------------------------
+ * C2 · GRUPO DE OCTUBRE (diseño §9.11): testimonios con permiso, antes del
+ * precio. Sin foto: la inicial, como las reseñas sin foto.
+ * ------------------------------------------------------------------------ */
+.grupo-octubre-lista {
+  list-style: none;
+  margin: 28px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+.testimonio-grupo {
+  display: grid;
+  gap: 14px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+}
+.testimonio-grupo blockquote {
+  margin: 0;
+  font:
+    italic 18px/1.45 Georgia,
+    serif;
+}
+@media (max-width: 760px) {
+  .grupo-octubre-lista {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .testimonio-grupo blockquote {
+    font-size: 16px;
+  }
+}
+
+/* ------------------------------------------------------------------------
+ * C2 · PRECIO ANTES DE LA PANTALLA 8 (auditoría §5.7): con el grupo de octubre
+ * lleno (tarea 12), la tarjeta del precio se pasaba de la pantalla 8 en celular
+ * (390×844). Ajustes de la tarea 9, paso 6, probados en el orden 3, 4, 2 y 1.
+ * Los tres primeros no alcanzaron (tarjeta en la pantalla 8,4); entró el 1,
+ * último recurso, y solo con el grupo de octubre en la página. Margen: ~0,03
+ * de pantalla (ver el reporte de la tarea 12).
+ * ------------------------------------------------------------------------ */
+@media (max-width: 760px) {
+  /* 3. El calendario de controles en 3 columnas y más bajo. */
+  .fiestas-calendario ol {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .fiestas-calendario li {
+    padding: 10px 8px;
+  }
+  .fiestas-calendario li b {
+    font-size: 15px;
+  }
+  /* 4. La foto chica de la oferta, antes de la tarjeta. */
+  .oferta-foto {
+    display: none;
+  }
+  /* 2. Los rasgos de Constanza: su rol ya va en la firma y en la primera pantalla. */
+  .founder-copy .trayectoria-rasgos {
+    display: none;
+  }
+  /* 1. Las dos reseñas de "para ti" solo van en esa sección (no se repiten en la
+     zona del precio): en celular se esconden, a costa de esa prueba social.
+     Solo cuando el grupo de octubre está en la página: sin testimonios la
+     portada tiene espacio y las reseñas se quedan. */
+  main:has(.grupo-octubre) .para-ti-citas {
+    display: none;
+  }
+}

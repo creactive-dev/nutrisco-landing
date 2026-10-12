@@ -378,6 +378,17 @@ export const PORTADA = {
     despuesDeAnoNuevo: "después de Año Nuevo",
   },
 
+  // Diseño C2 §9.11: testimonios del grupo de octubre, solo con permiso escrito
+  // y sin peso (ver `lib/testimonios-grupo.ts`). La bajada no lleva fecha: se
+  // llena desde el jue 22-oct, pero la fecha de partida no se escribe a mano.
+  grupoOctubre: {
+    eyebrow: "EL GRUPO DE OCTUBRE, EN SUS PALABRAS",
+    h2: { lineas: ["Ya partieron."], em: "Esto cuentan." },
+    bajada: "Inscritas del grupo de octubre, después de su primer control.",
+    rotulo: "Grupo de octubre",
+    nota: "Publicados con su permiso. Los resultados de cada persona pueden variar.",
+  },
+
   app: {
     eyebrow: "EL PROGRAMA, EN TU BOLSILLO",
     cuerpo:

@@ -10,11 +10,13 @@ import entorno from "../lib/entorno"
 import videoConstanza from "../lib/video-constanza"
 import constantsPrograma from "../lib/constants-programa"
 import medicion from "../lib/medicion"
+import testimoniosGrupo from "../lib/testimonios-grupo"
 
 const { controlesDeFiestas, diaYMesCivil, estadoSimulado, fechasControles, sesionEnDiciembre, textoPorMes } = programa
 const { esProduccionPublica } = entorno
 const { videoVisible } = videoConstanza
 const { urlSinDatosPersonales } = medicion
+const { TESTIMONIOS_GRUPO, testimonioPublicable, testimoniosVisibles } = testimoniosGrupo
 const { bonoDeLaCohorte, garantiaActiva, GARANTIA, preguntasPortada, textoFiestas, textoGarantia } = constantsPrograma
 
 // Cuotas (tarea 3): el precio dividido en tres, redondeado al mil hacia arriba.
@@ -137,5 +139,17 @@ assert.equal(
 )
 assert.equal(urlSinDatosPersonales("https://nutrico.constanzanutricion.cl/?ok=1"), "https://nutrico.constanzanutricion.cl/")
 assert.equal(urlSinDatosPersonales("no es url"), "no es url")
+
+// Testimonios del grupo de octubre (tarea 12): con permiso y sin peso.
+const permiso = { fecha: "2026-10-21", archivo: "testimonios/ejemplo.md" }
+assert.equal(testimonioPublicable({ id: "a", nombre: "Ana P.", cita: "Me siento con más energía y sin culpa.", permiso }), true)
+assert.equal(testimonioPublicable({ id: "b", nombre: "Ana P.", cita: "Bajé 3 kilos en el primer control.", permiso }), false)
+assert.equal(testimonioPublicable({ id: "c", nombre: "Ana P.", cita: "Bajé una talla.", permiso }), false)
+assert.equal(testimonioPublicable({ id: "d", nombre: "Ana P.", cita: "Me deshinché.", permiso: { fecha: "", archivo: "" } }), false)
+// En producción los de prueba no existen, aunque alguien deje TESTIMONIOS_MOCK=1 (Review Focus 1).
+assert.ok(testimoniosVisibles("production", "1").every((t) => !t.id.startsWith("prueba")))
+assert.equal(testimoniosVisibles("production", "1").length, TESTIMONIOS_GRUPO.filter(testimonioPublicable).length)
+assert.equal(testimoniosVisibles(undefined, "1").length, 3) // los de prueba, sin el que habla de peso
+assert.ok(testimoniosVisibles(undefined, undefined).every((t) => !t.id.startsWith("prueba")))
 
 console.log("lógica OK")

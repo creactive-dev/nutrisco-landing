@@ -1,5 +1,6 @@
 import { garantiaActiva } from "@/lib/constants-programa"
 import { leerCohorteActual } from "@/lib/programa"
+import { testimoniosVisibles } from "@/lib/testimonios-grupo"
 import { videoConstanzaVisible } from "@/lib/video-constanza"
 import { VentaProvider } from "@/components/v2/VentaProvider"
 import { Anuncio } from "@/components/v2/Anuncio"
@@ -8,6 +9,7 @@ import { Cabecera } from "@/components/v2/Cabecera"
 import { Hero } from "@/components/v2/Hero"
 import { Fiestas } from "@/components/v2/Fiestas"
 import { Franja } from "@/components/v2/Franja"
+import { TestimoniosGrupo } from "@/components/v2/TestimoniosGrupo"
 import { Constanza } from "@/components/v2/Constanza"
 import { ParaTi } from "@/components/v2/ParaTi"
 import { Oferta } from "@/components/v2/Oferta"
@@ -47,6 +49,8 @@ export default async function Portada({
   const video = videoConstanzaVisible()
   // La garantía está apagada hasta que Constanza diga que sí (ver `GARANTIA`).
   const garantia = garantiaActiva()
+  // Los del grupo de octubre, solo con permiso escrito y sin peso (diseño §10).
+  const testimonios = testimoniosVisibles()
 
   return (
     <VentaProvider venta={venta} pagoRechazado={pagoRechazado}>
@@ -62,6 +66,7 @@ export default async function Portada({
         <Constanza video={video} />
         <ParaTi />
         <Fiestas venta={venta} />
+        <TestimoniosGrupo testimonios={testimonios} />
         <Oferta garantia={garantia} />
         <RecorridoApp />
         <Acompanamiento venta={venta} />
