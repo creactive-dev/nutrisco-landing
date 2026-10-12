@@ -31,7 +31,7 @@ export const PROGRAMA = {
       "Un programa de tres meses con tu pauta antiinflamatoria hecha por Constanza y una pauta nueva cada quince días. Un grupo que empieza y termina junto, con fecha.",
     ctaAbierta: "Quiero entrar al programa",
     ctaProxima: "Avísame cuando abran las inscripciones",
-    microcopy: "Un solo pago · sin mensualidad · boleta exenta para tu isapre",
+    microcopy: "Hasta 3 cuotas · sin mensualidad · boleta exenta para tu isapre",
   },
 
   // §02 de la propuesta, textual.
@@ -85,8 +85,8 @@ export const PROGRAMA = {
   },
 
   precio: {
-    eyebrow: "Un solo pago",
-    labelPrecio: "Pago único, exento de IVA",
+    eyebrow: "Sin mensualidad",
+    labelPrecio: "Exento de IVA, al contado o hasta en 3 cuotas",
     permanencia: "Sin mensualidad que cancelar después",
     cta: "Pagar e inscribirme",
     ctaCargando: "Preparando tu pago...",
@@ -122,7 +122,7 @@ export const PROGRAMA = {
     },
     {
       q: "¿Después me van a cobrar todos los meses?",
-      a: "No. Es un solo pago por los tres meses completos. No hay mensualidad que cancelar ni permanencia.",
+      a: "No. Pagas una vez por los tres meses completos, al contado o hasta en 3 cuotas con tarjeta de crédito. No hay mensualidad que cancelar ni permanencia.",
     },
     {
       q: "¿Me sirve para el reembolso de la isapre?",
@@ -229,6 +229,15 @@ export const PORTADA = {
     neutral: "Quiero que me avisen",
     neutralCorto: "Avísame",
     cierre: "Este verano, empiezo por mí",
+  },
+
+  // Cuotas a la vista en todo el recorrido (diseño C2 §9.1): con cuotas
+  // pagaron 2 de 2; antes, 6 reservas no pagaron. Nunca "sin interés": si hay
+  // interés, lo cobra el banco de quien paga.
+  cuotas: {
+    largo: "o hasta 3 cuotas con tarjeta de crédito",
+    corto: "o hasta 3 cuotas",
+    sinMensualidad: "sin mensualidad",
   },
 
   franja: [
@@ -479,8 +488,7 @@ export const PORTADA = {
     cierranEn: "Las inscripciones cierran en",
     tarjetaEyebrow: "TU PROGRAMA COMPLETO",
     tarjetaPildora: "3 meses",
-    unSoloPago: "Un solo pago. Sin cobros mensuales.",
-    pagoCon: "Pago único con Mercado Pago",
+    formaDePago: "Sin mensualidad: al contado o hasta en 3 cuotas con tarjeta de crédito.",
     // Zona de precio (15-sep): prueba social y confianza junto al botón. Solo
     // datos que existen: nada de cupos, garantía ni descuentos.
     pagoSeguro: "Pago seguro con Mercado Pago",
@@ -617,8 +625,8 @@ export function preguntasPortada(venta: EstadoVenta): { q: string; a: string }[]
     {
       q: "¿Me cobrarán de nuevo el próximo mes?",
       a: cohorte
-        ? `No. Son ${formatCLP(cohorte.precio)} por los tres meses completos, ${rango}. No hay renovación automática ni una mensualidad que tengas que cancelar.`
-        : "No. Es un solo pago por los tres meses completos. No hay renovación automática ni una mensualidad que tengas que cancelar.",
+        ? `No. Son ${formatCLP(cohorte.precio)} por los tres meses completos, ${rango}, al contado o hasta en 3 cuotas con tarjeta de crédito. No hay renovación automática ni una mensualidad que tengas que cancelar.`
+        : "No. Pagas una vez por los tres meses completos, al contado o hasta en 3 cuotas con tarjeta de crédito. No hay renovación automática ni una mensualidad que tengas que cancelar.",
     },
     {
       q: "¿Incluye una consulta individual?",

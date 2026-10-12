@@ -4,6 +4,7 @@ import { SITE_CONFIG } from "@/lib/constants"
 import {
   diaMesCorto,
   diaSemanaYFecha,
+  diaYMes,
   formatCLP,
   ultimoDiaDelPrograma,
   type EstadoVenta,
@@ -19,18 +20,19 @@ export function Hero({ venta, ahora }: { venta: EstadoVenta; ahora: string }) {
   if (venta.estado === "abierta") {
     notaPrecio = (
       <>
-        <strong>{formatCLP(venta.cohorte.precio)}</strong> · un solo pago · 3 meses para ti
+        <strong>{formatCLP(venta.cohorte.precio)}</strong> {PORTADA.cuotas.largo} · {PORTADA.cuotas.sinMensualidad} · parte el{" "}
+        {diaYMes(venta.cohorte.fecha_inicio)}
       </>
     )
   } else if (venta.estado === "proxima") {
     notaPrecio = (
       <>
-        <strong>{formatCLP(venta.cohorte.precio)}</strong> · un solo pago · inscripciones desde el{" "}
+        <strong>{formatCLP(venta.cohorte.precio)}</strong> {PORTADA.cuotas.corto} · inscripciones desde el{" "}
         {diaSemanaYFecha(venta.cohorte.venta_abre)}
       </>
     )
   } else {
-    notaPrecio = "Un solo pago · 3 meses para ti"
+    notaPrecio = "Hasta 3 cuotas con tarjeta de crédito · 3 meses para ti"
   }
 
   return (

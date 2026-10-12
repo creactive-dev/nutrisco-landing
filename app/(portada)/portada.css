@@ -4089,3 +4089,28 @@ dialog .espera-form {
     padding-block: 40px 72px;
   }
 }
+
+/* ------------------------------------------------------------------------
+ * C2 · CUOTAS A LA VISTA (diseño §9.1, oct-2026). En el botón fijo de
+ * celular, que es lo que más se ve de la página, la línea de las cuotas sube
+ * de 8 a 11 px.
+ * ------------------------------------------------------------------------ */
+.price-cuotas {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--sandia-cta);
+  margin-top: -4px;
+}
+/* Lo que sale al mes va aparte de la frase de las cuotas: que no se lea como
+   el monto de una cuota (diseño §9.1, sin interés implícito). */
+.price-por-mes {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 6px;
+}
+@media (max-width: 760px) {
+  .mobile-cta > div span {
+    font-size: 11px;
+    color: var(--muted-tinte);
+  }
+}

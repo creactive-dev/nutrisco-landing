@@ -282,7 +282,7 @@ export function DialogoCheckout() {
               <em>{PORTADA.checkout.h2em}</em>
             </h2>
             <p>
-              3 meses · {formatCLP(cohorte.precio)} CLP · un solo pago
+              3 meses · {formatCLP(cohorte.precio)} CLP · {PORTADA.cuotas.largo}
               <br />
               {diaMesCorto(cohorte.fecha_inicio)} al {ultimoDiaDelPrograma(cohorte.fecha_fin)}
             </p>

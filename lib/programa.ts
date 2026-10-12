@@ -392,6 +392,20 @@ export function formatCLP(valor: number): string {
 }
 
 /**
+ * "Son menos de $20.000 al mes por 3 meses de acompañamiento." El precio
+ * dividido en tres, redondeado hacia arriba al mil; si la división da justo un
+ * mil, se dice el monto exacto. No habla de cuotas ni de interés: el interés,
+ * si lo hay, lo pone el banco de quien paga (auditoría §3.8).
+ */
+export function textoPorMes(precio: number): string {
+  if (!Number.isFinite(precio) || precio <= 0) return ""
+  const porMes = precio / 3
+  const tope = Math.ceil(porMes / 1000) * 1000
+  const monto = tope === porMes ? formatCLP(porMes) : `menos de ${formatCLP(tope)}`
+  return `Son ${monto} al mes por 3 meses de acompañamiento.`
+}
+
+/**
  * Cuánto falta para un instante. Devuelve null cuando ya pasó, que es la señal
  * para que la cuenta regresiva desaparezca en vez de mostrar números negativos.
  */

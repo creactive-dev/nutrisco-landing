@@ -12,6 +12,7 @@ import {
   horaDe,
   mesDe,
   ultimoDiaDeVenta,
+  textoPorMes,
   ultimoDiaDelPrograma,
 } from "@/lib/programa"
 import { canalDeContacto } from "@/lib/contacto"
@@ -143,7 +144,9 @@ export function Oferta() {
                 <span>$</span>
                 {formatCLP(cohorte.precio).replace("$", "")} <small>CLP</small>
               </p>
-              <p className="price-explanation">{PORTADA.oferta.unSoloPago}</p>
+              <p className="price-cuotas">{PORTADA.cuotas.largo}</p>
+              <p className="price-explanation">{PORTADA.oferta.formaDePago}</p>
+              <p className="price-por-mes">{textoPorMes(cohorte.precio)}</p>
               <div className="date-range">
                 <span>{diaMesCorto(cohorte.fecha_inicio).toUpperCase()}</span>
                 <span aria-hidden="true" className="date-range-line" />
@@ -154,7 +157,7 @@ export function Oferta() {
             </>
           ) : (
             <p className="price-explanation price-explanation-sola">
-              Tres meses. {PORTADA.oferta.unSoloPago}
+              Tres meses. {PORTADA.oferta.formaDePago}
             </p>
           )}
 
