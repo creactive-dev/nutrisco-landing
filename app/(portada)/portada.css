@@ -2257,7 +2257,7 @@ dialog .dialog-note {
 dialog form .button {
   margin-top: 4px;
 }
-dialog > p.aviso-tarjeta {
+dialog p.aviso-tarjeta {
   display: flex;
   gap: 10px;
   align-items: flex-start;
@@ -2556,7 +2556,7 @@ dialog .espera-form {
   .footer .footer-datos {
     font-size: 10px;
   }
-  dialog > p.aviso-tarjeta {
+  dialog p.aviso-tarjeta {
     font-size: 12px;
   }
 }
@@ -4442,34 +4442,64 @@ dialog .espera-form {
 
 /* ------------------------------------------------------------------------
  * C2 · FORMULARIO DE PAGO (diseño §9.7): RUT plegado y un formulario más
- * corto en celular, para que el botón de pagar se vea sin bajar.
+ * corto en celular, para que el botón de pagar se vea sin bajar. Se mide en
+ * 390×664 (iPhone con las barras de Safari) y 360×640 (Android chico o el
+ * navegador de Instagram), no solo en 390×844: ahí 90svh dejaba el botón
+ * hasta 100 px bajo el borde del diálogo.
  * ------------------------------------------------------------------------ */
 .rut-plegado {
-  display: block;
+  display: flex;
+  align-items: center;
   width: 100%;
-  margin: -4px 0 8px;
-  padding: 6px 0;
+  /* 44 px de alto para el dedo, sin verse como un botón: el margen negativo
+     devuelve el aire que suma el alto mínimo. */
+  min-height: 44px;
+  margin: -6px 0 2px;
+  padding: 0;
   border: 0;
   background: transparent;
   color: var(--ink);
   font-size: 13px;
+  line-height: 1.4;
   text-align: left;
   text-decoration: underline;
   text-underline-offset: 3px;
   cursor: pointer;
 }
+/* Tras un rechazo el aviso va dentro del formulario, justo antes del botón. */
+dialog form p.aviso-tarjeta {
+  margin-bottom: 10px;
+}
 @media (max-width: 760px) {
   dialog {
-    padding: 24px 20px;
+    max-height: calc(100svh - 16px);
+    padding: 18px 20px 20px;
   }
   dialog h2 {
-    font-size: 30px;
-    margin: 12px 0;
+    font-size: 26px;
+    margin: 10px 0;
   }
   dialog form {
-    margin-top: 16px;
+    margin-top: 12px;
   }
   dialog .campo {
-    margin-bottom: 12px;
+    margin-bottom: 10px;
+  }
+  dialog .campo > label {
+    margin-bottom: 6px;
+  }
+  dialog .campo input {
+    height: 44px;
+    padding: 10px 12px;
+  }
+  dialog .campo-ayuda {
+    margin-top: 5px;
+  }
+  /* margin-block: el margin-inline de -4px (fondo del temblor) se queda. */
+  dialog .consent {
+    margin-block: 12px !important;
+  }
+  dialog .campo-error-consent {
+    margin-top: -8px;
   }
 }

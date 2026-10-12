@@ -285,7 +285,7 @@ export function DialogoCheckout() {
               <em>{PORTADA.checkout.h2em}</em>
             </h2>
             <p>
-              3 meses · {formatCLP(cohorte.precio)} CLP · {PORTADA.cuotas.largo}
+              3 meses · {formatCLP(cohorte.precio)} {PORTADA.cuotas.largo} · {PORTADA.cuotas.sinMensualidad}
               <br />
               {diaMesCorto(cohorte.fecha_inicio)} al {ultimoDiaDelPrograma(cohorte.fecha_fin)}
             </p>
@@ -458,6 +458,16 @@ export function DialogoCheckout() {
                 </p>
               )}
 
+              {/* Solo después de un rechazo (auditoría §4.2): antes de pagar
+                  sembraba la duda, y en la C1 hubo 0 rechazos reales. Va antes
+                  del botón: debajo quedaba fuera de la vista en celular. */}
+              {pagoRechazado && (
+                <p className="aviso-tarjeta">
+                  <span aria-hidden="true">i</span>
+                  {PORTADA.checkout.avisoTarjeta}
+                </p>
+              )}
+
               <button type="submit" className="button primary" disabled={cargando} aria-busy={cargando}>
                 {cargando
                   ? PROGRAMA.precio.ctaCargando
@@ -483,14 +493,6 @@ export function DialogoCheckout() {
               )}
             </form>
 
-            {/* Solo después de un rechazo (auditoría §4.2): antes de pagar
-                sembraba la duda, y en la C1 hubo 0 rechazos reales. */}
-            {pagoRechazado && (
-              <p className="aviso-tarjeta">
-                <span aria-hidden="true">i</span>
-                {PORTADA.checkout.avisoTarjeta}
-              </p>
-            )}
             <p className="dialog-note">{PORTADA.checkout.nota}</p>
           </>
         )
