@@ -6,7 +6,7 @@ import { AvisoPagoRechazado } from "@/components/v2/AvisoPagoRechazado"
 import { Cabecera } from "@/components/v2/Cabecera"
 import { Hero } from "@/components/v2/Hero"
 import { Franja } from "@/components/v2/Franja"
-import { Problema } from "@/components/v2/Problema"
+import { ParaTi } from "@/components/v2/ParaTi"
 import { RecorridoApp } from "@/components/v2/RecorridoApp"
 import { Acompanamiento } from "@/components/v2/Acompanamiento"
 import { Constanza } from "@/components/v2/Constanza"
@@ -51,7 +51,7 @@ export default async function Portada({
         <Hero venta={venta} />
         <Franja />
         <Constanza video={video} />
-        <Problema />
+        <ParaTi />
         <RecorridoApp />
         <Acompanamiento venta={venta} />
         <Testimonios />

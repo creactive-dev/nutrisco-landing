@@ -4251,3 +4251,77 @@ dialog .espera-form {
     width: min(100%, calc(80svh * 9 / 16));
   }
 }
+
+/* ------------------------------------------------------------------------
+ * C2 · PARA TI (diseño §9.4): reemplaza "¿Te suena familiar?".
+ * ------------------------------------------------------------------------ */
+.para-ti-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 70px;
+  align-items: start;
+}
+.para-ti-copy h2 {
+  font-size: clamp(36px, 3.8vw, 50px);
+  margin: 20px 0 28px;
+}
+.para-ti-lista {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 14px;
+}
+.para-ti-lista li {
+  position: relative;
+  padding-left: 30px;
+  font-size: 17px;
+  line-height: 1.55;
+}
+.para-ti-lista li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--cascara);
+  font-weight: 700;
+}
+.para-ti-distinto {
+  background: var(--celeste-suave);
+  border-radius: 14px;
+  padding: 32px;
+}
+.para-ti-distinto h3 {
+  font-size: 22px;
+  letter-spacing: -0.5px;
+  margin-bottom: 12px;
+}
+.para-ti-distinto > p {
+  font-size: 16px;
+  color: var(--muted-tinte);
+}
+.para-ti-citas {
+  list-style: none;
+  padding: 0;
+  margin: 22px 0 0;
+  display: grid;
+  gap: 16px;
+}
+.para-ti-citas blockquote {
+  margin: 0 0 8px;
+  font:
+    italic 18px/1.4 Georgia,
+    serif;
+}
+@media (max-width: 760px) {
+  .para-ti-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .para-ti-lista li {
+    font-size: 16px;
+  }
+  .para-ti-distinto {
+    padding: 24px 20px;
+  }
+}

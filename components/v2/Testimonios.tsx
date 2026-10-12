@@ -23,8 +23,9 @@ export function Testimonios() {
     return v ? [{ id: v.id, name: v.name, src: v.src, poster: v.poster }] : []
   })
   const conFoto = RESENAS_GOOGLE.citas.filter((r) => r.foto).slice(0, 4)
-  // Las citas cortas van junto al botón de compra (PruebaSocialCompra).
-  const grilla = RESENAS_GOOGLE.citas.filter((r) => !r.corta)
+  // Las citas cortas van junto al botón de compra (PruebaSocialCompra) y las
+  // de "Esto es para ti si…" en su bloque (ParaTi).
+  const grilla = RESENAS_GOOGLE.citas.filter((r) => !r.corta && !r.paraTi)
 
   return (
     <section className="section wrap testimonials" id="testimonios">

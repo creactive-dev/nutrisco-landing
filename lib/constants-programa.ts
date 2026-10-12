@@ -281,20 +281,28 @@ export const PORTADA = {
     { numero: RESENAS_GOOGLE.promedio, texto: `en Google · ${RESENAS_GOOGLE.total} reseñas` },
   ],
 
-  problema: {
-    eyebrow: "¿TE SUENA FAMILIAR?",
-    grande: "Guardas recetas. Empiezas el lunes. El jueves vuelves a improvisar.",
-    cuerpo: "En Prepara tu Verano sabes qué comer, qué comprar y cómo seguir, durante tres meses.",
+  // Diseño C2 §9.4 y auditoría §3.3. Reemplaza "Guardas recetas. Empiezas el
+  // lunes...", que escribimos nosotros y no era el dolor real. Las cinco líneas
+  // salen del screening de las 10 inscritas de la C1 y de sus reseñas.
+  // "No es una dieta de 21 días" (auditoría) no va: es la antítesis prohibida y
+  // desmerece el Reto de 21 días de la propia Constanza.
+  // PENDIENTE (Constanza, mar 13): la línea de los diagnósticos (primera de la
+  // lista), "bajaste rápido, te estancaste" (segunda) y "sin pasar hambre" (en
+  // `distinto`). Si no responde antes del mié 14, se publica así.
+  paraTi: {
+    eyebrow: "ESTO ES PARA TI SI…",
+    h2: { lineas: ["Ya probaste de todo", "y tu cuerpo"], em: "no responde." },
+    lista: [
+      "Tienes resistencia a la insulina, hipotiroidismo o el colesterol alto, y sientes que a ti te cuesta el doble.",
+      "Ya hiciste dietas: bajaste rápido, te estancaste y volviste atrás.",
+      "Te hinchas, y en la noche te gana lo dulce.",
+      "No tienes tiempo para entrenar todos los días.",
+      "Quieres que alguien te revise cada 15 días y no te deje sola.",
+    ],
+    distintoTitulo: "Por qué esta vez es distinto",
+    distinto:
+      "Tres meses y 6 pautas. Cada 15 días haces tu control y Constanza te arma la pauta siguiente según cómo vas. El tercer mes es para mantener lo que lograste, para que no vuelvas atrás. Comida chilena y sin pasar hambre.",
     enlace: "Así funciona el programa por dentro",
-    nota: "¿Y hoy qué comemos?",
-    // 15-sep (reunión con Constanza): fotos "más reales". Mujer de 30 a 45 en su
-    // cocina, sin pose de catálogo (crédito en public/v2/fotos/CREDITOS.md).
-    foto: {
-      src: "/v2/fotos/cocina-mirando-celular.jpg",
-      alt: "Una mujer mira su celular con cara de duda frente a la cocina de su casa",
-      width: 1400,
-      height: 1400,
-    } satisfies FotoPortada,
   },
 
   app: {
