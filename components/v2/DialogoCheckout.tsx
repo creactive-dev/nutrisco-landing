@@ -15,6 +15,7 @@ import { armarTracking, nuevoEventId } from "@/lib/tracking"
 import { formatearRut } from "@/lib/rut"
 import { validarTelefono } from "@/lib/telefono"
 import { canalDeContacto } from "@/lib/contacto"
+import { DOCUMENTOS_ACEPTADOS } from "@/lib/legal"
 import { CLAVE_DATOS, useVenta } from "@/components/v2/VentaProvider"
 import { FormListaEspera } from "@/components/v2/FormListaEspera"
 
@@ -178,7 +179,7 @@ export function DialogoCheckout() {
         LEGAL_CONSENT_STORAGE_KEY,
         JSON.stringify({
           accepted_at: new Date().toISOString(),
-          documents: { terminos: "v1.0", privacidad: "v3.0", aviso_datos_sensibles: "v1.0" },
+          documents: DOCUMENTOS_ACEPTADOS,
           user_agent: typeof navigator !== "undefined" ? navigator.userAgent : null,
         })
       )
@@ -203,6 +204,7 @@ export function DialogoCheckout() {
           nombre: nombre.trim(),
           telefono: validarTelefono(telefono).formateado,
           rut: rutFormateado,
+          documentos_aceptados: DOCUMENTOS_ACEPTADOS,
           tracking: armarTracking(eventId),
         }),
       })

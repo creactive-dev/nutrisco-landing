@@ -11,12 +11,14 @@ import videoConstanza from "../lib/video-constanza"
 import constantsPrograma from "../lib/constants-programa"
 import medicion from "../lib/medicion"
 import testimoniosGrupo from "../lib/testimonios-grupo"
+import legal from "../lib/legal"
 
 const { controlesDeFiestas, diaYMesCivil, estadoSimulado, fechasControles, sesionEnDiciembre, textoPorMes } = programa
 const { esProduccionPublica } = entorno
 const { videoVisible } = videoConstanza
 const { urlSinDatosPersonales } = medicion
 const { TESTIMONIOS_GRUPO, testimonioPublicable, testimoniosVisibles } = testimoniosGrupo
+const { DOCUMENTOS_ACEPTADOS } = legal
 const { bonoDeLaCohorte, garantiaActiva, GARANTIA, preguntasPortada, textoFiestas, textoGarantia } = constantsPrograma
 
 // Cuotas (tarea 3): el precio dividido en tres, redondeado al mil hacia arriba.
@@ -176,5 +178,11 @@ assert.ok(testimoniosVisibles("production", "1").every((t) => !t.id.startsWith("
 assert.equal(testimoniosVisibles("production", "1").length, TESTIMONIOS_GRUPO.filter(testimonioPublicable).length)
 assert.equal(testimoniosVisibles("development", "1").length, 3) // los de prueba, sin el que habla de peso
 assert.ok(testimoniosVisibles("development", undefined).every((t) => !t.id.startsWith("prueba")))
+
+// Versiones legales que acepta el checkout (contrato con la app: /^v\d{1,3}\.\d{1,3}$/;
+// la política vigente es la v4.0).
+assert.deepEqual(Object.keys(DOCUMENTOS_ACEPTADOS).sort(), ["aviso_datos_sensibles", "privacidad", "terminos"])
+assert.ok(Object.values(DOCUMENTOS_ACEPTADOS).every((v) => /^v\d{1,3}\.\d{1,3}$/.test(v)))
+assert.equal(DOCUMENTOS_ACEPTADOS.privacidad, "v4.0")
 
 console.log("lógica OK")
