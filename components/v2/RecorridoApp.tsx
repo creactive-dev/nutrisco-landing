@@ -17,8 +17,8 @@ const PASOS = PANTALLAS.length
 const ESCRITORIO = "(min-width: 900px) and (min-height: 620px)"
 
 /**
- * "Tu plan, en el bolsillo": seis pantallas reales de la app, cada una con un
- * título corto y lo que hace (15-sep: más información y más pantallas).
+ * "Tu plan, en el bolsillo": tres pantallas reales de la app, cada una con un
+ * título corto y lo que hace (la C2 las baja de seis a tres: la app es el cómo).
  *
  * En escritorio la sección mide varias pantallas de alto y su contenido queda
  * fijo (sticky) mientras se baja: el paso activo sale del avance del scroll
@@ -30,7 +30,7 @@ const ESCRITORIO = "(min-width: 900px) and (min-height: 620px)"
  * Mientras ese scroll viaja pasa por los pasos intermedios. `destino` los
  * ignora hasta llegar, para que la pestaña no parpadee.
  *
- * En celular no hay pestañas: los seis pasos apilados, cada uno con su pantalla
+ * En celular no hay pestañas: los tres pasos apilados, cada uno con su pantalla
  * y su texto al lado. Sin librerías: un listener de scroll pasivo que mide una
  * vez por cuadro con requestAnimationFrame. Con `prefers-reduced-motion` o el
  * movimiento pausado, el cambio de pantalla no se anima y el scroll salta en

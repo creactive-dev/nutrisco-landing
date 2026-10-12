@@ -8,12 +8,12 @@ import { Cabecera } from "@/components/v2/Cabecera"
 import { Hero } from "@/components/v2/Hero"
 import { Fiestas } from "@/components/v2/Fiestas"
 import { Franja } from "@/components/v2/Franja"
+import { Constanza } from "@/components/v2/Constanza"
 import { ParaTi } from "@/components/v2/ParaTi"
+import { Oferta } from "@/components/v2/Oferta"
 import { RecorridoApp } from "@/components/v2/RecorridoApp"
 import { Acompanamiento } from "@/components/v2/Acompanamiento"
-import { Constanza } from "@/components/v2/Constanza"
 import { Testimonios } from "@/components/v2/Testimonios"
-import { Oferta } from "@/components/v2/Oferta"
 import { Dudas } from "@/components/v2/Dudas"
 import { CierreFinal } from "@/components/v2/CierreFinal"
 import { Pie } from "@/components/v2/Pie"
@@ -29,6 +29,11 @@ export const dynamic = "force-dynamic"
  * Portada: el programa "Prepara tu Verano" con el diseño de la v2 ("Este
  * verano, empieza por ti"). Fechas, precio y estado salen de la cohorte; ver
  * `lib/programa.ts`. En local y en previews, `COHORTE_MOCK` simula el estado.
+ *
+ * Orden de la C2 (diseño §9.6, auditoría §5.7): primero quién es ella y para
+ * quién es, después las fiestas con su calendario y el precio, que tiene que
+ * quedar antes de la pantalla 8 en celular. La app, el recorrido completo y
+ * los testimonios de pacientes van después del precio.
  */
 export default async function Portada({
   searchParams,
@@ -56,11 +61,11 @@ export default async function Portada({
         <Franja />
         <Constanza video={video} />
         <ParaTi />
+        <Fiestas venta={venta} />
+        <Oferta garantia={garantia} />
         <RecorridoApp />
         <Acompanamiento venta={venta} />
         <Testimonios />
-        <Fiestas venta={venta} />
-        <Oferta garantia={garantia} />
         <Dudas venta={venta} garantia={garantia} />
         <CierreFinal />
       </main>

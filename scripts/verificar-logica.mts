@@ -100,8 +100,29 @@ const ventaAbierta = sim?.estado === "abierta" ? sim : null
 assert.ok(ventaAbierta)
 const dudas = (garantia: boolean) => preguntasPortada(ventaAbierta!, { garantia }).map((p) => p.q)
 assert.ok(!dudas(false).includes("¿Y si no es para mí?"))
-assert.equal(dudas(true)[3], "¿Y si no es para mí?")
-assert.equal(dudas(true).length, dudas(false).length + 1)
+// Va justo después de "¿Me cobrarán de nuevo el próximo mes?", donde se pregunta por la plata.
+const conGarantia = dudas(true)
+assert.equal(conGarantia[conGarantia.findIndex((q) => q.startsWith("¿Me cobrarán")) + 1], "¿Y si no es para mí?")
+assert.equal(conGarantia.length, dudas(false).length + 1)
+// Dudas de la C2 (tarea 9): las tres objeciones de la clienta van arriba.
+const sinGarantia = dudas(false)
+assert.ok(sinGarantia[0].startsWith("¿Me sirve si tengo resistencia"))
+assert.ok(sinGarantia[1].startsWith("Ya probé dietas"))
+assert.ok(sinGarantia[2].startsWith("¿Y las fiestas"))
+assert.ok(sinGarantia.some((q) => q.startsWith("¿Voy a pasar hambre")))
+assert.ok(sinGarantia.some((q) => q.startsWith("¿Tengo que hacer ejercicio")))
+const respuestaFiestas = preguntasPortada(ventaAbierta!).find((p) => p.q.startsWith("¿Y las fiestas"))!.a
+assert.ok(respuestaFiestas.includes("20 de diciembre") && respuestaFiestas.includes("4 de enero"))
+assert.ok(respuestaFiestas.includes("jueves 10 de diciembre")) // la sesión en vivo de la C2 simulada
+assert.ok(respuestaFiestas.includes("recetario de fiestas y verano")) // la C2 (slug 2026-10) lleva el bono
+// Un grupo que no pasa las fiestas (parte el 5-ene) no tiene la duda de las fiestas (Review Focus 2).
+const simEnero = estadoSimulado(
+  { COHORTE_MOCK: "abierta", COHORTE_MOCK_INICIO: "2027-01-05", COHORTE_MOCK_SLUG: "2027-01" },
+  Date.parse("2026-12-10T15:00:00Z")
+)
+assert.equal(simEnero?.estado, "abierta")
+assert.ok(preguntasPortada(simEnero!).every((p) => !/fiestas|Navidad|Año Nuevo/i.test(p.q + p.a)))
+assert.ok(preguntasPortada(simEnero!).length === sinGarantia.length - 1)
 for (const venta of [{ estado: "ninguna" }, { estado: "error" }] as const) {
   const sinCohorte = preguntasPortada(venta, { garantia: true })
   assert.ok(sinCohorte.every((p) => !/undefined|NaN/.test(p.a)))

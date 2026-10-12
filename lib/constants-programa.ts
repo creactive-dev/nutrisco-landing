@@ -15,10 +15,12 @@ import { RESENAS_GOOGLE } from "@/lib/resenas-google"
 import {
   diaSemanaYFecha,
   diaYMes,
+  controlesDeFiestas,
   diaYMesCivil,
   fechasControles,
   formatCLP,
   mesDe,
+  sesionEnDiciembre,
   sesionesLegibles,
   ultimoDiaDeVenta,
   ultimoDiaDelPrograma,
@@ -382,26 +384,16 @@ export const PORTADA = {
       "Durante los tres meses, tu pauta, tus recetas, tu lista de compras y tus controles van contigo en Nutrico, la app del programa.",
     etiquetaDemo: "ASÍ SE VE EL PROGRAMA EN NUTRICO",
     etiquetaCaptura: "Pantallas de la app con una paciente de ejemplo",
-    // Las seis pantallas salen de los componentes reales de la app con datos de
+    // Las tres pantallas salen de los componentes reales de la app con datos de
     // ejemplo (tarea B3 del 15-sep, `landing-aprobacion/mockups-2026-09-15/`).
     // Cada texto describe solo lo que esa pantalla hace hoy: la app no tiene
-    // gráfico de síntomas (los síntomas se registran en el control) y el
-    // gráfico de energía muestra las dos últimas semanas.
+    // gráfico de síntomas (los síntomas se registran en el control).
     // El recetario es la captura anterior con fotos reales de las recetas, con
     // la cabecera de la paciente de ejemplo: la nueva mostraba las recetas sin
     // foto porque las fotos viven en la base.
+    // C2 (auditoría §3.4): tres tarjetas en vez de seis. Para esta clienta la
+    // app es el cómo, no el porqué. El `id: "checkin"` es interno y se queda.
     pantallas: [
-      {
-        id: "inicio",
-        titulo: "Tu día, de un vistazo",
-        detalle: "Tu racha, cómo va tu energía y un mensaje de Constanza. Cuando te toca el control, te avisa.",
-        imagen: {
-          src: "/mockups/app-inicio.webp",
-          alt: "Inicio de Nutrico: racha de 12 días, energía de la semana, un mensaje de Constanza y el aviso del control",
-          width: 640,
-          height: 1306,
-        },
-      },
       {
         id: "pauta",
         titulo: "Tu pauta, clara",
@@ -415,24 +407,14 @@ export const PORTADA = {
       },
       {
         id: "recetas",
-        titulo: "Recetas para tu pauta",
-        detalle: "Un recetario chileno filtrado para tu pauta. Buscas por ingrediente o por tipo de comida.",
+        titulo: "Recetas y lista de compras",
+        detalle:
+          "Un recetario chileno filtrado para tu pauta. La lista de compras se arma con las recetas que eliges para tu semana.",
         imagen: {
           src: "/mockups/app-recetas.webp",
           alt: "Recetario de Nutrico con buscador, filtros por tipo de comida y recetas con foto",
           width: 640,
           height: 1318,
-        },
-      },
-      {
-        id: "lista",
-        titulo: "Tu lista de compras",
-        detalle: "Se arma con las recetas que eliges para tu semana, ordenada por sección. Vas marcando lo que compraste.",
-        imagen: {
-          src: "/mockups/app-lista.webp",
-          alt: "Lista de compras de Nutrico: frutas y verduras con la receta de origen de cada ingrediente",
-          width: 640,
-          height: 1306,
         },
       },
       {
@@ -443,17 +425,6 @@ export const PORTADA = {
         imagen: {
           src: "/mockups/app-checkin.webp",
           alt: "Control quincenal de Nutrico, paso 1 de 6: hinchazón, fatiga y dolor digestivo",
-          width: 640,
-          height: 1306,
-        },
-      },
-      {
-        id: "progreso",
-        titulo: "Mira cómo vas",
-        detalle: "Tu energía de las últimas dos semanas, tu adherencia y tus días acumulados.",
-        imagen: {
-          src: "/mockups/app-progreso.webp",
-          alt: "Progreso en Nutrico: tendencia de energía de dos semanas, días acumulados y adherencia de 80%",
           width: 640,
           height: 1306,
         },
@@ -712,7 +683,10 @@ export const VIDEOS_PORTADA: readonly string[] = ["v1", "v2", "v3"]
  * Las dudas de la portada. Son función porque varias respuestas llevan la
  * fecha o el precio de la cohorte: en la v2 estaban escritos ("después del 20
  * de septiembre", "$59.990 del 21 de septiembre al 21 de diciembre") y se
- * habrían podrido con el primer UPDATE de la fila.
+ * habrían podrido con el primer UPDATE de la fila. Las tres primeras son las objeciones de esta
+ * clienta (auditoría §3.9): diagnóstico, dietas que no resultaron y fiestas.
+ * La de las fiestas solo existe si el grupo las pasa (P3 del plan de la C2).
+ * La garantía, si está activa, va justo después de "¿Me cobrarán…?".
  */
 export function preguntasPortada(
   venta: EstadoVenta,
@@ -724,11 +698,42 @@ export function preguntasPortada(
     ? `del ${diaYMes(cohorte.fecha_inicio)} al ${ultimoDiaDelPrograma(cohorte.fecha_fin, { mes: "long", anio: true })}`
     : ""
   const sesiones = cohorte ? sesionesLegibles(cohorte.sesiones) : null
+  const controles = cohorte ? fechasControles(cohorte.fecha_inicio) : []
+  const fiestas = controlesDeFiestas(controles)
+  const sesionDic = cohorte ? sesionEnDiciembre(cohorte.sesiones) : null
+  const bono = bonoDeLaCohorte(cohorte)
 
+  // PENDIENTE (Constanza, mar 13): diagnósticos, hambre y ejercicio.
   const preguntas: { q: string; a: string }[] = [
+    {
+      q: "¿Me sirve si tengo resistencia a la insulina o hipotiroidismo?",
+      a: "Sí. El cuestionario del inicio te pregunta tus diagnósticos y Constanza arma tu pauta considerándolos. El programa no reemplaza a tu médico: si estás en tratamiento, lo sigues igual.",
+    },
+    {
+      q: "Ya probé dietas y siempre me estanco. ¿Qué cambia acá?",
+      a: "Que tu pauta no se queda igual los tres meses. Cada 15 días haces tu control y Constanza te arma una pauta nueva según cómo vas: son 6 en total. Y el tercer mes es para mantener lo que lograste, para que no vuelvas atrás.",
+    },
+  ]
+  if (fiestas) {
+    preguntas.push({
+      q: "¿Y las fiestas de fin de año?",
+      a: `El grupo las pasa acompañado: tienes control el ${diaYMesCivil(fiestas.antesDeNavidad)}, justo antes de Navidad, y otro el ${diaYMesCivil(fiestas.despuesDeAnoNuevo)}, justo después de Año Nuevo.${
+        sesionDic ? ` Y el ${sesionDic.dia} hay sesión en vivo con Constanza.` : ""
+      }${bono ? ` Además te llevas el ${BONO_FIESTAS.nombre.toLowerCase()} de regalo.` : ""} Así no llegas a enero a empezar de cero.`,
+    })
+  }
+  preguntas.push(
     {
       q: "¿Tengo que saber comer “perfecto”?",
       a: "No necesitas llegar con todo resuelto. Completas el cuestionario inicial y Constanza arma tu pauta a partir de tu rutina, tus preferencias y tus objetivos. Los controles cada quince días ayudan a revisar cómo vas y a armar tu pauta siguiente.",
+    },
+    {
+      q: "¿Voy a pasar hambre?",
+      a: "No es la idea. Constanza arma tu pauta con tus gustos y tu rutina, con comida chilena y porciones que te dejen satisfecha. Si algo no te acomoda, lo cuentas en tu control y tu pauta nueva lo considera.",
+    },
+    {
+      q: "¿Tengo que hacer ejercicio?",
+      a: "No es requisito. Tu pauta se arma con la actividad que tienes hoy, aunque sea poca. Si quieres sumar movimiento, lo cuentas en tus controles y Constanza lo considera.",
     },
     {
       q: "¿Qué pasa después de inscribirme?",
@@ -741,7 +746,12 @@ export function preguntasPortada(
       a: cohorte
         ? `No. Son ${formatCLP(cohorte.precio)} por los tres meses completos, ${rango}, al contado o hasta en 3 cuotas con tarjeta de crédito. No hay renovación automática ni una mensualidad que tengas que cancelar.`
         : "No. Pagas una vez por los tres meses completos, al contado o hasta en 3 cuotas con tarjeta de crédito. No hay renovación automática ni una mensualidad que tengas que cancelar.",
-    },
+    }
+  )
+  if (opciones.garantia) {
+    preguntas.push({ q: "¿Y si no es para mí?", a: textoGarantia(controles[0] ?? null) })
+  }
+  preguntas.push(
     {
       q: "¿Incluye una consulta individual?",
       a: "No. Incluye tu pauta personalizada, una pauta nueva cada quince días, la app, el grupo de WhatsApp y tres sesiones grupales en vivo con Constanza. La consulta individual es un servicio aparte.",
@@ -783,14 +793,7 @@ export function preguntasPortada(
     {
       q: "¿Cuánto tiempo me va a tomar?",
       a: PROGRAMA.faq[5].a,
-    },
-  ]
-  // Después de "¿Me cobrarán de nuevo el próximo mes?".
-  if (opciones.garantia) {
-    preguntas.splice(3, 0, {
-      q: "¿Y si no es para mí?",
-      a: textoGarantia(cohorte ? (fechasControles(cohorte.fecha_inicio)[0] ?? null) : null),
-    })
-  }
+    }
+  )
   return preguntas
 }
