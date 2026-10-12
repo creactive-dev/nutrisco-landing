@@ -35,12 +35,12 @@ export function Hero({ venta }: { venta: EstadoVenta }) {
   } else if (venta.estado === "proxima") {
     notaPrecio = (
       <>
-        <strong>{formatCLP(venta.cohorte.precio)}</strong> {PORTADA.cuotas.corto} · inscripciones desde el{" "}
+        <strong>{formatCLP(venta.cohorte.precio)}</strong> {PORTADA.cuotas.corto} · {PORTADA.cuotas.sinMensualidad} · inscripciones desde el{" "}
         {diaSemanaYFecha(venta.cohorte.venta_abre)}
       </>
     )
   } else {
-    notaPrecio = "Hasta 3 cuotas con tarjeta de crédito · 3 meses para ti"
+    notaPrecio = `Hasta 3 cuotas con tarjeta de crédito · ${PORTADA.cuotas.sinMensualidad} · 3 meses para ti`
   }
 
   return (
@@ -50,12 +50,17 @@ export function Hero({ venta }: { venta: EstadoVenta }) {
           <span className="short-line" /> {PORTADA.hero.eyebrow}
         </p>
         <h1 id="hero-title" className="hero-titulo">
-          {PORTADA.hero.h1.lineas.map((linea) => (
+          {PORTADA.hero.h1.lineas.map((linea, i, todas) => (
             <span className="hero-linea" key={linea}>
-              {linea}{" "}
+              {linea}
+              {i === todas.length - 1 && (
+                <>
+                  {" "}
+                  <em>{PORTADA.hero.h1.em}</em>
+                </>
+              )}
             </span>
           ))}
-          <em>{PORTADA.hero.h1.em}</em>
         </h1>
         <p className="hero-description">{PORTADA.hero.descripcion}</p>
         {fiestas && (
@@ -70,7 +75,7 @@ export function Hero({ venta }: { venta: EstadoVenta }) {
         <BotonPrograma className="button primary hero-cta" />
         <p className="price-note">{notaPrecio}</p>
         <p className="hero-google">
-          <span className="estrellas-mini" role="img" aria-label="5 de 5 estrellas">
+          <span className="estrellas-mini" role="img" aria-label={`${RESENAS_GOOGLE.promedio} de 5 estrellas`}>
             ★★★★★
           </span>
           <span>
