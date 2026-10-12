@@ -1,0 +1,143 @@
+/*
+ * /guia-fiestas (C2, oct-2026). Usa los tokens y las clases de portada.css
+ * (.wrap, .eyebrow, .campo, .button), que carga el layout de la portada.
+ */
+.regalo {
+  display: grid;
+  grid-template-columns: 1fr 0.8fr;
+  gap: 64px;
+  align-items: center;
+  padding-block: 40px 96px;
+}
+.regalo h1 {
+  font-size: clamp(38px, 4.2vw, 58px);
+  letter-spacing: -2px;
+  line-height: 1.05;
+  margin: 18px 0;
+}
+.regalo-bajada {
+  font-size: 17px;
+  color: var(--muted-tinte);
+  max-width: 46ch;
+}
+.regalo-puntos {
+  list-style: none;
+  padding: 0;
+  margin: 18px 0 0;
+  max-width: 46ch;
+  display: grid;
+  gap: 10px;
+  font-size: 15px;
+  color: var(--muted-tinte);
+}
+.regalo-puntos li {
+  position: relative;
+  padding-left: 22px;
+}
+.regalo-puntos li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--cascara);
+  font-weight: 700;
+}
+.regalo-form {
+  margin-top: 26px;
+  max-width: 420px;
+}
+.regalo-form .button {
+  width: 100%;
+}
+.regalo-nota {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-top: 12px;
+}
+.regalo-nota a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.regalo-trampa {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.regalo-listo {
+  margin-top: 26px;
+  max-width: 440px;
+  display: grid;
+  gap: 14px;
+  background: rgba(123, 174, 131, 0.2);
+  border-radius: 12px;
+  padding: 22px;
+}
+.regalo-check {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  background: var(--cascara);
+  color: #fff;
+  border-radius: 50%;
+}
+.regalo-listo-titulo {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.4px;
+}
+.regalo-listo-correo {
+  font-size: 14px;
+  color: var(--muted-tinte);
+}
+.regalo-invitacion {
+  margin-top: 30px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+  max-width: 440px;
+  font-size: 15px;
+}
+.regalo-invitacion .text-link {
+  margin-top: 10px;
+}
+.regalo-persona {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 22px;
+  font-size: 14px;
+  color: var(--muted-tinte);
+}
+.regalo-persona img {
+  border-radius: 50%;
+  object-fit: cover;
+}
+.regalo-portada {
+  justify-self: center;
+  width: min(100%, 380px);
+}
+.regalo-portada img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 14px 25px 40px rgba(26, 26, 26, 0.16);
+}
+@media (max-width: 760px) {
+  .regalo {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding-block: 20px 72px;
+  }
+  .regalo h1 {
+    font-size: 36px;
+    letter-spacing: -1.2px;
+  }
+  .regalo-bajada {
+    font-size: 16px;
+  }
+  .regalo-portada {
+    width: min(60%, 240px);
+  }
+}

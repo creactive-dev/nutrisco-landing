@@ -109,3 +109,13 @@ export function anotarseEnListaEspera(cohorte: string, eventID: string) {
     { eventID }
   )
 }
+
+/**
+ * Alguien pidió la guía de fiestas en /guia-fiestas. Mismo `eventID` que el
+ * Lead que manda la app por la API de Conversiones, para que Meta lo cuente una
+ * vez. Quien llega desde el formulario de Meta (`?ok=1`) no lo dispara: ese
+ * contacto ya lo contó Meta.
+ */
+export function pedirGuiaFiestas(eventID: string) {
+  track("Lead", { content_name: "Guía de fiestas", content_ids: ["guia-fiestas"] }, { eventID })
+}
