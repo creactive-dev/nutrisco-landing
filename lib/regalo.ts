@@ -12,6 +12,27 @@
 
 import { diaSemanaYFecha, diaYMes, mesDe, ultimoDiaDeVenta, type EstadoVenta } from "@/lib/programa"
 
+/** Cuánto espera la página a la app para leer la cohorte antes de seguir sin ella. */
+export const TOPE_COHORTE_MS = 2500
+/** Cuánto espera el formulario la respuesta de la app. Mayor que el tope del CRM en la app (8 s). */
+export const TOPE_ENVIO_MS = 12000
+
+/**
+ * La guía no puede depender de que la app responda: si una promesa tarda más
+ * que `ms`, se sigue con `alVencer`. La promesa original no se cancela.
+ */
+export async function conTope<T>(promesa: Promise<T>, ms: number, alVencer: T): Promise<T> {
+  let reloj: ReturnType<typeof setTimeout> | undefined
+  const vencida = new Promise<T>((resolver) => {
+    reloj = setTimeout(() => resolver(alVencer), ms)
+  })
+  try {
+    return await Promise.race([promesa, vencida])
+  } finally {
+    clearTimeout(reloj)
+  }
+}
+
 export const REGALO_FIESTAS = {
   /** El mismo que la app conoce en `REGALOS` (`app/src/lib/programa/regalos.ts`). */
   slug: "guia-fiestas",

@@ -1,8 +1,8 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { APP_URL } from "@/lib/programa"
-import { REGALO_FIESTAS } from "@/lib/regalo"
+import { REGALO_FIESTAS, TOPE_ENVIO_MS } from "@/lib/regalo"
 import { pedirGuiaFiestas } from "@/lib/pixel"
 import { armarTracking, guardarPrimeraVisita, nuevoEventId } from "@/lib/tracking"
 
@@ -20,6 +20,10 @@ type Listo = { crm: boolean; nombre: string; email: string }
  * su correo. Lo que cambia es la promesa del correo, que se hace solo si el CRM
  * confirmó la etiqueta (es lo que dispara G0).
  *
+ * Si la app no responde en `TOPE_ENVIO_MS`, se corta la espera y se entrega la
+ * guía sin prometer el correo. Si la trampa `sitio_web` viene llena (un bot), se
+ * entrega igual pero no se cuenta el Lead ni se promete nada.
+ *
  * `yaLaPidio`: llega desde el formulario de Meta (`?ok=1`), que ya le pidió el
  * correo. Se le muestra la descarga sin pedir nada y sin contar otro Lead.
  */
@@ -30,6 +34,13 @@ export function FormRegalo({ yaLaPidio, nota }: { yaLaPidio: boolean; nota: stri
   const [errores, setErrores] = useState<Errores>({})
   const [cargando, setCargando] = useState(false)
   const [listo, setListo] = useState<Listo | null>(yaLaPidio ? { crm: false, nombre: "", email: "" } : null)
+
+  const enlaceRef = useRef<HTMLAnchorElement>(null)
+
+  // Al enviar, el foco pasa al enlace de descarga (el botón desaparece).
+  useEffect(() => {
+    if (listo && !yaLaPidio) enlaceRef.current?.focus()
+  }, [listo, yaLaPidio])
 
   // Guarda los UTM del DM o del anuncio: si después pasa a la portada, su
   // inscripción queda con el origen correcto.
@@ -53,9 +64,12 @@ export function FormRegalo({ yaLaPidio, nota }: { yaLaPidio: boolean; nota: stri
     const eventId = nuevoEventId()
     setCargando(true)
     let crm = false
+    const corte = new AbortController()
+    const reloj = setTimeout(() => corte.abort(), TOPE_ENVIO_MS)
     try {
       const res = await fetch(`${APP_URL}/api/programa/regalo`, {
         method: "POST",
+        signal: corte.signal,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email: limpio,
@@ -72,12 +86,14 @@ export function FormRegalo({ yaLaPidio, nota }: { yaLaPidio: boolean; nota: stri
         document.getElementById("regalo-email")?.focus()
         return
       }
-      if (res.ok) {
+      if (res.ok && trampa === "") {
         crm = data.crm === true
         pedirGuiaFiestas(eventId)
       }
     } catch {
-      /* sin conexión con la app: la guía se entrega igual */
+      /* sin conexión con la app o sin respuesta a tiempo: la guía se entrega igual */
+    } finally {
+      clearTimeout(reloj)
     }
     setCargando(false)
     setListo({ crm, nombre: nombre.trim(), email: limpio })
@@ -94,6 +110,7 @@ export function FormRegalo({ yaLaPidio, nota }: { yaLaPidio: boolean; nota: stri
           {primerNombre ? `Listo, ${primerNombre}.` : "Listo."} {REGALO_FIESTAS.listo.titulo}
         </p>
         <a
+          ref={enlaceRef}
           className="button primary"
           href={REGALO_FIESTAS.pdf}
           download={REGALO_FIESTAS.nombreArchivo}

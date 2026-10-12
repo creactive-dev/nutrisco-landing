@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import Image from "next/image"
-import { leerCohorteActual } from "@/lib/programa"
-import { REGALO_FIESTAS, invitacionAlGrupo, notaCorreos } from "@/lib/regalo"
+import { leerCohorteActual, type EstadoVenta } from "@/lib/programa"
+import { REGALO_FIESTAS, TOPE_COHORTE_MS, conTope, invitacionAlGrupo, notaCorreos } from "@/lib/regalo"
 import { SITE_CONFIG } from "@/lib/constants"
 import { Logo } from "@/components/v2/Logo"
 import { Pie } from "@/components/v2/Pie"
@@ -16,10 +16,36 @@ export const dynamic = "force-dynamic"
  * reel con "comenta FIESTAS" (DM de OpenReply) o por la pantalla final del
  * formulario de Meta (`?ok=1`). Fuera de los buscadores: es de temporada.
  */
+const TITULO = `${REGALO_FIESTAS.titulo} · Un regalo de Constanza Jiménez`
+
+// Propio: sin esto el enlace del DM hereda el de la venta del programa. Sin
+// condiciones de salud, porque viaja con el link.
 export const metadata: Metadata = {
-  title: `${REGALO_FIESTAS.titulo} · Un regalo de Constanza Jiménez`,
+  title: TITULO,
   description: REGALO_FIESTAS.bajada,
   robots: { index: false, follow: false },
+  openGraph: {
+    title: TITULO,
+    description: REGALO_FIESTAS.bajada,
+    url: "/guia-fiestas",
+    siteName: SITE_CONFIG.name,
+    locale: "es_CL",
+    type: "website",
+    images: [
+      {
+        url: REGALO_FIESTAS.portada.src,
+        width: REGALO_FIESTAS.portada.width,
+        height: REGALO_FIESTAS.portada.height,
+        alt: REGALO_FIESTAS.portada.alt,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITULO,
+    description: REGALO_FIESTAS.bajada,
+    images: [REGALO_FIESTAS.portada.src],
+  },
 }
 
 export default async function GuiaFiestasPage({
@@ -27,7 +53,8 @@ export default async function GuiaFiestasPage({
 }: {
   searchParams: Record<string, string | string[] | undefined>
 }) {
-  const venta = await leerCohorteActual()
+  // La guía se entrega aunque la app tarde: sin la cohorte no hay invitación.
+  const venta = await conTope<EstadoVenta>(leerCohorteActual(), TOPE_COHORTE_MS, { estado: "error" })
   const invitacion = invitacionAlGrupo(venta)
   const { portada } = REGALO_FIESTAS
 
