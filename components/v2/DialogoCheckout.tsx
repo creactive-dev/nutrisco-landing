@@ -54,6 +54,7 @@ export function DialogoCheckout() {
 
   const dialogo = useRef<HTMLDialogElement>(null)
   const campoNombre = useRef<HTMLInputElement>(null)
+  const mensajeEnvio = useRef<HTMLParagraphElement>(null)
   const [nombre, setNombre] = useState("")
   const [telefono, setTelefono] = useState("")
   const [rut, setRut] = useState("")
@@ -90,6 +91,12 @@ export function DialogoCheckout() {
     window.addEventListener("pageshow", alVolver)
     return () => window.removeEventListener("pageshow", alVolver)
   }, [])
+
+  // El botón queda al fondo del diálogo en pantallas bajas (360×640): el mensaje
+  // de error o de "ya estás inscrita" aparece bajo el borde y se trae a la vista.
+  useEffect(() => {
+    if (errorEnvio || yaInscrita) mensajeEnvio.current?.scrollIntoView({ block: "nearest" })
+  }, [errorEnvio, yaInscrita])
 
   // Abrir y cerrar el <dialog> nativo desde el estado.
   useEffect(() => {
@@ -478,12 +485,12 @@ export function DialogoCheckout() {
               </button>
 
               {errorEnvio && (
-                <p role="alert" className="aviso-form">
+                <p ref={mensajeEnvio} role="alert" className="aviso-form">
                   {PORTADA.checkout.errorEnvio}
                 </p>
               )}
               {yaInscrita && (
-                <p role="alert" className="aviso-form">
+                <p ref={mensajeEnvio} role="alert" className="aviso-form">
                   {PORTADA.checkout.inscrita}{" "}
                   <a href={contacto.href} target="_blank" rel="noopener noreferrer">
                     escríbenos
