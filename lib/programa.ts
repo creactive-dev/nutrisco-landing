@@ -101,6 +101,9 @@ export async function leerCohorteActual(): Promise<EstadoVenta> {
 // muestra una cohorte inventada es peor que una caída. Se verificó levantando
 // el build con VERCEL_ENV=production y COHORTE_MOCK definida: la página siguió
 // leyendo el endpoint real.
+//
+// `COHORTE_MOCK_INICIO`, `COHORTE_MOCK_SLUG` y `COHORTE_MOCK_SESIONES` afinan el
+// simulado; ver la función.
 
 export type EstadoSimulable = "abierta" | "proxima" | "ninguna" | "error"
 
@@ -114,25 +117,56 @@ export function estadoSimulado(
   const pedido = entorno.COHORTE_MOCK
   if (!pedido) return null
 
+  // `COHORTE_MOCK_INICIO=2026-11-05` fija el día en que parte el grupo
+  // simulado, con el cierre de la venta 6 días antes (como la C2 real). Sin
+  // esto el grupo parte a los 5 días de hoy y lo que depende del calendario,
+  // como el bloque de las fiestas, no se puede revisar. Mediodía UTC para que
+  // el día civil de Chile sea el mismo.
+  const inicioFijo = /^\d{4}-\d{2}-\d{2}$/.test(entorno.COHORTE_MOCK_INICIO ?? "")
+    ? Date.parse(`${entorno.COHORTE_MOCK_INICIO}T12:00:00Z`)
+    : null
+  // `COHORTE_MOCK_SLUG=2026-10` hace pasar al simulador por la C2, para ver lo
+  // que solo tiene esa cohorte (el bono).
+  const slug = entorno.COHORTE_MOCK_SLUG || `simulada-${pedido}`
+
   // Sesiones solo si se piden aparte: en las capturas de aprobación no puede
-  // aparecer un horario que Constanza no dio.
-  const sesiones =
-    entorno.COHORTE_MOCK_SESIONES === "1"
-      ? [1, 2, 3].map((n) => ({
-          fecha: new Date(ahora + (12 + 30 * (n - 1)) * DIA).toISOString(),
-          tema: `Sesión simulada ${n}`,
-        }))
-      : null
+  // aparecer un horario que Constanza no dio. Con inicio fijo caen donde las
+  // propone el diseño de la C2: mediados de noviembre, 10 de diciembre y
+  // mediados de enero.
+  let sesiones: Sesion[] | null = null
+  if (entorno.COHORTE_MOCK_SESIONES === "1") {
+    sesiones =
+      inicioFijo !== null
+        ? [10, 35, 70].map((dias, i) => ({
+            fecha: `${new Date(inicioFijo + dias * DIA).toISOString().slice(0, 10)}T19:00:00-03:00`,
+            tema: `Sesión simulada ${i + 1}`,
+          }))
+        : [1, 2, 3].map((n) => ({
+            fecha: new Date(ahora + (12 + 30 * (n - 1)) * DIA).toISOString(),
+            tema: `Sesión simulada ${n}`,
+          }))
+  }
 
   // Fechas con la forma de las reales: la venta cierra a las 23:59:59 de Chile,
-  // el programa arranca a las 00:00 del día siguiente y `fecha_fin` es el
+  // el programa arranca a las 00:00 del día de inicio y `fecha_fin` es el
   // corte de 92 días después (como la cohorte 1: 21 sep al 21 dic).
   const cohorte = (diasHastaCierre: number) => {
+    if (inicioFijo !== null) {
+      return {
+        slug,
+        nombre: "Prepara tu Verano",
+        precio: 59990,
+        venta_cierra: instanteChile(inicioFijo - 6 * DIA, "23:59:59"),
+        fecha_inicio: instanteChile(inicioFijo, "00:00:00"),
+        fecha_fin: instanteChile(inicioFijo + 92 * DIA, "00:00:00"),
+        sesiones,
+      }
+    }
     const cierre = instanteChile(ahora + diasHastaCierre * DIA, "23:59:59")
     const inicio = instanteChile(ahora + (diasHastaCierre + 1) * DIA, "00:00:00")
     const fin = instanteChile(ahora + (diasHastaCierre + 93) * DIA, "00:00:00")
     return {
-      slug: `simulada-${pedido}`,
+      slug,
       nombre: "Prepara tu Verano",
       precio: 59990,
       venta_cierra: cierre,
@@ -314,26 +348,6 @@ export function horaDe(iso: string): string {
 }
 
 /**
- * La semana (lunes a domingo) en que cae un instante, en el calendario
- * chileno. La usa el teléfono ilustrativo del hero para que su tira de días
- * sea la semana en que arranca el grupo y no una semana escrita a mano.
- */
-export function semanaDe(iso: string): { inicial: string; dia: number; esElDia: boolean }[] {
-  const civil = fechaCivilChile(iso)
-  if (!civil) return []
-  const iniciales = ["L", "M", "M", "J", "V", "S", "D"]
-  // getUTCDay: domingo 0. Se corre para que el lunes sea 0.
-  const indice = (civil.getUTCDay() + 6) % 7
-  const lunes = new Date(civil)
-  lunes.setUTCDate(civil.getUTCDate() - indice)
-  return iniciales.map((inicial, i) => {
-    const dia = new Date(lunes)
-    dia.setUTCDate(lunes.getUTCDate() + i)
-    return { inicial, dia: dia.getUTCDate(), esElDia: i === indice }
-  })
-}
-
-/**
  * El último día en que todavía se alcanza a entrar. `venta_cierra` es el
  * instante del corte (23:59:59 del domingo), así que el día que hay que
  * mostrarle a la gente es el de ese mismo instante, no el siguiente.
@@ -387,8 +401,90 @@ export function sesionesLegibles(
   return legibles.length > 0 ? legibles : null
 }
 
+// ── Controles del programa ───────────────────────────────────────────────
+// `cohorte-actual` no devuelve los controles: se calculan acá con la MISMA
+// regla de la app (`app/src/lib/programa/control-programa.ts`,
+// `fechasControles`): cada 15 días exactos desde el inicio de la cohorte, seis
+// en total, el sexto de cierre. Si la app cambia la regla, esta también.
+
+export const DIAS_ENTRE_CONTROLES = 15
+export const CONTROLES_PROGRAMA = 6
+
+/** Las seis fechas de control, como fechas civiles de Chile "YYYY-MM-DD". */
+export function fechasControles(fechaInicio: string): string[] {
+  const inicio = fechaCivilChile(fechaInicio)
+  if (!inicio) return []
+  return Array.from({ length: CONTROLES_PROGRAMA }, (_, i) => {
+    const dia = new Date(inicio)
+    dia.setUTCDate(inicio.getUTCDate() + DIAS_ENTRE_CONTROLES * (i + 1))
+    return dia.toISOString().slice(0, 10)
+  })
+}
+
+export interface ControlesFiestas {
+  antesDeNavidad: string
+  despuesDeAnoNuevo: string
+}
+
+/**
+ * El control justo antes de Navidad (del 15 al 24 de diciembre) y el justo
+ * después de Año Nuevo (del 1 al 10 de enero). Null si el grupo no tiene los
+ * dos: ahí la página no habla de las fiestas (diseño C2 §3.2).
+ */
+export function controlesDeFiestas(fechas: string[]): ControlesFiestas | null {
+  const entre = (fecha: string, desde: string, hasta: string) =>
+    fecha.slice(5) >= desde && fecha.slice(5) <= hasta
+  const antes = [...fechas].reverse().find((f) => entre(f, "12-15", "12-24"))
+  if (!antes) return null
+  const despues = fechas.find((f) => entre(f, "01-01", "01-10") && f > antes)
+  return despues ? { antesDeNavidad: antes, despuesDeAnoNuevo: despues } : null
+}
+
+/** "20 de diciembre" (o "20 dic") de una fecha civil "YYYY-MM-DD". Vacío si no se puede leer. */
+export function diaYMesCivil(fecha: string, mes: "long" | "short" = "long"): string {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(fecha)) return ""
+  try {
+    return new Intl.DateTimeFormat("es-CL", { day: "numeric", month: mes, timeZone: "UTC" }).format(
+      new Date(`${fecha}T00:00:00Z`)
+    )
+  } catch {
+    return ""
+  }
+}
+
+/** La sesión en vivo que cae en diciembre (la de las fiestas), si la fila la trae. */
+export function sesionEnDiciembre(
+  sesiones: Sesion[] | null | undefined
+): { dia: string; hora: string | null; tema: string } | null {
+  if (!Array.isArray(sesiones)) return null
+  for (const s of sesiones) {
+    if (!s || typeof s.fecha !== "string") continue
+    const mes = /^\d{4}-\d{2}-\d{2}$/.test(s.fecha)
+      ? Number(s.fecha.slice(5, 7))
+      : (fechaCivilChile(s.fecha)?.getUTCMonth() ?? -1) + 1
+    if (mes !== 12) continue
+    const legible = fechaDeSesion(s.fecha)
+    if (legible) return { ...legible, tema: typeof s.tema === "string" ? s.tema : "" }
+  }
+  return null
+}
+
 export function formatCLP(valor: number): string {
   return `$${valor.toLocaleString("es-CL")}`
+}
+
+/**
+ * "Son menos de $20.000 al mes por 3 meses de acompañamiento." El precio
+ * dividido en tres, redondeado hacia arriba al mil; si la división da justo un
+ * mil, se dice el monto exacto. No habla de cuotas ni de interés: el interés,
+ * si lo hay, lo pone el banco de quien paga (auditoría §3.8).
+ */
+export function textoPorMes(precio: number): string {
+  if (!Number.isFinite(precio) || precio <= 0) return ""
+  const porMes = precio / 3
+  const tope = Math.ceil(porMes / 1000) * 1000
+  const monto = tope === porMes ? formatCLP(porMes) : `menos de ${formatCLP(tope)}`
+  return `Son ${monto} al mes por 3 meses de acompañamiento.`
 }
 
 /**

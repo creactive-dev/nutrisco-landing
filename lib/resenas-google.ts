@@ -37,6 +37,11 @@ export interface ResenaGoogle {
    * testimonios, para que la misma frase no aparezca dos veces en la página.
    */
   corta?: boolean
+  /**
+   * Va en el bloque "Esto es para ti si…" (C2) y no en la grilla, para que la
+   * misma frase no aparezca dos veces.
+   */
+  paraTi?: boolean
 }
 
 export const RESENAS_GOOGLE = {
@@ -48,12 +53,14 @@ export const RESENAS_GOOGLE = {
       nombre: "Milita D.",
       cita: "Gracias a su acompañamiento logré tener una buena relación con todo tipo de alimentos, sin culpas ni restricciones extremas.",
       foto: "/v2/resenas/r-milita-duarte-morales.webp",
+      paraTi: true,
     },
     {
       id: "macarena",
       nombre: "Macarena C.",
       cita: "…se adapta a tus requerimientos cuando comienzas con la dieta. No te da pauta estrictas y de verdad te ofrece alternativas adecuadas a tu realidad",
       foto: "/v2/resenas/r-macarena-cifmor.webp",
+      paraTi: true,
     },
     {
       id: "evelyn",

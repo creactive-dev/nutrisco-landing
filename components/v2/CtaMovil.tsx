@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { PORTADA } from "@/lib/constants-programa"
 import { diaMesCorto, formatCLP } from "@/lib/programa"
 import { useVenta } from "@/components/v2/VentaProvider"
 import { BotonPrograma } from "@/components/v2/BotonPrograma"
@@ -52,16 +53,16 @@ export function CtaMovil() {
   let secundario: string
   if (estado === "abierta" && cohorte) {
     principal = formatCLP(cohorte.precio)
-    secundario = "Pago único · 3 meses"
+    secundario = `${PORTADA.cuotas.corto} · ${PORTADA.cuotas.sinMensualidad}`
   } else if (estado === "proxima" && venta.estado === "proxima") {
     principal = `Abren el ${diaMesCorto(venta.cohorte.venta_abre)}`
-    secundario = `${formatCLP(venta.cohorte.precio)} · pago único`
+    secundario = `${formatCLP(venta.cohorte.precio)} ${PORTADA.cuotas.corto}`
   } else if (estado === "cerro") {
     principal = "Cerraron"
     secundario = "Te avisamos del próximo grupo"
   } else {
     principal = "Prepara tu Verano"
-    secundario = "3 meses · un solo pago"
+    secundario = "3 meses · hasta 3 cuotas"
   }
 
   return (

@@ -33,7 +33,7 @@ export function Acompanamiento({ venta }: { venta: EstadoVenta }) {
   let numero = 0
 
   return (
-    <section className="section wrap journey">
+    <section className="section wrap journey" id="como-funciona">
       <Revelar className="section-heading">
         <div>
           <p className="eyebrow">{PORTADA.recorrido.eyebrow}</p>

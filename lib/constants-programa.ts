@@ -11,13 +11,20 @@
 // ============================================================
 
 import { SITE_CONFIG } from "@/lib/constants"
+import { RESENAS_GOOGLE } from "@/lib/resenas-google"
 import {
   diaSemanaYFecha,
   diaYMes,
+  controlesDeFiestas,
+  diaYMesCivil,
+  fechasControles,
   formatCLP,
+  mesDe,
+  sesionEnDiciembre,
   sesionesLegibles,
   ultimoDiaDeVenta,
   ultimoDiaDelPrograma,
+  type ControlesFiestas,
   type EstadoVenta,
 } from "@/lib/programa"
 
@@ -31,7 +38,7 @@ export const PROGRAMA = {
       "Un programa de tres meses con tu pauta antiinflamatoria hecha por Constanza y una pauta nueva cada quince días. Un grupo que empieza y termina junto, con fecha.",
     ctaAbierta: "Quiero entrar al programa",
     ctaProxima: "Avísame cuando abran las inscripciones",
-    microcopy: "Un solo pago · sin mensualidad · boleta exenta para tu isapre",
+    microcopy: "Hasta 3 cuotas · sin mensualidad · boleta exenta para tu isapre",
   },
 
   // §02 de la propuesta, textual.
@@ -85,8 +92,8 @@ export const PROGRAMA = {
   },
 
   precio: {
-    eyebrow: "Un solo pago",
-    labelPrecio: "Pago único, exento de IVA",
+    eyebrow: "Sin mensualidad",
+    labelPrecio: "Exento de IVA, al contado o hasta en 3 cuotas",
     permanencia: "Sin mensualidad que cancelar después",
     cta: "Pagar e inscribirme",
     ctaCargando: "Preparando tu pago...",
@@ -122,7 +129,7 @@ export const PROGRAMA = {
     },
     {
       q: "¿Después me van a cobrar todos los meses?",
-      a: "No. Es un solo pago por los tres meses completos. No hay mensualidad que cancelar ni permanencia.",
+      a: "No. Pagas una vez por los tres meses completos, al contado o hasta en 3 cuotas con tarjeta de crédito. No hay mensualidad que cancelar ni permanencia.",
     },
     {
       q: "¿Me sirve para el reembolso de la isapre?",
@@ -167,6 +174,62 @@ export function datosTransferenciaEnLinea(): string {
   return `${t.titular} · ${t.banco} · ${t.tipoCuenta} ${t.numero} · RUT ${t.rut}`
 }
 
+/** Diseño C2 §2: el mensaje central, con las fechas de la cohorte. */
+export function textoFiestas(f: ControlesFiestas): string {
+  return `El grupo pasa las fiestas con Constanza: un control el ${diaYMesCivil(f.antesDeNavidad)}, justo antes de Navidad, y otro el ${diaYMesCivil(f.despuesDeAnoNuevo)}, justo después de Año Nuevo. Así no llegas a enero a empezar de cero.`
+}
+
+/**
+ * Bono del grupo de noviembre (diseño C2 §3.1): se vende con la portada y se
+ * entrega el día que parte el grupo, con la primera pauta, a todas las que se
+ * inscriben hasta el cierre. Solo para las cohortes de la lista: en la de
+ * diciembre nadie decidió nada todavía.
+ */
+export const BONO_FIESTAS = {
+  cohortes: ["2026-10"] as readonly string[],
+  nombre: "Recetario de fiestas y verano",
+  /** Portada para vender. Null hasta que exista: sin ella va solo el texto. */
+  portada: null as FotoPortada | null,
+}
+
+export function bonoDeLaCohorte(
+  cohorte: { slug: string; fecha_inicio: string } | null
+): { titulo: string; detalle: string; portada: FotoPortada | null } | null {
+  if (!cohorte || !BONO_FIESTAS.cohortes.includes(cohorte.slug)) return null
+  return {
+    titulo: `Bono del grupo de ${mesDe(cohorte.fecha_inicio)}: ${BONO_FIESTAS.nombre.toLowerCase()}`,
+    detalle: `Recetas para las cenas de fin de año y para el verano. Te llega el ${diaYMes(cohorte.fecha_inicio)}, con tu primera pauta.`,
+    portada: BONO_FIESTAS.portada,
+  }
+}
+
+/**
+ * Garantía (diseño C2 §3.3): se le propone a Constanza y no es condición.
+ * APAGADA hasta que ella diga que sí (plan maestro, D3). Prenderla es cambiar
+ * `activa` a true en un PR chico, con el texto que ella confirme.
+ * Ojo operativo: la devolución es a mano en Mercado Pago y el webhook
+ * `refunded` no corta el acceso a la app (bitácora del 16-sep).
+ * `GARANTIA_MOCK=1` la muestra en local para revisarla; en producción nunca.
+ */
+export const GARANTIA = {
+  activa: false,
+  titulo: "Si no es para ti, te devuelvo tu dinero",
+}
+
+/** Solo se llama desde el servidor (`page.tsx`): en el navegador `process.env.VERCEL_ENV` no existe. */
+export function garantiaActiva(
+  vercelEnv: string | undefined = process.env.VERCEL_ENV,
+  mock: string | undefined = process.env.GARANTIA_MOCK
+): boolean {
+  return GARANTIA.activa || (vercelEnv !== "production" && mock === "1")
+}
+
+// PENDIENTE (Constanza, mar 13): el texto exacto, si dice que sí.
+export function textoGarantia(primerControl: string | null): string {
+  const cuando = primerControl ? `, el ${diaYMesCivil(primerControl)},` : ""
+  return `Si hasta tu primer control${cuando} sientes que no es para ti, te devuelvo el dinero. Me escribes a ${SITE_CONFIG.email}.`
+}
+
 // ============================================================
 // PORTADA v2 · "Este verano, empieza por ti"
 //
@@ -208,17 +271,50 @@ export interface FotoPortada {
   posicion?: string
 }
 
+/**
+ * La foto de Constanza en su consulta, con sus títulos en la pared: la eligió
+ * ella el 16-sep para el paso "En vivo y en grupo" del recorrido, y es la que
+ * va en su sección cuando no hay video. Una sola constante para que las dos
+ * no se separen.
+ */
+const FOTO_CONSULTA = {
+  src: "/v2/fotos/constanza-consulta.jpg",
+  alt: "Constanza Jiménez Paschold en su consulta, con sus títulos en la pared",
+  width: 960,
+  height: 1194,
+  // Vertical en un recuadro horizontal: 12% deja la cabeza completa
+  // a 390, 800 y 1440 (verificado con captura, 16-sep).
+  posicion: "center 12%",
+} satisfies FotoPortada
+
 export const PORTADA = {
   hero: {
-    eyebrow: "PREPARA TU VERANO · PROGRAMA DE 3 MESES",
+    // PENDIENTE (Constanza, mar 13): el titular lo aprueba ella (diseño §11.3).
+    // Si no responde, queda este (plan maestro, D3). Borrador de la auditoría
+    // §3.1. Variante B, solo si ella acepta nombrar el peso en la landing (en
+    // anuncios nunca): lineas ["Baja de peso", "sin pasar hambre,", "con una
+    // nutricionista que"], em "te controla cada 15 días."
+    eyebrow: "PROGRAMA DE 3 MESES CON CONSTANZA JIMÉNEZ, NUTRICIONISTA",
+    h1: { lineas: ["Llega al verano", "sin dietas de hambre,", "y sin hacerlo"], em: "sola." },
+    // PENDIENTE (Constanza, mar 13): la mención de los diagnósticos.
+    // PENDIENTE (Constanza, mar 13): el programa no incluye una consulta
+    // individual cada 15 días; ella confirma cómo se dice el control.
     descripcion:
-      "Un programa de 3 meses para dejar de improvisar qué comer: tu pauta hecha para ti y una nutricionista que te acompaña.",
+      "Si ya probaste dietas, bajaste y te estancaste, o tienes resistencia a la insulina o hipotiroidismo y sientes que te cuesta el doble: Constanza te arma tu pauta y, después de cada control, una nueva, durante 3 meses.",
     persona: "Con Constanza Jiménez Paschold",
     rol: "Nutricionista clínica · creadora de Nutrico",
-    notaArriba: { titulo: "Tu pauta, hecha para ti", detalle: "La arma Constanza" },
-    notaAbajoTitulo: "Vamos juntas",
-    notaAbajoSinFechas: "Tres meses, en grupo",
-    leyendaTelefono: "Nutrico, la app del programa",
+    // PENDIENTE (Constanza, mar 13): misma frase del control que la bajada.
+    notaFoto: { titulo: "Ella arma tu pauta", detalle: "y después de cada control, una nueva" },
+    leyendaFoto: "Constanza Jiménez Paschold, en su consulta",
+    // Constanza en vez del teléfono (diseño §9.2): la clienta valora el control
+    // humano y Constanza prefiere "programa" a "app".
+    foto: {
+      src: "/brand/constanza.jpg",
+      alt: "Constanza Jiménez Paschold, nutricionista, en su consulta",
+      width: 900,
+      height: 1200,
+      posicion: "center 25%",
+    } satisfies FotoPortada,
   },
 
   cta: {
@@ -231,26 +327,66 @@ export const PORTADA = {
     cierre: "Este verano, empiezo por mí",
   },
 
+  // Cuotas a la vista en todo el recorrido (diseño C2 §9.1): con cuotas
+  // pagaron 2 de 2; antes, 6 reservas no pagaron. Nunca "sin interés": si hay
+  // interés, lo cobra el banco de quien paga.
+  cuotas: {
+    largo: "o hasta 3 cuotas con tarjeta de crédito",
+    corto: "o hasta 3 cuotas",
+    sinMensualidad: "sin mensualidad",
+  },
+
+  // Auditoría §3.2: "01 decisión" no era un dato.
   franja: [
-    { numero: "03", texto: "meses de programa, en grupo" },
+    { numero: "15", texto: "días entre un control y el siguiente" },
     { numero: "06", texto: "pautas hechas para ti" },
-    { numero: "01", texto: "decisión: empezar por ti" },
+    { numero: RESENAS_GOOGLE.promedio, texto: `en Google · ${RESENAS_GOOGLE.total} reseñas` },
   ],
 
-  problema: {
-    eyebrow: "¿TE SUENA FAMILIAR?",
-    grande: "Guardas recetas. Empiezas el lunes. El jueves vuelves a improvisar.",
-    cuerpo: "En Prepara tu Verano sabes qué comer, qué comprar y cómo seguir, durante tres meses.",
+  // Diseño C2 §9.4 y auditoría §3.3. Reemplaza "Guardas recetas. Empiezas el
+  // lunes...", que escribimos nosotros y no era el dolor real. Las cinco líneas
+  // salen del screening de las 10 inscritas de la C1 y de sus reseñas.
+  // "No es una dieta de 21 días" (auditoría) no va: es la antítesis prohibida y
+  // desmerece el Reto de 21 días de la propia Constanza.
+  // PENDIENTE (Constanza, mar 13): la línea de los diagnósticos (primera de la
+  // lista), "bajaste rápido, te estancaste" (segunda) y "sin pasar hambre" (en
+  // `distinto`). Si no responde antes del mié 14, se publica así.
+  paraTi: {
+    eyebrow: "ESTO ES PARA TI SI…",
+    h2: { lineas: ["Ya probaste de todo", "y tu cuerpo"], em: "no responde." },
+    lista: [
+      "Tienes resistencia a la insulina, hipotiroidismo o el colesterol alto, y sientes que a ti te cuesta el doble.",
+      "Ya hiciste dietas: bajaste rápido, te estancaste y volviste atrás.",
+      "Te hinchas, y en la noche te gana lo dulce.",
+      "No tienes tiempo para entrenar todos los días.",
+      "Quieres que alguien te revise cada 15 días y no te deje sola.",
+    ],
+    distintoTitulo: "Por qué esta vez es distinto",
+    distinto:
+      "Tres meses y 6 pautas. Cada 15 días haces tu control y Constanza te arma la pauta siguiente según cómo vas. El tercer mes es para mantener lo que lograste, para que no vuelvas atrás. Comida chilena y sin pasar hambre.",
     enlace: "Así funciona el programa por dentro",
-    nota: "¿Y hoy qué comemos?",
-    // 15-sep (reunión con Constanza): fotos "más reales". Mujer de 30 a 45 en su
-    // cocina, sin pose de catálogo (crédito en public/v2/fotos/CREDITOS.md).
-    foto: {
-      src: "/v2/fotos/cocina-mirando-celular.jpg",
-      alt: "Una mujer mira su celular con cara de duda frente a la cocina de su casa",
-      width: 1400,
-      height: 1400,
-    } satisfies FotoPortada,
+  },
+
+  // Diseño C2 §9.5: el mensaje central. Las fechas salen de la cohorte, por eso
+  // el titular no nombra noviembre: en el grupo de diciembre sería falso.
+  fiestas: {
+    eyebrow: "¿Y LAS FIESTAS?",
+    h2: { lineas: ["Diciembre y enero,"], em: "acompañada." },
+    etiquetaControl: "Control",
+    etiquetaCierre: "cierre",
+    antesDeNavidad: "antes de Navidad",
+    despuesDeAnoNuevo: "después de Año Nuevo",
+  },
+
+  // Diseño C2 §9.11: testimonios del grupo de octubre, solo con permiso escrito
+  // y sin peso (ver `lib/testimonios-grupo.ts`). La bajada no lleva fecha: se
+  // llena desde el jue 22-oct, pero la fecha de partida no se escribe a mano.
+  grupoOctubre: {
+    eyebrow: "EL GRUPO DE OCTUBRE, EN SUS PALABRAS",
+    h2: { lineas: ["Ya partieron."], em: "Esto cuentan." },
+    bajada: "Inscritas del grupo de octubre, después de su primer control.",
+    rotulo: "Grupo de octubre",
+    nota: "Publicados con su permiso. Los resultados de cada persona pueden variar.",
   },
 
   app: {
@@ -259,26 +395,16 @@ export const PORTADA = {
       "Durante los tres meses, tu pauta, tus recetas, tu lista de compras y tus controles van contigo en Nutrico, la app del programa.",
     etiquetaDemo: "ASÍ SE VE EL PROGRAMA EN NUTRICO",
     etiquetaCaptura: "Pantallas de la app con una paciente de ejemplo",
-    // Las seis pantallas salen de los componentes reales de la app con datos de
+    // Las tres pantallas salen de los componentes reales de la app con datos de
     // ejemplo (tarea B3 del 15-sep, `landing-aprobacion/mockups-2026-09-15/`).
     // Cada texto describe solo lo que esa pantalla hace hoy: la app no tiene
-    // gráfico de síntomas (los síntomas se registran en el control) y el
-    // gráfico de energía muestra las dos últimas semanas.
+    // gráfico de síntomas (los síntomas se registran en el control).
     // El recetario es la captura anterior con fotos reales de las recetas, con
     // la cabecera de la paciente de ejemplo: la nueva mostraba las recetas sin
     // foto porque las fotos viven en la base.
+    // C2 (auditoría §3.4): tres tarjetas en vez de seis. Para esta clienta la
+    // app es el cómo, no el porqué. El `id: "checkin"` es interno y se queda.
     pantallas: [
-      {
-        id: "inicio",
-        titulo: "Tu día, de un vistazo",
-        detalle: "Tu racha, cómo va tu energía y un mensaje de Constanza. Cuando te toca el control, te avisa.",
-        imagen: {
-          src: "/mockups/app-inicio.webp",
-          alt: "Inicio de Nutrico: racha de 12 días, energía de la semana, un mensaje de Constanza y el aviso del control",
-          width: 640,
-          height: 1306,
-        },
-      },
       {
         id: "pauta",
         titulo: "Tu pauta, clara",
@@ -292,24 +418,14 @@ export const PORTADA = {
       },
       {
         id: "recetas",
-        titulo: "Recetas para tu pauta",
-        detalle: "Un recetario chileno filtrado para tu pauta. Buscas por ingrediente o por tipo de comida.",
+        titulo: "Recetas y lista de compras",
+        detalle:
+          "Un recetario chileno filtrado para tu pauta. La lista de compras se arma con las recetas que eliges para tu semana.",
         imagen: {
           src: "/mockups/app-recetas.webp",
           alt: "Recetario de Nutrico con buscador, filtros por tipo de comida y recetas con foto",
           width: 640,
           height: 1318,
-        },
-      },
-      {
-        id: "lista",
-        titulo: "Tu lista de compras",
-        detalle: "Se arma con las recetas que eliges para tu semana, ordenada por sección. Vas marcando lo que compraste.",
-        imagen: {
-          src: "/mockups/app-lista.webp",
-          alt: "Lista de compras de Nutrico: frutas y verduras con la receta de origen de cada ingrediente",
-          width: 640,
-          height: 1306,
         },
       },
       {
@@ -320,17 +436,6 @@ export const PORTADA = {
         imagen: {
           src: "/mockups/app-checkin.webp",
           alt: "Control quincenal de Nutrico, paso 1 de 6: hinchazón, fatiga y dolor digestivo",
-          width: 640,
-          height: 1306,
-        },
-      },
-      {
-        id: "progreso",
-        titulo: "Mira cómo vas",
-        detalle: "Tu energía de las últimas dos semanas, tu adherencia y tus días acumulados.",
-        imagen: {
-          src: "/mockups/app-progreso.webp",
-          alt: "Progreso en Nutrico: tendencia de energía de dos semanas, días acumulados y adherencia de 80%",
           width: 640,
           height: 1306,
         },
@@ -392,17 +497,7 @@ export const PORTADA = {
       },
       {
         momento: "DURANTE EL PROGRAMA",
-        foto: {
-          // 16-sep: la eligió Constanza para este paso (en su consulta, con
-          // sus títulos atrás). Reemplaza a la del computador.
-          src: "/v2/fotos/constanza-consulta.jpg",
-          alt: "Constanza Jiménez Paschold en su consulta, con sus títulos en la pared",
-          width: 960,
-          height: 1194,
-          // Vertical en un recuadro horizontal: 12% deja la cabeza completa
-          // a 390, 800 y 1440 (verificado con captura, 16-sep).
-          posicion: "center 12%",
-        } satisfies FotoPortada,
+        foto: FOTO_CONSULTA,
         pasos: [
           {
             titulo: "En vivo y en grupo",
@@ -425,7 +520,15 @@ export const PORTADA = {
 
   constanza: {
     eyebrow: "LA PERSONA DETRÁS DE TU PAUTA",
-    bajada: "Ella arma tu pauta y cada pauta nueva.",
+    // Auditoría §3.6 proponía "Ella arma tu pauta, y cada 15 días la ajusta":
+    // "ajuste" referido a la pauta está prohibido.
+    h2: { lineas: ["Ella arma tu pauta,", "y cada 15 días"], em: "te arma una nueva." },
+    // PENDIENTE (Constanza, mar 13): misma frase del control que la bajada del hero.
+    bajada: "Antes de que parta el grupo te arma tu pauta, y después de cada control, una nueva.",
+    notaVideo: "Actívale el sonido para escucharla.",
+    // La foto de la consulta, que aparece si no hay video. La de `brand/` va
+    // ahora en la primera pantalla.
+    foto: FOTO_CONSULTA,
     // La revisión del 14-sep notó que se hablaba de Constanza sin contar su
     // trayectoria. Los números salen de la landing del Reto publicada
     // (origin/main:lib/constants.ts, TRUST_BAR y PRODUCT_DEMO.credentials).
@@ -449,7 +552,6 @@ export const PORTADA = {
     // Confirmado por Constanza en la reunión del 15-sep.
     cita: ["“Si quieres venir conmigo", "a este viaje, te espero.”"],
     firma: "CONSTANZA JIMÉNEZ PASCHOLD",
-    fotoAlt: "Constanza Jiménez Paschold en su consulta",
   },
 
   testimonios: {
@@ -479,8 +581,7 @@ export const PORTADA = {
     cierranEn: "Las inscripciones cierran en",
     tarjetaEyebrow: "TU PROGRAMA COMPLETO",
     tarjetaPildora: "3 meses",
-    unSoloPago: "Un solo pago. Sin cobros mensuales.",
-    pagoCon: "Pago único con Mercado Pago",
+    formaDePago: "Sin mensualidad: al contado o hasta en 3 cuotas con tarjeta de crédito.",
     // Zona de precio (15-sep): prueba social y confianza junto al botón. Solo
     // datos que existen: nada de cupos, garantía ni descuentos.
     pagoSeguro: "Pago seguro con Mercado Pago",
@@ -518,8 +619,8 @@ export const PORTADA = {
     telefonoAyuda: "Para que Constanza te agregue al grupo del programa. No te vamos a llamar.",
     errorTelefono: "Revisa tu número: un celular de 9 dígitos, como 9 1234 5678.",
     rut: "RUT para tu boleta (opcional)",
-    rutAyuda:
-      "Lo necesitas para el reembolso de tu isapre. Si no lo tienes a mano, te lo pedimos después.",
+    rutAyuda: "Si no lo tienes a mano, te lo pedimos después.",
+    rutPlegado: "¿Necesitas boleta para tu isapre? Agrega tu RUT",
     errorNombre: "Escribe tu nombre para la inscripción.",
     errorEmail: "Revisa tu correo, parece que falta algo.",
     errorRut: "Ese RUT no calza. Revísalo o déjalo en blanco y te lo pedimos después.",
@@ -593,20 +694,57 @@ export const VIDEOS_PORTADA: readonly string[] = ["v1", "v2", "v3"]
  * Las dudas de la portada. Son función porque varias respuestas llevan la
  * fecha o el precio de la cohorte: en la v2 estaban escritos ("después del 20
  * de septiembre", "$59.990 del 21 de septiembre al 21 de diciembre") y se
- * habrían podrido con el primer UPDATE de la fila.
+ * habrían podrido con el primer UPDATE de la fila. Las tres primeras son las objeciones de esta
+ * clienta (auditoría §3.9): diagnóstico, dietas que no resultaron y fiestas.
+ * La de las fiestas solo existe si el grupo las pasa (P3 del plan de la C2).
+ * La garantía, si está activa, va justo después de "¿Me cobrarán…?".
  */
-export function preguntasPortada(venta: EstadoVenta): { q: string; a: string }[] {
+export function preguntasPortada(
+  venta: EstadoVenta,
+  opciones: { garantia?: boolean } = {}
+): { q: string; a: string }[] {
   const cohorte = venta.estado === "abierta" || venta.estado === "proxima" ? venta.cohorte : null
   const inicio = cohorte ? diaSemanaYFecha(cohorte.fecha_inicio) : ""
   const rango = cohorte
     ? `del ${diaYMes(cohorte.fecha_inicio)} al ${ultimoDiaDelPrograma(cohorte.fecha_fin, { mes: "long", anio: true })}`
     : ""
   const sesiones = cohorte ? sesionesLegibles(cohorte.sesiones) : null
+  const controles = cohorte ? fechasControles(cohorte.fecha_inicio) : []
+  const fiestas = controlesDeFiestas(controles)
+  const sesionDic = cohorte ? sesionEnDiciembre(cohorte.sesiones) : null
+  const bono = bonoDeLaCohorte(cohorte)
 
+  // PENDIENTE (Constanza, mar 13): diagnósticos, hambre y ejercicio.
   const preguntas: { q: string; a: string }[] = [
+    {
+      q: "¿Me sirve si tengo resistencia a la insulina o hipotiroidismo?",
+      a: "Sí. El cuestionario del inicio te pregunta tus diagnósticos y Constanza arma tu pauta considerándolos. El programa no reemplaza a tu médico: si estás en tratamiento, lo sigues igual.",
+    },
+    {
+      q: "Ya probé dietas y siempre me estanco. ¿Qué cambia acá?",
+      a: "Que tu pauta no se queda igual los tres meses. Cada 15 días haces tu control y Constanza te arma una pauta nueva según cómo vas: son 6 en total. Y el tercer mes es para mantener lo que lograste, para que no vuelvas atrás.",
+    },
+  ]
+  if (fiestas) {
+    preguntas.push({
+      q: "¿Y las fiestas de fin de año?",
+      a: `El grupo las pasa acompañado: tienes control el ${diaYMesCivil(fiestas.antesDeNavidad)}, justo antes de Navidad, y otro el ${diaYMesCivil(fiestas.despuesDeAnoNuevo)}, justo después de Año Nuevo.${
+        sesionDic ? ` Y el ${sesionDic.dia} hay sesión en vivo con Constanza.` : ""
+      }${bono ? ` Además te llevas el ${BONO_FIESTAS.nombre.toLowerCase()} de regalo.` : ""} Así no llegas a enero a empezar de cero.`,
+    })
+  }
+  preguntas.push(
     {
       q: "¿Tengo que saber comer “perfecto”?",
       a: "No necesitas llegar con todo resuelto. Completas el cuestionario inicial y Constanza arma tu pauta a partir de tu rutina, tus preferencias y tus objetivos. Los controles cada quince días ayudan a revisar cómo vas y a armar tu pauta siguiente.",
+    },
+    {
+      q: "¿Voy a pasar hambre?",
+      a: "No es la idea. Constanza arma tu pauta con tus gustos y tu rutina, con comida chilena y porciones que te dejen satisfecha. Si algo no te acomoda, lo cuentas en tu control y tu pauta nueva lo considera.",
+    },
+    {
+      q: "¿Tengo que hacer ejercicio?",
+      a: "No es requisito. Tu pauta se arma con la actividad que tienes hoy, aunque sea poca. Si quieres sumar movimiento, lo cuentas en tus controles y Constanza lo considera.",
     },
     {
       q: "¿Qué pasa después de inscribirme?",
@@ -617,9 +755,14 @@ export function preguntasPortada(venta: EstadoVenta): { q: string; a: string }[]
     {
       q: "¿Me cobrarán de nuevo el próximo mes?",
       a: cohorte
-        ? `No. Son ${formatCLP(cohorte.precio)} por los tres meses completos, ${rango}. No hay renovación automática ni una mensualidad que tengas que cancelar.`
-        : "No. Es un solo pago por los tres meses completos. No hay renovación automática ni una mensualidad que tengas que cancelar.",
-    },
+        ? `No. Son ${formatCLP(cohorte.precio)} por los tres meses completos, ${rango}, al contado o hasta en 3 cuotas con tarjeta de crédito. No hay renovación automática ni una mensualidad que tengas que cancelar.`
+        : "No. Pagas una vez por los tres meses completos, al contado o hasta en 3 cuotas con tarjeta de crédito. No hay renovación automática ni una mensualidad que tengas que cancelar.",
+    }
+  )
+  if (opciones.garantia) {
+    preguntas.push({ q: "¿Y si no es para mí?", a: textoGarantia(controles[0] ?? null) })
+  }
+  preguntas.push(
     {
       q: "¿Incluye una consulta individual?",
       a: "No. Incluye tu pauta personalizada, una pauta nueva cada quince días, la app, el grupo de WhatsApp y tres sesiones grupales en vivo con Constanza. La consulta individual es un servicio aparte.",
@@ -661,7 +804,7 @@ export function preguntasPortada(venta: EstadoVenta): { q: string; a: string }[]
     {
       q: "¿Cuánto tiempo me va a tomar?",
       a: PROGRAMA.faq[5].a,
-    },
-  ]
+    }
+  )
   return preguntas
 }

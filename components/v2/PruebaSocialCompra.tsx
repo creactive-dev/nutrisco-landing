@@ -12,8 +12,8 @@ import { AvatarResena } from "@/components/v2/AvatarResena"
  *   citas cortas de Google, las cifras de Constanza y qué pasa después de
  *   pagar, en tres pasos.
  *
- * Solo datos que existen. Sin cupos, sin garantía y sin descuentos: el
- * programa no tiene ninguno de los tres.
+ * Solo datos que existen. Sin cupos ni descuentos: el programa no tiene ninguno
+ * de los dos. La garantía, si Constanza dice que sí, va en la tarjeta del precio.
  */
 export function CalificacionGoogle() {
   const conFoto = RESENAS_GOOGLE.citas.filter((r) => r.foto).slice(0, 4)

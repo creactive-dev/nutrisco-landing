@@ -2257,7 +2257,7 @@ dialog .dialog-note {
 dialog form .button {
   margin-top: 4px;
 }
-dialog > p.aviso-tarjeta {
+dialog p.aviso-tarjeta {
   display: flex;
   gap: 10px;
   align-items: flex-start;
@@ -2556,7 +2556,7 @@ dialog .espera-form {
   .footer .footer-datos {
     font-size: 10px;
   }
-  dialog > p.aviso-tarjeta {
+  dialog p.aviso-tarjeta {
     font-size: 12px;
   }
 }
@@ -4087,5 +4087,542 @@ dialog .espera-form {
   .confirma {
     min-height: 0;
     padding-block: 40px 72px;
+  }
+}
+
+/* ------------------------------------------------------------------------
+ * C2 · CUOTAS A LA VISTA (diseño §9.1, oct-2026). En el botón fijo de
+ * celular, que es lo que más se ve de la página, la línea de las cuotas sube
+ * de 8 a 11 px.
+ * ------------------------------------------------------------------------ */
+.price-cuotas {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--sandia-cta);
+  margin-top: -4px;
+}
+/* Lo que sale al mes va aparte de la frase de las cuotas: que no se lea como
+   el monto de una cuota (diseño §9.1, sin interés implícito). */
+.price-por-mes {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 6px;
+}
+@media (max-width: 760px) {
+  .mobile-cta > div span {
+    font-size: 11px;
+    color: var(--muted-tinte);
+  }
+}
+
+/* ------------------------------------------------------------------------
+ * C2 · HERO (diseño §9.2, oct-2026): su situación, el calendario de las
+ * fiestas, cuotas junto al botón, 5,0 y Constanza en el arco donde estaba el
+ * teléfono. El titular es más largo que "Este verano, empieza por ti.", así
+ * que va más chico. La nota va abajo a la izquierda para no tapar la cara.
+ * ------------------------------------------------------------------------ */
+.hero-titulo {
+  font-size: clamp(46px, 4.6vw, 68px);
+  letter-spacing: -2.6px;
+  line-height: 1.03;
+}
+.hero-linea {
+  display: block;
+}
+.hero-c2 .hero-description {
+  max-width: 470px;
+}
+.hero-fiestas {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 18px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: var(--sandia-suave);
+  font-size: 15px;
+  line-height: 1.5;
+  max-width: 470px;
+}
+.hero-fiestas-sandia {
+  width: 30px;
+  height: auto;
+  flex-shrink: 0;
+}
+.hero-google {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 8px;
+  font-size: 15px;
+  color: var(--muted-tinte);
+}
+.hero-google b {
+  color: var(--ink);
+}
+.hero-foto-marco {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  overflow: hidden;
+}
+.hero-foto-marco img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.nota-foto {
+  left: -18px;
+  bottom: 64px;
+  transform: rotate(-3deg);
+}
+.hero-foto-leyenda {
+  color: #fff;
+  text-shadow: 0 1px 6px rgba(26, 26, 26, 0.6);
+}
+@media (max-width: 760px) {
+  .hero-titulo {
+    font-size: 44px;
+    letter-spacing: -1.8px;
+    line-height: 1.05;
+  }
+  .hero-fiestas,
+  .hero-google {
+    font-size: 14px;
+  }
+  /* Compacto: el 5,0 y las cuotas tienen que quedar sobre la barra fija. */
+  .hero-fiestas {
+    margin-top: 12px;
+    padding: 8px 12px;
+    line-height: 1.4;
+  }
+  .hero-c2 .hero-cta {
+    margin-top: 18px;
+  }
+  .hero-c2 .price-note {
+    margin-top: 8px;
+    line-height: 1.45;
+  }
+  .hero-google {
+    margin-top: 6px;
+  }
+  .hero-google {
+    justify-content: center;
+  }
+  .hero-foto {
+    height: 420px;
+  }
+  .nota-foto {
+    left: 8px;
+    bottom: 44px;
+    font-size: 14px;
+    padding: 8px 10px;
+  }
+}
+
+/* ------------------------------------------------------------------------
+ * C2 · CONSTANZA A CÁMARA (diseño §9.3). Su video reemplaza la foto de la
+ * sección cuando existe. `.h2-linea` corta los titulares por línea en
+ * escritorio y los deja correr en celular.
+ * ------------------------------------------------------------------------ */
+.h2-linea {
+  display: block;
+}
+.founder-video {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+/* El tope de alto va en el ancho del contenedor: el marco (9/16) y el video
+ * que lo llena bajan juntos. Topar solo el <video> deja una franja vacía. */
+.video-constanza {
+  width: min(100%, 360px, calc(80svh * 9 / 16));
+}
+.founder-video-nota {
+  font-size: 13px;
+  color: var(--muted-tinte);
+}
+@media (max-width: 760px) {
+  .h2-linea {
+    display: inline;
+  }
+  .video-constanza {
+    width: min(100%, calc(80svh * 9 / 16));
+  }
+}
+
+/* ------------------------------------------------------------------------
+ * C2 · PARA TI (diseño §9.4): reemplaza "¿Te suena familiar?".
+ * ------------------------------------------------------------------------ */
+.para-ti-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 70px;
+  align-items: start;
+}
+.para-ti-copy h2 {
+  font-size: clamp(36px, 3.8vw, 50px);
+  margin: 20px 0 28px;
+}
+.para-ti-lista {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 14px;
+}
+.para-ti-lista li {
+  position: relative;
+  padding-left: 30px;
+  font-size: 17px;
+  line-height: 1.55;
+}
+.para-ti-lista li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--cascara);
+  font-weight: 700;
+}
+.para-ti-distinto {
+  background: var(--celeste-suave);
+  border-radius: 14px;
+  padding: 32px;
+}
+.para-ti-distinto h3 {
+  font-size: 22px;
+  letter-spacing: -0.5px;
+  margin-bottom: 12px;
+}
+.para-ti-distinto > p {
+  font-size: 16px;
+  color: var(--muted-tinte);
+}
+.para-ti-citas {
+  list-style: none;
+  padding: 0;
+  margin: 22px 0 0;
+  display: grid;
+  gap: 16px;
+}
+.para-ti-citas blockquote {
+  margin: 0 0 8px;
+  font:
+    italic 18px/1.4 Georgia,
+    serif;
+}
+@media (max-width: 760px) {
+  .para-ti-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .para-ti-lista li {
+    font-size: 16px;
+  }
+  .para-ti-distinto {
+    padding: 24px 20px;
+  }
+}
+
+/* ------------------------------------------------------------------------
+ * C2 · FIESTAS (diseño §9.5): el mensaje central y el calendario de los seis
+ * controles, con los de las fiestas destacados. Bono y garantía en la tarjeta.
+ * ------------------------------------------------------------------------ */
+.fiestas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 70px;
+  align-items: center;
+}
+.fiestas-copy h2 {
+  margin: 20px 0 22px;
+}
+.fiestas-copy > p {
+  font-size: 17px;
+  color: var(--muted-tinte);
+  max-width: 48ch;
+}
+.fiestas-sesion {
+  margin-top: 14px;
+}
+.fiestas-bono {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin-top: 22px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: var(--sandia-suave);
+}
+.fiestas-bono img {
+  width: 72px;
+  height: auto;
+  border-radius: 6px;
+}
+.fiestas-bono p {
+  font-size: 15px;
+  line-height: 1.5;
+}
+.fiestas-bono b,
+.fiestas-bono span {
+  display: block;
+}
+.fiestas-bono span {
+  color: var(--muted-tinte);
+  font-size: 14px;
+}
+.fiestas-calendario ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.fiestas-calendario li {
+  display: grid;
+  gap: 4px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+}
+.fiestas-calendario li span {
+  font-size: 12px;
+  color: var(--muted-tinte);
+  letter-spacing: 0.4px;
+}
+.fiestas-calendario li b {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+}
+.fiestas-calendario li small {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--sandia-cta);
+}
+.fiestas-calendario li.es-fiesta {
+  border-color: var(--sandia);
+  background: var(--sandia-suave);
+}
+.garantia {
+  margin-top: 16px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: var(--celeste-suave);
+  font-size: 13px;
+  line-height: 1.6;
+}
+.garantia b {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+.included-list li.incluye-bono {
+  font-weight: 600;
+}
+@media (max-width: 760px) {
+  .fiestas {
+    grid-template-columns: 1fr;
+    gap: 26px;
+  }
+  .fiestas-copy > p {
+    font-size: 16px;
+  }
+  .fiestas-calendario ol {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .fiestas-calendario li b {
+    font-size: 17px;
+  }
+}
+
+/* ------------------------------------------------------------------------
+ * C2 · FORMULARIO DE PAGO (diseño §9.7): RUT plegado y un formulario más
+ * corto en celular, para que el botón de pagar se vea sin bajar. Se mide en
+ * 390×664 (iPhone con las barras de Safari) y 360×640 (Android chico o el
+ * navegador de Instagram), no solo en 390×844: ahí 90svh dejaba el botón
+ * hasta 100 px bajo el borde del diálogo.
+ * ------------------------------------------------------------------------ */
+.rut-plegado {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  /* 44 px de alto para el dedo, sin verse como un botón: el margen negativo
+     devuelve el aire que suma el alto mínimo. */
+  min-height: 44px;
+  margin: -6px 0 2px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font-size: 13px;
+  line-height: 1.4;
+  text-align: left;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+/* Tras un rechazo el aviso va dentro del formulario, justo antes del botón. */
+dialog form p.aviso-tarjeta {
+  margin-bottom: 10px;
+}
+@media (max-width: 760px) {
+  dialog {
+    max-height: calc(100svh - 16px);
+    padding: 18px 20px 20px;
+  }
+  dialog h2 {
+    font-size: 26px;
+    margin: 10px 0;
+  }
+  dialog form {
+    margin-top: 12px;
+  }
+  dialog .campo {
+    margin-bottom: 10px;
+  }
+  dialog .campo > label {
+    margin-bottom: 6px;
+  }
+  dialog .campo input {
+    height: 44px;
+    padding: 10px 12px;
+  }
+  dialog .campo-ayuda {
+    margin-top: 5px;
+  }
+  /* margin-block: el margin-inline de -4px (fondo del temblor) se queda. */
+  dialog .consent {
+    margin-block: 12px !important;
+  }
+  dialog .campo-error-consent {
+    margin-top: -8px;
+  }
+}
+/* Escritorio: tras un rechazo el aviso suma ~90 px y el botón quedaba bajo el
+   borde a 1440×900 y 1440×700 (laptop baja). En pantallas de hasta 940 px de
+   alto, el mismo formulario más compacto y un poco más ancho (menos líneas). */
+@media (min-width: 761px) {
+  dialog {
+    max-height: calc(100svh - 32px);
+  }
+}
+@media (min-width: 761px) and (max-height: 940px) {
+  dialog {
+    width: min(520px, calc(100% - 30px));
+    padding: 22px 40px 24px;
+  }
+  dialog h2 {
+    font-size: 28px;
+    margin: 12px 0;
+  }
+  dialog form {
+    margin-top: 14px;
+  }
+  dialog form p.aviso-tarjeta {
+    margin-top: 12px;
+  }
+  dialog .campo {
+    margin-bottom: 10px;
+  }
+  dialog .campo > label {
+    margin-bottom: 6px;
+  }
+  dialog .campo input {
+    height: 44px;
+    padding: 10px 12px;
+  }
+  dialog .campo-ayuda {
+    margin-top: 5px;
+  }
+  dialog .consent {
+    margin-block: 12px !important;
+  }
+  dialog .campo-error-consent {
+    margin-top: -8px;
+  }
+}
+
+/* ------------------------------------------------------------------------
+ * C2 · GRUPO DE OCTUBRE (diseño §9.11): testimonios con permiso, antes del
+ * precio. Sin foto: la inicial, como las reseñas sin foto.
+ * ------------------------------------------------------------------------ */
+.grupo-octubre-lista {
+  list-style: none;
+  margin: 28px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+.testimonio-grupo {
+  display: grid;
+  gap: 14px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+}
+.testimonio-grupo blockquote {
+  margin: 0;
+  font:
+    italic 18px/1.45 Georgia,
+    serif;
+}
+@media (max-width: 760px) {
+  .grupo-octubre-lista {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .testimonio-grupo blockquote {
+    font-size: 16px;
+  }
+}
+
+/* ------------------------------------------------------------------------
+ * C2 · PRECIO ANTES DE LA PANTALLA 8 (auditoría §5.7): con el grupo de octubre
+ * lleno (tarea 12), la tarjeta del precio se pasaba de la pantalla 8 en celular
+ * (390×844). Ajustes de la tarea 9, paso 6, probados en el orden 3, 4, 2 y 1.
+ * Los tres primeros no alcanzaron (tarjeta en la pantalla 8,4); entró el 1,
+ * último recurso, y solo con el grupo de octubre en la página. Margen: ~0,03
+ * de pantalla (ver el reporte de la tarea 12).
+ * ------------------------------------------------------------------------ */
+@media (max-width: 760px) {
+  /* 3. El calendario de controles en 3 columnas y más bajo. */
+  .fiestas-calendario ol {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .fiestas-calendario li {
+    padding: 10px 8px;
+  }
+  .fiestas-calendario li b {
+    font-size: 15px;
+  }
+  /* 4. La foto chica de la oferta, antes de la tarjeta. Sin foto, la grilla no
+     reserva su columna (92 px + el gap) y el texto ocupa todo el ancho. */
+  .oferta-foto {
+    display: none;
+  }
+  .oferta-cuerpo {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "texto"
+      "closing";
+  }
+  /* 2. Los rasgos de Constanza: su rol ya va en la firma y en la primera pantalla. */
+  .founder-copy .trayectoria-rasgos {
+    display: none;
+  }
+  /* 1. Las dos reseñas de "para ti" solo van en esa sección (no se repiten en la
+     zona del precio): en celular se esconden, a costa de esa prueba social.
+     Solo cuando el grupo de octubre está en la página: sin testimonios la
+     portada tiene espacio y las reseñas se quedan. */
+  main:has(.grupo-octubre) .para-ti-citas {
+    display: none;
   }
 }

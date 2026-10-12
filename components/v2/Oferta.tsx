@@ -2,16 +2,19 @@
 
 import Image from "next/image"
 import { useEffect, useRef } from "react"
-import { PORTADA, PROGRAMA } from "@/lib/constants-programa"
+import { GARANTIA, PORTADA, PROGRAMA, bonoDeLaCohorte, textoGarantia } from "@/lib/constants-programa"
 import {
   anioDe,
+  controlesDeFiestas,
   diaMesCorto,
   diaSemanaYFecha,
   diaYMes,
+  fechasControles,
   formatCLP,
   horaDe,
   mesDe,
   ultimoDiaDeVenta,
+  textoPorMes,
   ultimoDiaDelPrograma,
 } from "@/lib/programa"
 import { canalDeContacto } from "@/lib/contacto"
@@ -40,9 +43,10 @@ import { CalificacionGoogle, PruebaSocialCompra } from "@/components/v2/PruebaSo
  * él, el pago seguro con el logo de Mercado Pago, la calificación de Google y
  * tres dudas cortas de compra; lo que incluye va después. Al lado (debajo, en
  * celular) van las citas cortas, las cifras de Constanza y qué pasa después de
- * pagar. Sin cupos, garantía ni descuentos.
+ * pagar. Sin cupos ni descuentos. La garantía aparece solo si Constanza dice que
+ * sí (`GARANTIA`).
  */
-export function Oferta() {
+export function Oferta({ garantia }: { garantia: boolean }) {
   const { estado, cohorte, venta, abrirCheckout, registrarVistaOferta } = useVenta()
   const seccion = useRef<HTMLElement>(null)
 
@@ -64,6 +68,9 @@ export function Oferta() {
 
   const contacto = canalDeContacto("Hola, quiero saber cuándo abre el próximo grupo de Prepara tu Verano")
   const flecha = <span aria-hidden="true">↗</span>
+  const controles = cohorte ? fechasControles(cohorte.fecha_inicio) : []
+  const fiestas = controlesDeFiestas(controles)
+  const bono = bonoDeLaCohorte(cohorte)
 
   const eyebrow = cohorte
     ? `GRUPO ${mesDe(cohorte.fecha_inicio).toUpperCase()} ${anioDe(cohorte.fecha_inicio)}`
@@ -71,7 +78,7 @@ export function Oferta() {
 
   let cuerpo: string
   if (estado === "abierta" && cohorte) {
-    cuerpo = `${PORTADA.oferta.cuerpo} El ${diaYMes(cohorte.fecha_inicio)} empezamos juntas.`
+    cuerpo = `${PORTADA.oferta.cuerpo} El ${diaYMes(cohorte.fecha_inicio)} empezamos juntas${fiestas ? " y pasamos las fiestas acompañadas" : ""}.`
   } else if (estado === "proxima" && cohorte) {
     cuerpo = `${PORTADA.oferta.cuerpo} El grupo empieza el ${diaYMes(cohorte.fecha_inicio)}.`
   } else if (estado === "cerro") {
@@ -143,7 +150,9 @@ export function Oferta() {
                 <span>$</span>
                 {formatCLP(cohorte.precio).replace("$", "")} <small>CLP</small>
               </p>
-              <p className="price-explanation">{PORTADA.oferta.unSoloPago}</p>
+              <p className="price-cuotas">{PORTADA.cuotas.largo}</p>
+              <p className="price-explanation">{PORTADA.oferta.formaDePago}</p>
+              <p className="price-por-mes">{textoPorMes(cohorte.precio)}</p>
               <div className="date-range">
                 <span>{diaMesCorto(cohorte.fecha_inicio).toUpperCase()}</span>
                 <span aria-hidden="true" className="date-range-line" />
@@ -154,7 +163,7 @@ export function Oferta() {
             </>
           ) : (
             <p className="price-explanation price-explanation-sola">
-              Tres meses. {PORTADA.oferta.unSoloPago}
+              Tres meses. {PORTADA.oferta.formaDePago}
             </p>
           )}
 
@@ -207,6 +216,13 @@ export function Oferta() {
             </dl>
           )}
 
+          {garantia && mostrarPrecio && (
+            <div className="garantia">
+              <b>{GARANTIA.titulo}</b>
+              <p>{textoGarantia(controles[0] ?? null)}</p>
+            </div>
+          )}
+
           <CalificacionGoogle />
 
           <p className="incluye-titulo">{PORTADA.oferta.incluyeTitulo}</p>
@@ -217,6 +233,12 @@ export function Oferta() {
                 <small>{linea.detalle}</small>
               </li>
             ))}
+            {bono && (
+              <li className="incluye-bono">
+                {bono.titulo}
+                <small>{bono.detalle}</small>
+              </li>
+            )}
           </ul>
 
           {estado !== "abierta" && <p className="not-included">{PORTADA.oferta.noIncluye}</p>}
