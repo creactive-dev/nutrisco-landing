@@ -9,10 +9,12 @@ import programa from "../lib/programa"
 import entorno from "../lib/entorno"
 import videoConstanza from "../lib/video-constanza"
 import constantsPrograma from "../lib/constants-programa"
+import medicion from "../lib/medicion"
 
 const { controlesDeFiestas, diaYMesCivil, estadoSimulado, fechasControles, sesionEnDiciembre, textoPorMes } = programa
 const { esProduccionPublica } = entorno
 const { videoVisible } = videoConstanza
+const { urlSinDatosPersonales } = medicion
 const { bonoDeLaCohorte, garantiaActiva, GARANTIA, preguntasPortada, textoFiestas, textoGarantia } = constantsPrograma
 
 // Cuotas (tarea 3): el precio dividido en tres, redondeado al mil hacia arriba.
@@ -127,5 +129,13 @@ for (const venta of [{ estado: "ninguna" }, { estado: "error" }] as const) {
   const sinCohorte = preguntasPortada(venta, { garantia: true })
   assert.ok(sinCohorte.every((p) => !/undefined|NaN/.test(p.a)))
 }
+
+// Medición (tarea 11): la URL que viaja a Vercel no lleva datos de la persona.
+assert.equal(
+  urlSinDatosPersonales("https://nutrico.constanzanutricion.cl/?utm_source=crm&utm_content=01a&email=a%40b.cl&contact_id=123"),
+  "https://nutrico.constanzanutricion.cl/?utm_source=crm&utm_content=01a"
+)
+assert.equal(urlSinDatosPersonales("https://nutrico.constanzanutricion.cl/?ok=1"), "https://nutrico.constanzanutricion.cl/")
+assert.equal(urlSinDatosPersonales("no es url"), "no es url")
 
 console.log("lógica OK")

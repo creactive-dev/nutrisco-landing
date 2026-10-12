@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { SITE_CONFIG } from "@/lib/constants"
 import { MetaPixel } from "@/components/MetaPixel"
+import { Analitica } from "@/components/Analitica"
 import { ROBOTS } from "@/lib/robots"
 
 /**
@@ -21,6 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         {children}
         <MetaPixel />
+        <Analitica />
       </body>
     </html>
   )
