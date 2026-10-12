@@ -2,8 +2,8 @@ import { PORTADA, preguntasPortada } from "@/lib/constants-programa"
 import type { EstadoVenta } from "@/lib/programa"
 import { Revelar } from "@/components/v2/Revelar"
 
-export function Dudas({ venta }: { venta: EstadoVenta }) {
-  const preguntas = preguntasPortada(venta)
+export function Dudas({ venta, garantia }: { venta: EstadoVenta; garantia: boolean }) {
+  const preguntas = preguntasPortada(venta, { garantia })
   return (
     <section className="section wrap faq" id="preguntas">
       <Revelar>

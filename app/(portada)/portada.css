@@ -4325,3 +4325,117 @@ dialog .espera-form {
     padding: 24px 20px;
   }
 }
+
+/* ------------------------------------------------------------------------
+ * C2 · FIESTAS (diseño §9.5): el mensaje central y el calendario de los seis
+ * controles, con los de las fiestas destacados. Bono y garantía en la tarjeta.
+ * ------------------------------------------------------------------------ */
+.fiestas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 70px;
+  align-items: center;
+}
+.fiestas-copy h2 {
+  margin: 20px 0 22px;
+}
+.fiestas-copy > p {
+  font-size: 17px;
+  color: var(--muted-tinte);
+  max-width: 48ch;
+}
+.fiestas-sesion {
+  margin-top: 14px;
+}
+.fiestas-bono {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin-top: 22px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: var(--sandia-suave);
+}
+.fiestas-bono img {
+  width: 72px;
+  height: auto;
+  border-radius: 6px;
+}
+.fiestas-bono p {
+  font-size: 15px;
+  line-height: 1.5;
+}
+.fiestas-bono b,
+.fiestas-bono span {
+  display: block;
+}
+.fiestas-bono span {
+  color: var(--muted-tinte);
+  font-size: 14px;
+}
+.fiestas-calendario ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.fiestas-calendario li {
+  display: grid;
+  gap: 4px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+}
+.fiestas-calendario li span {
+  font-size: 12px;
+  color: var(--muted-tinte);
+  letter-spacing: 0.4px;
+}
+.fiestas-calendario li b {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+}
+.fiestas-calendario li small {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--sandia-cta);
+}
+.fiestas-calendario li.es-fiesta {
+  border-color: var(--sandia);
+  background: var(--sandia-suave);
+}
+.garantia {
+  margin-top: 16px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: var(--celeste-suave);
+  font-size: 13px;
+  line-height: 1.6;
+}
+.garantia b {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+.included-list li.incluye-bono {
+  font-weight: 600;
+}
+@media (max-width: 760px) {
+  .fiestas {
+    grid-template-columns: 1fr;
+    gap: 26px;
+  }
+  .fiestas-copy > p {
+    font-size: 16px;
+  }
+  .fiestas-calendario ol {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .fiestas-calendario li b {
+    font-size: 17px;
+  }
+}

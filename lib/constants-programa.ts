@@ -15,10 +15,14 @@ import { RESENAS_GOOGLE } from "@/lib/resenas-google"
 import {
   diaSemanaYFecha,
   diaYMes,
+  diaYMesCivil,
+  fechasControles,
   formatCLP,
+  mesDe,
   sesionesLegibles,
   ultimoDiaDeVenta,
   ultimoDiaDelPrograma,
+  type ControlesFiestas,
   type EstadoVenta,
 } from "@/lib/programa"
 
@@ -168,6 +172,62 @@ export function datosTransferenciaEnLinea(): string {
   return `${t.titular} · ${t.banco} · ${t.tipoCuenta} ${t.numero} · RUT ${t.rut}`
 }
 
+/** Diseño C2 §2: el mensaje central, con las fechas de la cohorte. */
+export function textoFiestas(f: ControlesFiestas): string {
+  return `El grupo pasa las fiestas con Constanza: un control el ${diaYMesCivil(f.antesDeNavidad)}, justo antes de Navidad, y otro el ${diaYMesCivil(f.despuesDeAnoNuevo)}, justo después de Año Nuevo. Así no llegas a enero a empezar de cero.`
+}
+
+/**
+ * Bono del grupo de noviembre (diseño C2 §3.1): se vende con la portada y se
+ * entrega el día que parte el grupo, con la primera pauta, a todas las que se
+ * inscriben hasta el cierre. Solo para las cohortes de la lista: en la de
+ * diciembre nadie decidió nada todavía.
+ */
+export const BONO_FIESTAS = {
+  cohortes: ["2026-10"] as readonly string[],
+  nombre: "Recetario de fiestas y verano",
+  /** Portada para vender. Null hasta que exista: sin ella va solo el texto. */
+  portada: null as FotoPortada | null,
+}
+
+export function bonoDeLaCohorte(
+  cohorte: { slug: string; fecha_inicio: string } | null
+): { titulo: string; detalle: string; portada: FotoPortada | null } | null {
+  if (!cohorte || !BONO_FIESTAS.cohortes.includes(cohorte.slug)) return null
+  return {
+    titulo: `Bono del grupo de ${mesDe(cohorte.fecha_inicio)}: ${BONO_FIESTAS.nombre.toLowerCase()}`,
+    detalle: `Recetas para las cenas de fin de año y para el verano. Te llega el ${diaYMes(cohorte.fecha_inicio)}, con tu primera pauta.`,
+    portada: BONO_FIESTAS.portada,
+  }
+}
+
+/**
+ * Garantía (diseño C2 §3.3): se le propone a Constanza y no es condición.
+ * APAGADA hasta que ella diga que sí (plan maestro, D3). Prenderla es cambiar
+ * `activa` a true en un PR chico, con el texto que ella confirme.
+ * Ojo operativo: la devolución es a mano en Mercado Pago y el webhook
+ * `refunded` no corta el acceso a la app (bitácora del 16-sep).
+ * `GARANTIA_MOCK=1` la muestra en local para revisarla; en producción nunca.
+ */
+export const GARANTIA = {
+  activa: false,
+  titulo: "Si no es para ti, te devuelvo tu dinero",
+}
+
+/** Solo se llama desde el servidor (`page.tsx`): en el navegador `process.env.VERCEL_ENV` no existe. */
+export function garantiaActiva(
+  vercelEnv: string | undefined = process.env.VERCEL_ENV,
+  mock: string | undefined = process.env.GARANTIA_MOCK
+): boolean {
+  return GARANTIA.activa || (vercelEnv !== "production" && mock === "1")
+}
+
+// PENDIENTE (Constanza, mar 13): el texto exacto, si dice que sí.
+export function textoGarantia(primerControl: string | null): string {
+  const cuando = primerControl ? `, el ${diaYMesCivil(primerControl)},` : ""
+  return `Si hasta tu primer control${cuando} sientes que no es para ti, te devuelvo el dinero. Me escribes a ${SITE_CONFIG.email}.`
+}
+
 // ============================================================
 // PORTADA v2 · "Este verano, empieza por ti"
 //
@@ -303,6 +363,17 @@ export const PORTADA = {
     distinto:
       "Tres meses y 6 pautas. Cada 15 días haces tu control y Constanza te arma la pauta siguiente según cómo vas. El tercer mes es para mantener lo que lograste, para que no vuelvas atrás. Comida chilena y sin pasar hambre.",
     enlace: "Así funciona el programa por dentro",
+  },
+
+  // Diseño C2 §9.5: el mensaje central. Las fechas salen de la cohorte, por eso
+  // el titular no nombra noviembre: en el grupo de diciembre sería falso.
+  fiestas: {
+    eyebrow: "¿Y LAS FIESTAS?",
+    h2: { lineas: ["Diciembre y enero,"], em: "acompañada." },
+    etiquetaControl: "Control",
+    etiquetaCierre: "cierre",
+    antesDeNavidad: "antes de Navidad",
+    despuesDeAnoNuevo: "después de Año Nuevo",
   },
 
   app: {
@@ -643,7 +714,10 @@ export const VIDEOS_PORTADA: readonly string[] = ["v1", "v2", "v3"]
  * de septiembre", "$59.990 del 21 de septiembre al 21 de diciembre") y se
  * habrían podrido con el primer UPDATE de la fila.
  */
-export function preguntasPortada(venta: EstadoVenta): { q: string; a: string }[] {
+export function preguntasPortada(
+  venta: EstadoVenta,
+  opciones: { garantia?: boolean } = {}
+): { q: string; a: string }[] {
   const cohorte = venta.estado === "abierta" || venta.estado === "proxima" ? venta.cohorte : null
   const inicio = cohorte ? diaSemanaYFecha(cohorte.fecha_inicio) : ""
   const rango = cohorte
@@ -711,5 +785,12 @@ export function preguntasPortada(venta: EstadoVenta): { q: string; a: string }[]
       a: PROGRAMA.faq[5].a,
     },
   ]
+  // Después de "¿Me cobrarán de nuevo el próximo mes?".
+  if (opciones.garantia) {
+    preguntas.splice(3, 0, {
+      q: "¿Y si no es para mí?",
+      a: textoGarantia(cohorte ? (fechasControles(cohorte.fecha_inicio)[0] ?? null) : null),
+    })
+  }
   return preguntas
 }

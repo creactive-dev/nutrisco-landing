@@ -8,10 +8,12 @@ import assert from "node:assert/strict"
 import programa from "../lib/programa"
 import entorno from "../lib/entorno"
 import videoConstanza from "../lib/video-constanza"
+import constantsPrograma from "../lib/constants-programa"
 
 const { controlesDeFiestas, diaYMesCivil, estadoSimulado, fechasControles, sesionEnDiciembre, textoPorMes } = programa
 const { esProduccionPublica } = entorno
 const { videoVisible } = videoConstanza
+const { bonoDeLaCohorte, garantiaActiva, GARANTIA, preguntasPortada, textoFiestas, textoGarantia } = constantsPrograma
 
 // Cuotas (tarea 3): el precio dividido en tres, redondeado al mil hacia arriba.
 assert.equal(textoPorMes(59990), "Son menos de $20.000 al mes por 3 meses de acompañamiento.")
@@ -76,5 +78,33 @@ assert.equal(videoVisible(deprueba, "production", "1"), deprueba)
 assert.equal(videoVisible(deprueba, undefined, undefined), deprueba)
 assert.equal(videoVisible(real, "production", undefined), real)
 assert.equal(videoVisible(null, undefined, undefined), null)
+
+// Fiestas, bono y garantía (tarea 8).
+assert.equal(
+  textoFiestas({ antesDeNavidad: "2026-12-20", despuesDeAnoNuevo: "2027-01-04" }),
+  "El grupo pasa las fiestas con Constanza: un control el 20 de diciembre, justo antes de Navidad, y otro el 4 de enero, justo después de Año Nuevo. Así no llegas a enero a empezar de cero."
+)
+const bono = bonoDeLaCohorte({ slug: "2026-10", fecha_inicio: "2026-11-05T03:00:00+00:00" })
+assert.equal(bono?.titulo, "Bono del grupo de noviembre: recetario de fiestas y verano")
+assert.ok(bono?.detalle.includes("5 de noviembre"))
+assert.equal(bonoDeLaCohorte({ slug: "2026-11", fecha_inicio: "2026-12-05T03:00:00+00:00" }), null)
+assert.equal(bonoDeLaCohorte(null), null)
+assert.equal(GARANTIA.activa, false) // apagada hasta que Constanza diga que sí (D3)
+assert.equal(garantiaActiva("production", "1"), false) // el simulador no existe en producción
+assert.equal(garantiaActiva(undefined, "1"), true)
+assert.equal(garantiaActiva(undefined, undefined), false)
+assert.ok(textoGarantia("2026-11-20").includes("20 de noviembre"))
+assert.ok(!textoGarantia(null).includes("undefined"))
+// La duda de la garantía entra solo si se pide, y nunca dice "undefined" sin cohorte (Review Focus 2).
+const ventaAbierta = sim?.estado === "abierta" ? sim : null
+assert.ok(ventaAbierta)
+const dudas = (garantia: boolean) => preguntasPortada(ventaAbierta!, { garantia }).map((p) => p.q)
+assert.ok(!dudas(false).includes("¿Y si no es para mí?"))
+assert.equal(dudas(true)[3], "¿Y si no es para mí?")
+assert.equal(dudas(true).length, dudas(false).length + 1)
+for (const venta of [{ estado: "ninguna" }, { estado: "error" }] as const) {
+  const sinCohorte = preguntasPortada(venta, { garantia: true })
+  assert.ok(sinCohorte.every((p) => !/undefined|NaN/.test(p.a)))
+}
 
 console.log("lógica OK")

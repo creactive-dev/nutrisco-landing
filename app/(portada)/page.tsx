@@ -1,3 +1,4 @@
+import { garantiaActiva } from "@/lib/constants-programa"
 import { leerCohorteActual } from "@/lib/programa"
 import { videoConstanzaVisible } from "@/lib/video-constanza"
 import { VentaProvider } from "@/components/v2/VentaProvider"
@@ -5,6 +6,7 @@ import { Anuncio } from "@/components/v2/Anuncio"
 import { AvisoPagoRechazado } from "@/components/v2/AvisoPagoRechazado"
 import { Cabecera } from "@/components/v2/Cabecera"
 import { Hero } from "@/components/v2/Hero"
+import { Fiestas } from "@/components/v2/Fiestas"
 import { Franja } from "@/components/v2/Franja"
 import { ParaTi } from "@/components/v2/ParaTi"
 import { RecorridoApp } from "@/components/v2/RecorridoApp"
@@ -38,6 +40,8 @@ export default async function Portada({
   const pagoRechazado = searchParams.pago === "rechazado"
   // El video de prueba no se muestra en el dominio (ver `lib/entorno.ts`).
   const video = videoConstanzaVisible()
+  // La garantía está apagada hasta que Constanza diga que sí (ver `GARANTIA`).
+  const garantia = garantiaActiva()
 
   return (
     <VentaProvider venta={venta} pagoRechazado={pagoRechazado}>
@@ -55,8 +59,9 @@ export default async function Portada({
         <RecorridoApp />
         <Acompanamiento venta={venta} />
         <Testimonios />
-        <Oferta />
-        <Dudas venta={venta} />
+        <Fiestas venta={venta} />
+        <Oferta garantia={garantia} />
+        <Dudas venta={venta} garantia={garantia} />
         <CierreFinal />
       </main>
       <Pie />
