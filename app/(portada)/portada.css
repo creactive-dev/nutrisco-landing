@@ -4503,3 +4503,46 @@ dialog form p.aviso-tarjeta {
     margin-top: -8px;
   }
 }
+/* Escritorio: tras un rechazo el aviso suma ~90 px y el botón quedaba bajo el
+   borde a 1440×900 y 1440×700 (laptop baja). En pantallas de hasta 940 px de
+   alto, el mismo formulario más compacto y un poco más ancho (menos líneas). */
+@media (min-width: 761px) {
+  dialog {
+    max-height: calc(100svh - 32px);
+  }
+}
+@media (min-width: 761px) and (max-height: 940px) {
+  dialog {
+    width: min(520px, calc(100% - 30px));
+    padding: 22px 40px 24px;
+  }
+  dialog h2 {
+    font-size: 28px;
+    margin: 12px 0;
+  }
+  dialog form {
+    margin-top: 14px;
+  }
+  dialog form p.aviso-tarjeta {
+    margin-top: 12px;
+  }
+  dialog .campo {
+    margin-bottom: 10px;
+  }
+  dialog .campo > label {
+    margin-bottom: 6px;
+  }
+  dialog .campo input {
+    height: 44px;
+    padding: 10px 12px;
+  }
+  dialog .campo-ayuda {
+    margin-top: 5px;
+  }
+  dialog .consent {
+    margin-block: 12px !important;
+  }
+  dialog .campo-error-consent {
+    margin-top: -8px;
+  }
+}
