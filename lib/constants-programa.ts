@@ -133,7 +133,7 @@ export const PROGRAMA = {
     },
     {
       q: "¿Me sirve para el reembolso de la isapre?",
-      a: "Sí. Recibes boleta exenta de IVA a tu nombre, que es la que te piden para pedir el reembolso.",
+      a: "Sí. Recibes boleta exenta de IVA a tu nombre, que es la que te piden para pedir el reembolso. Para emitirla necesitamos tu RUT: lo puedes poner al pagar o después en la app.",
     },
     {
       q: "¿Incluye una consulta con Constanza?",
@@ -141,7 +141,7 @@ export const PROGRAMA = {
     },
     {
       q: "¿Cuánto tiempo me va a tomar?",
-      a: "El cuestionario del principio toma unos diez minutos. Después, un control cada quince días y cocinar con las recetas y la lista de compras de tu pauta. No hay clases que seguir ni horarios, salvo las tres sesiones en vivo.",
+      a: "El cuestionario del principio toma unos diez minutos. Después, un control cada quince días, que es un cuestionario breve en la app, y cocinar con las recetas y la lista de compras de tu pauta. No hay clases que seguir ni horarios, salvo las tres sesiones en vivo.",
     },
   ],
 
@@ -300,10 +300,10 @@ export const PORTADA = {
     // PENDIENTE (Constanza, mar 13): el programa no incluye una consulta
     // individual cada 15 días; ella confirma cómo se dice el control.
     descripcion:
-      "Si ya probaste dietas, bajaste y te estancaste, o tienes resistencia a la insulina o hipotiroidismo y sientes que te cuesta el doble: Constanza te arma tu pauta y, después de cada control, una nueva, durante 3 meses.",
+      "Si ya probaste dietas, bajaste y te estancaste, o tienes resistencia a la insulina o hipotiroidismo y sientes que te cuesta el doble: Constanza te arma tu pauta y, después de cada control (un cuestionario breve en la app), una nueva, durante 3 meses.",
     persona: "Con Constanza Jiménez Paschold",
     rol: "Nutricionista clínica · creadora de Nutrico",
-    // PENDIENTE (Constanza, mar 13): misma frase del control que la bajada.
+    // Constanza (14-oct): la frase del control queda; se aclara que es un cuestionario breve en la app.
     notaFoto: { titulo: "Ella arma tu pauta", detalle: "y después de cada control, una nueva" },
     leyendaFoto: "Constanza Jiménez Paschold, en su consulta",
     // Constanza en vez del teléfono (diseño §9.2): la clienta valora el control
@@ -523,8 +523,8 @@ export const PORTADA = {
     // Auditoría §3.6 proponía "Ella arma tu pauta, y cada 15 días la ajusta":
     // "ajuste" referido a la pauta está prohibido.
     h2: { lineas: ["Ella arma tu pauta,", "y cada 15 días"], em: "te arma una nueva." },
-    // PENDIENTE (Constanza, mar 13): misma frase del control que la bajada del hero.
-    bajada: "Antes de que parta el grupo te arma tu pauta, y después de cada control, una nueva.",
+    // Constanza (14-oct): misma frase del control que la bajada del hero.
+    bajada: "Antes de que parta el grupo te arma tu pauta, y después de cada control (un cuestionario breve en la app), una nueva.",
     notaVideo: "Actívale el sonido para escucharla.",
     // La foto de la consulta, que aparece si no hay video. La de `brand/` va
     // ahora en la primera pantalla.
