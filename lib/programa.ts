@@ -56,8 +56,14 @@ export async function leerCohorteActual(): Promise<EstadoVenta> {
   if (simulado) return simulado
 
   try {
+    // Guardada 60 s y no leída en cada visita: la app tarda 0,8 a 1,4 s en
+    // contestar y la portada esperaba eso antes de mandar un byte. Con el
+    // tráfico de la pauta (navegador de Instagram, servidor frío) se perdían
+    // casi todos los clics antes de que cargara el píxel (15-oct: 38 clics, 1
+    // carga). Que la venta abra o cierre hasta un minuto tarde no importa: la
+    // app rechaza la reserva fuera de plazo igual.
     const res = await fetch(`${APP_URL}/api/programa/cohorte-actual`, {
-      cache: "no-store",
+      next: { revalidate: 60 },
     })
     if (!res.ok) return { estado: "error" }
     const data: unknown = await res.json()
